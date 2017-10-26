@@ -21,19 +21,18 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  */
 public final class VocabularyBuilder {
 
-	private List<String> vocabulary = new ArrayList<String>(100);
-	
+	private final List<String> vocabulary = new ArrayList<>(100);
+
 	/**
-	 * Build the vocabulary from a unigram model. 
+	 * Build the vocabulary from a unigram model.
 	 * @param unigram a unigram model
 	 * @param cutOff the minimal number of times that a word must occur to be included in the vocabulary
 	 */
-	public VocabularyBuilder(Unigram unigram,  int cutOff) {
+	public VocabularyBuilder(final Unigram unigram,  final int cutOff) {
 		// build the vocabulary
-		Map<String, Integer> frequencies = Unigram.getFrequencies();
-		for (Iterator<String> iter = frequencies.keySet().iterator(); iter.hasNext();) {
-			String word = iter.next();
-			int freq = frequencies.get(word);
+		final Map<String, Integer> frequencies = Unigram.getFrequencies();
+		for (final String word : frequencies.keySet()) {
+			final int freq = frequencies.get(word);
 			if (freq >= cutOff) {
 				vocabulary.add(word);
 			}
@@ -41,27 +40,27 @@ public final class VocabularyBuilder {
 		// sort the vocabulary
 		Collections.sort(vocabulary);
 	}
-	
+
 	/**
 	 * Build the vocabulary from a unigram model.
 	 * @param unigram a unigram model.
 	 */
-	public VocabularyBuilder(Unigram unigram) {
+	public VocabularyBuilder(final Unigram unigram) {
 		this(unigram, 1);
 	}
-	
+
 	/**
 	 * Print the vocabulary to a flat text file.
 	 * @param filename a flat text file
 	 */
-	public void print(String filename) {
+	public void print(final String filename) {
 		// create a file writer
 		UTF8FileUtility.createWriter(filename);
 		// create a string buffer for storing the text
-		StringBuffer sBuffer = new StringBuffer(1024);
-		Iterator<String> iter = vocabulary.iterator();
+		final StringBuffer sBuffer = new StringBuffer(1024);
+		final Iterator<String> iter = vocabulary.iterator();
 		while (iter.hasNext()) {
-			String word = iter.next();
+			final String word = iter.next();
 			sBuffer.append(word + "\n");
 		}
 		// write the string buffer to the file
@@ -69,6 +68,6 @@ public final class VocabularyBuilder {
 		// close the writer
 		UTF8FileUtility.closeWriter();
 		System.err.println("# of  words = " + vocabulary.size());
-		
+
 	}
 }

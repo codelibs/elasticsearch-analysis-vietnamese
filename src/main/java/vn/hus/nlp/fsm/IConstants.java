@@ -14,17 +14,17 @@ package vn.hus.nlp.fsm;
  * Some predefined constants for the package.
  */
 public interface IConstants {
-	
+
 	/**
 	 * Blank character.
 	 */
 	public static final char BLANK_CHARACTER = ' ';
-	
+
 	/**
 	 * An empty string.
 	 */
 	public static final String EMPTY_STRING = "";
-	
+
 	/**
 	 * The package name for JAXB context.
 	 */
@@ -44,7 +44,7 @@ public interface IConstants {
 	 * a minimal DFA.
 	 */
 	public static final String VIETNAMESE_LEXICON_DFA_MINIMAL = "samples/lexicon_dfa_minimal.xml";
-	
+
 	/**
 	 * DFA type.
 	 */

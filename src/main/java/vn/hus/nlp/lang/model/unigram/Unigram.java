@@ -8,7 +8,6 @@ package vn.hus.nlp.lang.model.unigram;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,12 +45,12 @@ public class Unigram {
 	private Unigram() {
 		init();
 	}
-	
+
 	/**
 	 * Initialize the map of unigrams
 	 */
 	private void init() {
-		UNIGRAM = new HashMap<String, Integer>();
+		UNIGRAM = new HashMap<>();
 	}
 
 	/**
@@ -64,34 +63,34 @@ public class Unigram {
 		}
 		return MODEL;
 	}
-	
+
 	/**
-	 * Test if a file is a directory 
+	 * Test if a file is a directory
 	 * @param filename a filename
 	 * @return true or false
 	 */
-	private static boolean isDirectory(String filename) {
-		File file = new File(filename);
+	private static boolean isDirectory(final String filename) {
+		final File file = new File(filename);
 		return file.isDirectory();
 	}
-	
+
 	/**
 	 * Load all flat text files from a directory.
 	 * @param directoryName name of a directory that contains corpora.
 	 */
-	public static void loadCorpora(String directoryName) {
+	public static void loadCorpora(final String directoryName) {
 		// get the corpora directory
-		File corporaDir = new File(IConstants.CORPORA_DIRECTORY);
+		final File corporaDir = new File(IConstants.CORPORA_DIRECTORY);
 		// list its files
-		File[] corpora = corporaDir.listFiles();
+		final File[] corpora = corporaDir.listFiles();
 		// load all of the files
 		// don't take into account subdirectories
-		for (int i = 0; i < corpora.length; i++) {
-			String corpus = corpora[i].getPath();
+		for (final File element : corpora) {
+			final String corpus = element.getPath();
 			if (!isDirectory(corpus)) {
 				try {
 					loadCorpus(corpus);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -99,41 +98,41 @@ public class Unigram {
 		System.err.println("Total " + corpora.length + " files loaded.");
 	}
 
-	private static void processLoadedCorpus(List<String> lines)
+	private static void processLoadedCorpus(final List<String> lines)
 	{
-		for (String token : lines)
+		for (final String token : lines)
 		{
 			if (!UNIGRAM.containsKey(token)) {
 				UNIGRAM.put(token, new Integer(1));
 			} else {
-				int v = ((Integer) UNIGRAM.get(token)).intValue();
+				final int v = UNIGRAM.get(token).intValue();
 				UNIGRAM.put(token, new Integer(v + 1));
 			}
 		}
 	}
-	
-	public static void loadCorpusFromStream(InputStream stream) throws IOException
+
+	public static void loadCorpusFromStream(final InputStream stream) throws IOException
 	{
 		IOUtils.readLines(stream, "UTF-8");
 	}
 
 	/**
 	 * Load a corpus and update the frequencies.
-	 * 
+	 *
 	 * @param corpus
 	 *            a corpus
 	 * @throws IOException
 	 */
-	public static void loadCorpus(String corpus) throws IOException {
-		List<String> lines = FileUtils.readLines(new File(corpus), "UTF-8");
-		
+	public static void loadCorpus(final String corpus) throws IOException {
+		final List<String> lines = FileUtils.readLines(new File(corpus), "UTF-8");
+
 		processLoadedCorpus(lines);
 	}
 
 
 	/**
 	 * Get the frequencies map.
-	 * 
+	 *
 	 * @return the frequencies map.
 	 */
 	public static Map<String, Integer> getFrequencies() {
@@ -142,21 +141,21 @@ public class Unigram {
 
 	/**
 	 * Output the unigram to a plain text file in the form of two columns.
-	 * 
+	 *
 	 * @param filename a flat text filename
 	 * @see {@link #marshal(String)}
 	 */
-	public static void print(String filename) {
+	public static void print(final String filename) {
 		// create a file writer
 		UTF8FileUtility.createWriter(filename);
-		Iterator<String> keys = UNIGRAM.keySet().iterator();
+		final Iterator<String> keys = UNIGRAM.keySet().iterator();
 		// create a string buffer for storing the text
-		StringBuffer sBuffer = new StringBuffer(1024);
+		final StringBuffer sBuffer = new StringBuffer(1024);
 		int numTokens = 0;
 		int freq = 0;
 		while (keys.hasNext()) {
-			String token = keys.next();
-			freq = ((Integer) UNIGRAM.get(token)).intValue();
+			final String token = keys.next();
+			freq = UNIGRAM.get(token).intValue();
 			numTokens += freq;
 			sBuffer.append(token + '\t' + freq + "\n");
 		}
@@ -167,12 +166,12 @@ public class Unigram {
 		System.err.println("# of   tokens = " + numTokens);
 		System.err.println("# of unigrams = " + UNIGRAM.size());
 	}
-	
+
 	/**
 	 * Marshal the map to an XML file using the lexicon format.
 	 * @param filename the XML file containing the unigram model.
 	 */
-	public static void marshal(String filename) {
+	public static void marshal(final String filename) {
 		new LexiconMarshaller().marshal(UNIGRAM, filename);
 	}
 

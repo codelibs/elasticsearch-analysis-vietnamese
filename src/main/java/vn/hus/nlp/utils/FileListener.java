@@ -11,7 +11,7 @@ package vn.hus.nlp.utils;
  * Oct 5, 2007, 3:45:53 PM
  * <p>
  * A file listener that provides information during the process of reading a file.
- * For example, with a text file, it reports what line has been read. 
+ * For example, with a text file, it reports what line has been read.
  */
 public interface FileListener {
 	/**

@@ -25,26 +25,27 @@ public class FloydWarshallTest {
 	 * Create a test object given an input data file.
 	 * @param inputFilename an input data file.
 	 */
-	public FloydWarshallTest(String inputFilename) {
+	public FloydWarshallTest(final String inputFilename) {
 		// scan the graph from a text file
 		//
-		IGraph graph = GraphIO.scanAdjacencyListWeighted(inputFilename);
+		final IGraph graph = GraphIO.scanAdjacencyListWeighted(inputFilename);
 		// print out the graph
 		//
 		GraphIO.print(graph);
 		// cast to a weighted graph if it is and do the trick
-		// 
+		//
 		if (graph instanceof IWeightedGraph) {
-			IWeightedGraph weightedGraph = (IWeightedGraph) graph;
+			final IWeightedGraph weightedGraph = (IWeightedGraph) graph;
 			// create a FW object
-			FloydWarshall fw = new FloydWarshall(weightedGraph);
+			final FloydWarshall fw = new FloydWarshall(weightedGraph);
 			// run the FW algorithm on the graph to get the cost matrix
-			double[][] cost = fw.algorithmFloydWarshall();
-			int n = weightedGraph.getNumberOfVertices();
+			final double[][] cost = fw.algorithmFloydWarshall();
+			final int n = weightedGraph.getNumberOfVertices();
 			// print out the cost matrix
 			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++)
-					System.out.print(cost[i][j] + "\t");
+				for (int j = 0; j < n; j++) {
+                    System.out.print(cost[i][j] + "\t");
+                }
 				System.out.println();
 			}
 		} else {
@@ -56,7 +57,7 @@ public class FloydWarshallTest {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		new FloydWarshallTest(INPUT_FILE);
 	}
 

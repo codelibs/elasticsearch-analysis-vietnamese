@@ -24,44 +24,44 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * <p>
  * 13 mars 07
  * </p>
- * A counter for two sequential tokens in corpus (bigram model), 
+ * A counter for two sequential tokens in corpus (bigram model),
  * used to produce frequencies of bigrams of Vietnamese tokens.
- * 
+ *
  */
 public class Bigram {
-	
+
 	/**
 	 * A map of couples. We use a map to speed up the search of a couple.
-	 * 
+	 *
 	 */
 	private Map<Couple, Couple> bigram;
-	
+
 	public Bigram() {
 		init();
 		loadCorpora();
 	}
-	
-	public Bigram(boolean isCoded) {
+
+	public Bigram(final boolean isCoded) {
 		init();
 		// load corpora, do statistics
 		loadCorpora();
 	}
-	
+
 	/**
 	 * Load all corpora.
 	 *
 	 */
 	private void loadCorpora() {
 		// get the corpora directory
-		File corporaDir = new File(IConstants.CORPORA_DIRECTORY);
+		final File corporaDir = new File(IConstants.CORPORA_DIRECTORY);
 		// list its files
-		File[] corpora = corporaDir.listFiles();
-		for (int i = 0; i < corpora.length; i++) {
-			String corpus = corpora[i].getPath();
+		final File[] corpora = corporaDir.listFiles();
+		for (final File element : corpora) {
+			final String corpus = element.getPath();
 			if (!isDirectory(corpus)) {
 				try {
 					loadCorpus(corpus);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -69,28 +69,27 @@ public class Bigram {
 		System.out.println("Total " + corpora.length + " files loaded.");
 	}
 
-	private boolean isDirectory(String filename) {
-		File file = new File(filename);
+	private boolean isDirectory(final String filename) {
+		final File file = new File(filename);
 		return file.isDirectory();
 	}
-	
+
 	/**
 	 * Load a corpus and update the bigram set
 	 * @param corpus
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	private void loadCorpus(String corpus) throws IOException {
-		
-		String[] lines = UTF8FileUtility.getLines(corpus);
+	private void loadCorpus(final String corpus) throws IOException {
+
+		final String[] lines = UTF8FileUtility.getLines(corpus);
 		String first = "";
-		for (int i = 0; i < lines.length; i++) {
-			String second = lines[i];
-			Couple couple = new Couple(first,second);
+		for (final String second : lines) {
+			final Couple couple = new Couple(first,second);
 			if (!bigram.keySet().contains(couple)) {
 				bigram.put(couple, couple);
 			} else {
 				// search for the couple
-				Couple c = bigram.get(couple);
+				final Couple c = bigram.get(couple);
 				c.incFreq();
 			}
 			// update the first token
@@ -99,7 +98,7 @@ public class Bigram {
 	}
 
 	private void init() {
-		bigram = new HashMap<Couple, Couple>();
+		bigram = new HashMap<>();
 	}
 
 	/**
@@ -109,50 +108,49 @@ public class Bigram {
 	public Map<Couple, Couple> getBigram() {
 		return bigram;
 	}
-	
+
 	/**
 	 * Output bigram to a text file.
 	 * @param filename
 	 * @see {@link #marshalResults(String)}.
 	 */
-	public void print(String filename) {
+	public void print(final String filename) {
 		try {
-			Writer writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
-			BufferedWriter bufWriter = new BufferedWriter(writer);
-			Iterator<Couple> couples = bigram.keySet().iterator();
+			final Writer writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+			final BufferedWriter bufWriter = new BufferedWriter(writer);
+			final Iterator<Couple> couples = bigram.keySet().iterator();
 			while (couples.hasNext()) {
-				Couple couple = couples.next();
+				final Couple couple = couples.next();
 				bufWriter.write(couple + "\n");
 			}
 			bufWriter.flush();
 			writer.close();
 			System.out.println("# of couples = " + bigram.size());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Marshal the map to an xml file using the lexicon format.
 	 * @param filename
 	 */
-	public void marshal(String filename) {
+	public void marshal(final String filename) {
 		// prepare a map for marshalling
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		for (Iterator<Couple> it = bigram.keySet().iterator(); it.hasNext(); ) {
-			Couple c = it.next();
-			String key = c.getFirst() + "," + c.getSecond();
-			int value = c.getFreq();
+		final Map<String, Integer> map = new HashMap<>();
+		for (final Couple c : bigram.keySet()) {
+			final String key = c.getFirst() + "," + c.getSecond();
+			final int value = c.getFreq();
 			map.put(key, value);
 		}
 		new LexiconMarshaller().marshal(map, filename);
 	}
-	
+
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Bigram counter = new Bigram(false);
+	public static void main(final String[] args) {
+		final Bigram counter = new Bigram(false);
 		counter.marshal(IConstants.BIGRAM_MODEL);
 		System.out.println("Done!");
 	}

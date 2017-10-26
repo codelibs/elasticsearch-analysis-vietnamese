@@ -6,7 +6,7 @@
 package vn.hus.nlp.lang.model.bigram;
 
 /**
- * 
+ *
  * @author LE Hong Phuong
  *         <p>
  *         13 mars 07
@@ -33,7 +33,7 @@ class Couple implements Comparable<Couple> {
 	 */
 	private double prob;
 
-	public Couple(String f, String s) {
+	public Couple(final String f, final String s) {
 		first = f;
 		second = s;
 		freq = 1;
@@ -47,7 +47,7 @@ class Couple implements Comparable<Couple> {
 	public String getFirst() {
 		return first;
 	}
-	
+
 	/**
 	 * Get the second token.
 	 * @return
@@ -55,10 +55,10 @@ class Couple implements Comparable<Couple> {
 	public String getSecond() {
 		return second;
 	}
-	
+
 	/**
 	 * Return the fequency
-	 * 
+	 *
 	 * @return
 	 */
 	public int getFreq() {
@@ -67,7 +67,7 @@ class Couple implements Comparable<Couple> {
 
 	/**
 	 * Increase the frequency of this couple by one
-	 * 
+	 *
 	 * @return
 	 */
 	public int incFreq() {
@@ -86,7 +86,7 @@ class Couple implements Comparable<Couple> {
 	 * Set the probability for the couple.
 	 * @param prob
 	 */
-	public void setProb(double prob) {
+	public void setProb(final double prob) {
 		this.prob = prob;
 	}
 	/**
@@ -94,11 +94,11 @@ class Couple implements Comparable<Couple> {
 	 * case).
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (!(o instanceof Couple)) {
 			return false;
 		}
-		Couple c = (Couple) o;
+		final Couple c = (Couple) o;
 		return ((first.equalsIgnoreCase(c.first)) && (second
 				.equalsIgnoreCase(c.second)));
 	}
@@ -118,8 +118,9 @@ class Couple implements Comparable<Couple> {
 		return "(" + first + "," + second + ")" + "\t" + freq + "\t" + prob;
 	}
 
-	public int compareTo(Couple o) {
-		String fs = first + second;
+	@Override
+    public int compareTo(final Couple o) {
+		final String fs = first + second;
 		return fs.compareTo(o.getFirst() + o.getSecond());
 	}
 

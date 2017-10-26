@@ -14,21 +14,21 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *  <p>
  * 9 juil. 07
  *  <p>
- *  This tool sort an input Vietnamese text file alphabetically. 
+ *  This tool sort an input Vietnamese text file alphabetically.
  */
 
 public final class TextFileSorter {
 
-	
-	
+
+
 	/**
 	 * Sort an input file and output the result to the output file.
 	 * @param inputFile an input file
 	 * @param outputFile an output file
 	 */
-	public static void sort(String inputFile, String outputFile) {
+	public static void sort(final String inputFile, final String outputFile) {
 		// load all lines of the input file to an array of strings.
-		String[] lines = UTF8FileUtility.getLines(inputFile);
+		final String[] lines = UTF8FileUtility.getLines(inputFile);
 		// sort this string using VietComparator
 		Arrays.sort(lines);
 		// create a writer

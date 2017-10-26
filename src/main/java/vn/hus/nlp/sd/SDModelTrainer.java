@@ -14,7 +14,6 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.io.FileUtils;
 
-import opennlp.maxent.io.SuffixSensitiveGISModelWriter;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.sentdetect.SentenceSample;
@@ -44,11 +43,11 @@ public class SDModelTrainer
 	// return GIS.trainModel(es, iterations, cut);
 	// }
 
-	private static SentenceModel train(InputStream corpus, int iterations, int cut) throws IOException
+	private static SentenceModel train(final InputStream corpus, final int iterations, final int cut) throws IOException
 	{
-		ObjectStream<String> lineStream = new PlainTextByLineStream(corpus, Charset.forName("UTF-8"));
+		final ObjectStream<String> lineStream = new PlainTextByLineStream(corpus, Charset.forName("UTF-8"));
 
-		ObjectStream<SentenceSample> sampleStream = new SentenceSampleStream(lineStream);
+		final ObjectStream<SentenceSample> sampleStream = new SentenceSampleStream(lineStream);
 
 		SentenceModel model;
 
@@ -59,13 +58,13 @@ public class SDModelTrainer
 		{
 			sampleStream.close();
 		}
-		
+
 		return model;
 	}
-	
+
 	/**
 	 * Trains the maxent model using an XML data stream using an eos scanner.
-	 * 
+	 *
 	 * @param corpusFilename
 	 *            the training corpus
 	 * @param iterations
@@ -75,18 +74,18 @@ public class SDModelTrainer
 	 * @return a SentenceModel
 	 * @throws IOException
 	 */
-	public static SentenceModel train(String corpusFilename, int iterations, int cut) throws IOException
+	public static SentenceModel train(final String corpusFilename, final int iterations, final int cut) throws IOException
 	{
 		return train(new FileInputStream(corpusFilename), iterations, cut);
 	}
 
 	/**
 	 * Creates a model for a given language (french, vietnamese)
-	 * 
+	 *
 	 * @param language
 	 *            the language to be used.
 	 */
-	public static void createModel(String language, File outputDirectory)
+	public static void createModel(final String language, final File outputDirectory)
 	{
 		String trainingCorpus = "";
 		String modelFilename = "";
@@ -103,59 +102,60 @@ public class SDModelTrainer
 		try
 		{
 			System.err.println("Training the model on corpus: " + trainingCorpus);
-			
-			ClassLoader cl = ClassLoader.getSystemClassLoader();
-			InputStream stream = cl.getResourceAsStream(trainingCorpus);
-			
+
+			final ClassLoader cl = ClassLoader.getSystemClassLoader();
+			final InputStream stream = cl.getResourceAsStream(trainingCorpus);
+
 			// train the model, using 100 iterations and cutoff = 5
-			SentenceModel model = train(stream, 100, 5);
-			
+			final SentenceModel model = train(stream, 100, 5);
+
 			// persist the model
-			File modelFile = new File(outputDirectory, modelFilename);
+			final File modelFile = new File(outputDirectory, modelFilename);
 			System.err.println("Saving the model as: " + modelFile);
-			
+
 			OutputStream modelOut = null;
 			try {
 			  modelOut = new BufferedOutputStream(new FileOutputStream(modelFile));
 			  model.serialize(modelOut);
 			} finally {
-			  if (modelOut != null) 
-			     modelOut.close();      
+			  if (modelOut != null) {
+                modelOut.close();
+            }
 			}
-			
-		} catch (IOException e)
+
+		} catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		if (args.length>0)
 		{
-			String outputPath = args[0];
-			
-			File output = new File(outputPath);
+			final String outputPath = args[0];
+
+			final File output = new File(outputPath);
 			if (output.exists())
 			{
 				try
 				{
 					FileUtils.forceMkdir(output);
-				} catch (IOException e)
+				} catch (final IOException e)
 				{
 					System.err.println("Failed to create output directory.");
 					System.exit(1);
 				}
 			}
-			
+
 			// create Vietnamese SD model
 			SDModelTrainer.createModel(IConstants.LANG_VIETNAMESE, output);
-			
+
 			System.out.println("Done.");
 		} else
 		{
 			System.err.println("Must specify output directory.");
 		}
-		
+
 	}
 }

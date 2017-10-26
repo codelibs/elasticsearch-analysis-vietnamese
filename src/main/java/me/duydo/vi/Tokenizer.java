@@ -1,15 +1,5 @@
 package me.duydo.vi;
 
-import vn.hus.nlp.lexicon.LexiconUnmarshaller;
-import vn.hus.nlp.lexicon.jaxb.Corpus;
-import vn.hus.nlp.lexicon.jaxb.W;
-import vn.hus.nlp.tokenizer.ResultMerger;
-import vn.hus.nlp.tokenizer.ResultSplitter;
-import vn.hus.nlp.tokenizer.segmenter.Segmenter;
-import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
-import vn.hus.nlp.tokenizer.tokens.LexerRule;
-import vn.hus.nlp.tokenizer.tokens.TaggedWord;
-
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
@@ -22,11 +12,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import vn.hus.nlp.lexicon.LexiconUnmarshaller;
+import vn.hus.nlp.lexicon.jaxb.Corpus;
+import vn.hus.nlp.lexicon.jaxb.W;
+import vn.hus.nlp.tokenizer.ResultMerger;
+import vn.hus.nlp.tokenizer.ResultSplitter;
+import vn.hus.nlp.tokenizer.segmenter.Segmenter;
+import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
+import vn.hus.nlp.tokenizer.tokens.LexerRule;
+import vn.hus.nlp.tokenizer.tokens.TaggedWord;
+
 public class Tokenizer {
 
     private Segmenter segmenter;
 
-    private boolean isAmbiguitiesResolved = true;
+    private final boolean isAmbiguitiesResolved = true;
 
     private ResultMerger resultMerger;
 
@@ -46,23 +46,23 @@ public class Tokenizer {
             resultMerger = new ResultMerger();
             resultSplitter = new ResultSplitter(properties);
             segmenter = new Segmenter(properties, new UnigramResolver(properties.getProperty("unigramModel")));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 
     }
 
 
-    private void loadLexerRules(String lexersFilename) {
+    private void loadLexerRules(final String lexersFilename) {
         final LexiconUnmarshaller unmarshaller = new LexiconUnmarshaller();
         final Corpus corpus = unmarshaller.unmarshal(lexersFilename);
         final List<W> lexers = corpus.getBody().getW();
-        for (W w : lexers) {
+        for (final W w : lexers) {
             rules.add(new LexerRule(w.getMsd(), w.getContent()));
         }
     }
 
-    public List<TaggedWord> tokenize(Reader input) throws IOException {
+    public List<TaggedWord> tokenize(final Reader input) throws IOException {
         final List<TaggedWord> result = new ArrayList<>();
         final LineNumberReader reader = new LineNumberReader(input);
         String line = null;
@@ -80,15 +80,15 @@ public class Tokenizer {
             LexerRule selectedRule = null;
             // find the rule that matches the longest substring of the input
             for (int i = 0; i < rules.size(); i++) {
-                LexerRule rule = rules.get(i);
+                final LexerRule rule = rules.get(i);
                 // get the precompiled pattern for this rule
-                Pattern pattern = rule.getPattern();
+                final Pattern pattern = rule.getPattern();
                 // create a matcher to perform match operations on the string
                 // by interpreting the pattern
-                Matcher matcher = pattern.matcher(line);
+                final Matcher matcher = pattern.matcher(line);
                 // find the longest match from the start
                 if (matcher.lookingAt()) {
-                    int matchLen = matcher.end();
+                    final int matchLen = matcher.end();
                     if (matchLen > longestMatchLen) {
                         longestMatchLen = matchLen;
                         tokenEnd = matchLen;
@@ -125,40 +125,41 @@ public class Tokenizer {
             // if this token is a phrase, we need to use a segmenter
             // object to segment it.
             if (taggedWord.isPhrase()) {
-                String phrase = taggedWord.getText().trim();
+                final String phrase = taggedWord.getText().trim();
                 if (phrase.contains(" ")) {
-                    String ruleName = taggedWord.getRule().getName();
+                    final String ruleName = taggedWord.getRule().getName();
                     String[] tokens = null;
                     // segment the phrase
-                    List<String[]> segmentations = new CopyOnWriteArrayList<>(segmenter.segment(phrase));
+                    final List<String[]> segmentations = new CopyOnWriteArrayList<>(segmenter.segment(phrase));
                     // resolved the result if there is such option
                     // and the there are many segmentations.
                     if (isAmbiguitiesResolved && segmentations.size() > 1) {
                         tokens = segmenter.resolveAmbiguity(segmentations);
                     } else {
                         // get the first segmentation
-                        Iterator<String[]> it = segmentations.iterator();
+                        final Iterator<String[]> it = segmentations.iterator();
                         if (it.hasNext()) {
                             tokens = it.next();
                         }
                     }
 
                     // build tokens of the segmentation
-                    for (int j = 0; j < tokens.length; j++) {
-                        result.add(new TaggedWord(new LexerRule(ruleName), tokens[j], reader.getLineNumber(), column));
-                        column += tokens[j].length();
+                    for (final String token : tokens) {
+                        result.add(new TaggedWord(new LexerRule(ruleName), token, reader.getLineNumber(), column));
+                        column += token.length();
                     }
                 } else { // phrase is simple
-                    if (phrase.length() > 0)
+                    if (phrase.length() > 0) {
                         result.add(taggedWord);
+                    }
                 }
             } else { // lexerToken is not a phrase
                 // check to see if it is a named entity
                 if (taggedWord.isNamedEntity()) {
                     // try to split the lexer into two lexers
-                    TaggedWord[] tokens = resultSplitter.split(taggedWord);
+                    final TaggedWord[] tokens = resultSplitter.split(taggedWord);
                     if (tokens != null) {
-                        for (TaggedWord token : tokens) {
+                        for (final TaggedWord token : tokens) {
                             result.add(token);
                         }
                     } else {
@@ -176,10 +177,10 @@ public class Tokenizer {
         return result.size() > 0 ? resultMerger.mergeList(result) : result;
     }
 
-    public static void main(String[] args) throws IOException {
-        Tokenizer t = new Tokenizer();
-        List<TaggedWord> tokens = t.tokenize(new StringReader("tôi đi học rất sớm. công nghệ thông tin Việt Nam"));
-        for (TaggedWord token : tokens) {
+    public static void main(final String[] args) throws IOException {
+        final Tokenizer t = new Tokenizer();
+        final List<TaggedWord> tokens = t.tokenize(new StringReader("tôi đi học rất sớm. công nghệ thông tin Việt Nam"));
+        for (final TaggedWord token : tokens) {
             System.out.println(token);
         }
     }

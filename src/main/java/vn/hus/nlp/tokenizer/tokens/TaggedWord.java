@@ -29,7 +29,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 
 	/**
 	 * Create a LexerToken
-	 * 
+	 *
 	 * @param rule
 	 *            a rule
 	 * @param text
@@ -39,7 +39,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	 * @param column
 	 *            the column location of the text in a file
 	 */
-	public TaggedWord(LexerRule rule, String text, int line, int column) {
+	public TaggedWord(final LexerRule rule, final String text, final int line, final int column) {
 		this.rule = rule;
 		this.text = text;
 		this.line = line;
@@ -48,33 +48,33 @@ public class TaggedWord implements Comparable<TaggedWord> {
 
 	/**
 	 * Create a lexer token from a text
-	 * 
+	 *
 	 * @param text
 	 *            a text
 	 */
-	public TaggedWord(String text) {
+	public TaggedWord(final String text) {
 		this.rule = null;
 		this.text = text;
 		this.line = -1;
 		this.column = -1;
 	}
 
-	
+
 	/**
 	 * Create a lexer token from a lexer rule and a text.
 	 * @param rule
 	 * @param text
 	 */
-	public TaggedWord(LexerRule rule, String text) {
+	public TaggedWord(final LexerRule rule, final String text) {
 		this.rule = rule;
 		this.text = text;
 		this.line = -1;
 		this.column = -1;
 	}
-	
+
 	/**
 	 * Return the rule that matched this token
-	 * 
+	 *
 	 * @return the rule that match this token
 	 */
 	public LexerRule getRule() {
@@ -83,7 +83,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 
 	/**
 	 * Return the text that matched by this token
-	 * 
+	 *
 	 * @return the text matched by this token
 	 */
 	public String getText() {
@@ -91,9 +91,9 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	}
 
 	/**
-	 * Test if this rule is a phrase rule. A phrase is processed 
+	 * Test if this rule is a phrase rule. A phrase is processed
 	 * by a lexical segmenter.
-	 * 
+	 *
 	 * @return true/false
 	 */
 	public boolean isPhrase() {
@@ -102,27 +102,27 @@ public class TaggedWord implements Comparable<TaggedWord> {
 
 	/**
 	 * Test if this rule is a named entity rule.
-	 * 
+	 *
 	 * @return true/false
 	 */
 	public boolean isNamedEntity() {
 		return rule.getName().startsWith("name");
 	}
-	
+
 	/**
 	 * @return true/false
 	 */
 	public boolean isDate() {
 		return rule.getName().startsWith("date");
 	}
-	
+
 	/**
 	 * @return true/false
 	 */
 	public boolean isDateDay() {
 		return rule.getName().contains("day");
 	}
-	
+
 	/**
 	 * @return true/false
 	 */
@@ -133,7 +133,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	public boolean isDateYear() {
 		return rule.getName().contains("year");
 	}
-	
+
 	public boolean isNumber() {
 		return rule.getName().startsWith("number");
 	}
@@ -148,7 +148,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	 * @param column
 	 *            The column to set.
 	 */
-	public void setColumn(int column) {
+	public void setColumn(final int column) {
 		this.column = column;
 	}
 
@@ -163,7 +163,7 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	 * @param line
 	 *            The line to set.
 	 */
-	public void setLine(int line) {
+	public void setLine(final int line) {
 		this.line = line;
 	}
 
@@ -184,25 +184,28 @@ public class TaggedWord implements Comparable<TaggedWord> {
 	public int hashCode() {
 		return getText().hashCode();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) return false;
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+            return false;
+        }
 		if (!(obj instanceof TaggedWord)) {
 			return false;
 		}
 		// two lexer is considered equal if their text are equal.
-		// 
+		//
 		return ((TaggedWord)obj).getText().equals(getText());
 	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(TaggedWord o) {
+	@Override
+    public int compareTo(final TaggedWord o) {
 		return getText().compareTo(o.getText());
 	}
 }

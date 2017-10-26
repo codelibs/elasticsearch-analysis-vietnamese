@@ -6,7 +6,6 @@ package vn.hus.nlp.lexicon;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
@@ -25,10 +24,10 @@ import vn.hus.nlp.lexicon.jaxb.W;
  */
 public class LexiconMarshaller {
 
-	JAXBContext jaxbContext; 
-	
+	JAXBContext jaxbContext;
+
 	Marshaller marshaller;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -37,18 +36,18 @@ public class LexiconMarshaller {
 		//
 		createContext();
 	}
-	
+
 	private void createContext() {
 		jaxbContext = null;
 		try {
-			ClassLoader cl = ObjectFactory.class.getClassLoader();
+			final ClassLoader cl = ObjectFactory.class.getClassLoader();
 			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get the marshaller object.
 	 * @return the marshaller object
@@ -60,7 +59,7 @@ public class LexiconMarshaller {
 				marshaller = jaxbContext.createMarshaller();
 				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
 				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (JAXBException e) {
+			} catch (final JAXBException e) {
 				e.printStackTrace();
 			}
 		}
@@ -71,36 +70,35 @@ public class LexiconMarshaller {
 	 * Marshal a map of objects to a file.
 	 * @param filename the filename of the corpus. This file usually has extension .xml.
 	 */
-	public void marshal(Map<?, ?> map, String filename) {
+	public void marshal(final Map<?, ?> map, final String filename) {
 		// create the corpus object from the map
-		// 
-		ObjectFactory factory = new ObjectFactory();
-		Corpus corpus = factory.createCorpus();
+		//
+		final ObjectFactory factory = new ObjectFactory();
+		final Corpus corpus = factory.createCorpus();
 		corpus.setId(filename);
-		
-		Body body = factory.createBody();
+
+		final Body body = factory.createBody();
 		corpus.setBody(body);
-		
-		for (Iterator<?> it = map.keySet().iterator(); it.hasNext(); ) {
-			Object key = it.next();
-			Object value = map.get(key);
-			W w = factory.createW();
+
+		for (final Object key : map.keySet()) {
+			final Object value = map.get(key);
+			final W w = factory.createW();
 			w.setContent(key.toString());
 			w.setMsd(value.toString());
 			body.getW().add(w);
 		}
 		// marshal the corpus
-		// 
+		//
 		OutputStream os = null;
 		try {
 			os = new FileOutputStream(filename);
 			getMarshaller().marshal(corpus, os);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 }

@@ -16,12 +16,12 @@ import vn.hus.nlp.corpus.jaxb.ObjectFactory;
  */
 public class CorpusMarshaller {
 
-	private JAXBContext jaxbContext; 
-	
+	private JAXBContext jaxbContext;
+
 	private Marshaller marshaller;
-	
+
 	static ObjectFactory factory = new ObjectFactory();
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -30,18 +30,18 @@ public class CorpusMarshaller {
 		//
 		createContext();
 	}
-	
+
 	private void createContext() {
 		jaxbContext = null;
 		try {
-			ClassLoader cl = ObjectFactory.class.getClassLoader();
+			final ClassLoader cl = ObjectFactory.class.getClassLoader();
 			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get the marshaller object.
 	 * @return the marshaller object
@@ -53,7 +53,7 @@ public class CorpusMarshaller {
 				marshaller = jaxbContext.createMarshaller();
 				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
 				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (JAXBException e) {
+			} catch (final JAXBException e) {
 				e.printStackTrace();
 			}
 		}

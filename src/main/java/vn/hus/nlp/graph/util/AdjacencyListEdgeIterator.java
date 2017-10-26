@@ -26,15 +26,15 @@ public class AdjacencyListEdgeIterator implements EdgeIterator {
 
 	/**
 	 * Construct the iterator over vertices adjacent to vertex u.
-	 * 
+	 *
 	 * @param g
 	 * @param u
 	 */
-	public AdjacencyListEdgeIterator(AdjacencyListWeightedGraph g, int u) {
+	public AdjacencyListEdgeIterator(final AdjacencyListWeightedGraph g, final int u) {
 		this.graph = g;
 
 		// get the number of vertices of the graph
-		int n = graph.getNumberOfVertices();
+		final int n = graph.getNumberOfVertices();
 		// range checking
 		new AssertionError(u < 0 || u >= n);
 		next = graph.getAdj()[u];
@@ -42,12 +42,13 @@ public class AdjacencyListEdgeIterator implements EdgeIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.util.EdgeIterator#next()
 	 */
-	public Edge next() {
+	@Override
+    public Edge next() {
 		// get the next edge
-		Edge e = next.getEdge();
+		final Edge e = next.getEdge();
 		// update the next pointer
 		next = next.getNext();
 		return e;
@@ -55,10 +56,11 @@ public class AdjacencyListEdgeIterator implements EdgeIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.util.VertexIterator#hasNext()
 	 */
-	public boolean hasNext() {
+	@Override
+    public boolean hasNext() {
 		return (next != null);
 	}
 }

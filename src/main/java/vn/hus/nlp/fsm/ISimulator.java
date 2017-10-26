@@ -11,7 +11,7 @@ package vn.hus.nlp.fsm;
  * <p>
  * Nov 5, 2007, 9:50:16 PM
  * <p>
- * A finite state machine simulator. 
+ * A finite state machine simulator.
  */
 public interface ISimulator {
 
@@ -27,12 +27,12 @@ public interface ISimulator {
 	 * @return the result of the run.
 	 */
 	public String run(String input);
-	
+
 	/**
-	 * An input is accepted by the machine that the simulator operates on or not. 
+	 * An input is accepted by the machine that the simulator operates on or not.
 	 * @param input an input string
 	 * @return <tt>true/false</tt>
 	 */
 	public boolean accept(String input);
-	
+
 }

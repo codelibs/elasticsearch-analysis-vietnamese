@@ -17,11 +17,11 @@ public class Edge implements Comparable<Edge> {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param u
 	 * @param v
 	 */
-	public Edge(int u, int v) {
+	public Edge(final int u, final int v) {
 		this.u = u;
 		this.v = v;
 		this.weight = 0;
@@ -29,19 +29,19 @@ public class Edge implements Comparable<Edge> {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param u
 	 * @param v
 	 * @param weight
 	 */
-	public Edge(int u, int v, double weight) {
+	public Edge(final int u, final int v, final double weight) {
 		this(u, v);
 		this.weight = weight;
 	}
 
 	/**
 	 * Get the source vertex.
-	 * 
+	 *
 	 * @return source vertex
 	 */
 	public int getU() {
@@ -50,7 +50,7 @@ public class Edge implements Comparable<Edge> {
 
 	/**
 	 * Get the target vertex.
-	 * 
+	 *
 	 * @return the target vertex.
 	 */
 	public int getV() {
@@ -59,7 +59,7 @@ public class Edge implements Comparable<Edge> {
 
 	/**
 	 * Get the weight of the edge.
-	 * 
+	 *
 	 * @return the weight.
 	 */
 	public double getWeight() {
@@ -68,13 +68,13 @@ public class Edge implements Comparable<Edge> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj instanceof Edge) {
-			Edge e = (Edge) obj;
+			final Edge e = (Edge) obj;
 			return (u == e.getU() && v == e.getV());
 		}
 		return false;
@@ -87,16 +87,18 @@ public class Edge implements Comparable<Edge> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Edge o) {
-		double diff = getWeight() - o.getWeight();
-		if (diff == 0)
-			return 0;
-		else if (diff > 0)
-			return 1;
-		else
-			return -1;
+	@Override
+    public int compareTo(final Edge o) {
+		final double diff = getWeight() - o.getWeight();
+		if (diff == 0) {
+            return 0;
+        } else if (diff > 0) {
+            return 1;
+        } else {
+            return -1;
+        }
 	}
 }

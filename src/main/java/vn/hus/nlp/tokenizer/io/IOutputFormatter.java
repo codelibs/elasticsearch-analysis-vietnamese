@@ -11,7 +11,7 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *         <p>
  *         This class serves as an abstract output formatter of Vietnamese
  *         tokenization results.
- * 
+ *
  */
 
 public interface IOutputFormatter {

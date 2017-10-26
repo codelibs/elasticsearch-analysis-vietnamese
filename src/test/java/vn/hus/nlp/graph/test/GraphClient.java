@@ -26,47 +26,47 @@ public class GraphClient {
 
 	public static void testAdjacencyListGraph() {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
 		// print out the graph
 		GraphIO.print(graph);
 	}
-	
+
 	public static void testAdjacencyMatrixGraph() {
 		// create an adjacency matrix graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyMatrix("samples/matrix0.txt");
+		final IGraph graph = GraphIO.scanAdjacencyMatrix("samples/matrix0.txt");
 		// print out the graph
 		GraphIO.print(graph);
 	}
-	
+
 	/**
 	 * Print degrees of vertices.
 	 */
 	public static void testDegrees() {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
-		GraphDegree gd = new GraphDegree(graph);
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
+		final GraphDegree gd = new GraphDegree(graph);
 		gd.printDegrees();
 	}
-	
+
 	/**
-	 * Print orders of a visit of the DFS algorithm from a vertex u. 
+	 * Print orders of a visit of the DFS algorithm from a vertex u.
 	 * @param u
 	 */
-	public static void testDFS(int u) {
+	public static void testDFS(final int u) {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list0.txt");
 		// search the graph from the vertex u
-		GraphDFS graphDFS = new GraphDFS(graph, u);
+		final GraphDFS graphDFS = new GraphDFS(graph, u);
 		graphDFS.printOrder();
 	}
-	
+
 	/**
-	 * Test the method that counts for number of components 
+	 * Test the method that counts for number of components
 	 * of a graph.
 	 */
 	public static void testComponents() {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list2.txt");
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list2.txt");
 		System.out.println("# of connected components = " + GraphConnectivity.countComponents(graph));
 		int n = graph.getNumberOfVertices();
 		n--; // the end vertex
@@ -77,14 +77,14 @@ public class GraphClient {
 		}
 	}
 	/**
-	 * Print orders of a visit of the BFS algorithm from a vertex u. 
+	 * Print orders of a visit of the BFS algorithm from a vertex u.
 	 * @param u
 	 */
-	public static void testBFS(int u) {
+	public static void testBFS(final int u) {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list3.txt");
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list3.txt");
 		// search the graph from the vertex u
-		GraphBFS graphBFS = new GraphBFS(graph, u);
+		final GraphBFS graphBFS = new GraphBFS(graph, u);
 		System.out.println("Order: ");
 		graphBFS.printOrder();
 		System.out.println("Spanning tree: ");
@@ -92,32 +92,32 @@ public class GraphClient {
 		System.out.println("A shortest path from the start vertex to the end vertex:");
 		graphBFS.shortestPath(0, graph.getNumberOfVertices() - 1);
 	}
-	
+
 	public static void testTransitiveClosure() {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list5.txt");
-		IGraph tc = GraphUtilities.getTransitiveClosure(graph);
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list5.txt");
+		final IGraph tc = GraphUtilities.getTransitiveClosure(graph);
 		// print out the transitive closure
 		GraphIO.print(tc);
 	}
 
 	public static void testAdjacencyListWeightedGraph() {
 		// create an adjacency list weighted graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyListWeighted("samples/weighted/list0.txt");
+		final IGraph graph = GraphIO.scanAdjacencyListWeighted("samples/weighted/list0.txt");
 		// print out the graph
 		GraphIO.print(graph);
 	}
 
 	public static void testIsolatedVertices() {
 		// create an adjacency list graph from a data file
-		IGraph graph = GraphIO.scanAdjacencyList("samples/list6.txt");
-		int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
+		final IGraph graph = GraphIO.scanAdjacencyList("samples/list6.txt");
+		final int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
 		System.out.println("All isolated vertices:");
-		for (int i = 0; i < isolatedVertices.length; i++) {
-			System.out.println(isolatedVertices[i]);
+		for (final int isolatedVertice : isolatedVertices) {
+			System.out.println(isolatedVertice);
 		}
 	}
-	
+
 	public static void testProjectivity() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(10);
@@ -150,11 +150,11 @@ public class GraphClient {
 		graph = GraphIO.scanAdjacencyList(reader);
 		System.out.println("Is this graph projective? " + GraphUtilities.isProjective(graph));
 	}
-	
+
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 //		testAdjacencyListGraph();
 //		testAdjacencyMatrixGraph();
 //		testDegrees();

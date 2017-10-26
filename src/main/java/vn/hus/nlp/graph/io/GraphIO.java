@@ -33,18 +33,18 @@ public final class GraphIO {
 	static final boolean DIRECTED = true;
 
 	/**
-	 * Constructs a graph from an adjacency list provided by a reader. 
+	 * Constructs a graph from an adjacency list provided by a reader.
 	 * @param reader a reader
 	 * @see #scanAdjacencyList(String)
-	 * @return a graph 
+	 * @return a graph
 	 */
-	public static IGraph scanAdjacencyList(Reader reader) {
+	public static IGraph scanAdjacencyList(final Reader reader) {
 		IGraph graph = null;
-		BufferedReader br = new BufferedReader(reader);
+		final BufferedReader br = new BufferedReader(reader);
 		try {
 			// read the number of vertices of the graph
 			// that is specified on the first line.
-			int n = Integer.parseInt(br.readLine());
+			final int n = Integer.parseInt(br.readLine());
 			// System.out.println(n);
 			if (n > 0) {
 				// create a graph with n vertices
@@ -56,61 +56,61 @@ public final class GraphIO {
 			// read edges of the graph
 			String line = "";
 			while ((line = br.readLine()) != null && line.trim().length() > 0) {
-				String[] uv = line.split("\\s+");
+				final String[] uv = line.split("\\s+");
 				if (uv.length != 2) {
 					System.err.println("Bad format for data input stream!");
 					System.exit(1);
 				}
-				int u = Integer.parseInt(uv[0]);
-				int v = Integer.parseInt(uv[1]);
+				final int u = Integer.parseInt(uv[0]);
+				final int v = Integer.parseInt(uv[1]);
 				// insert a new edge to the graph
 				graph.insert(new Edge(u, v));
 			}
 			// close the isr
 			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return graph;
-	}
-	
-	/**
-	 * Scans a graph from a text data file name. The data file is organised as
-	 * follows:
-	 * <ul>
-	 * <li>The first line is the number of vertices of the graph</li> 
-	 * <li>The other lines contains couples u v (separated by at least a blank char)
-	 * that represent edges of the graph.</li>
-	 * </ul>
-	 * 
-	 * @param filename
-	 * @see #scanAdjacencyList(Reader)
-	 * @return an adjacency list graph.
-	 */
-	public static IGraph scanAdjacencyList(String filename) {
-		IGraph graph = null;
-		try {
-			InputStreamReader isr = new FileReader(filename);
-			graph = scanAdjacencyList(isr);
-		} catch (FileNotFoundException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return graph;
 	}
 
 	/**
-	 * Scans a graph from a reader. 
-	 * 
+	 * Scans a graph from a text data file name. The data file is organised as
+	 * follows:
+	 * <ul>
+	 * <li>The first line is the number of vertices of the graph</li>
+	 * <li>The other lines contains couples u v (separated by at least a blank char)
+	 * that represent edges of the graph.</li>
+	 * </ul>
+	 *
+	 * @param filename
+	 * @see #scanAdjacencyList(Reader)
+	 * @return an adjacency list graph.
+	 */
+	public static IGraph scanAdjacencyList(final String filename) {
+		IGraph graph = null;
+		try {
+			final InputStreamReader isr = new FileReader(filename);
+			graph = scanAdjacencyList(isr);
+		} catch (final FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return graph;
+	}
+
+	/**
+	 * Scans a graph from a reader.
+	 *
 	 * @see #scanAdjacencyMatrix(String)
 	 * @return an adjacency matrix graph.
 	 */
-	public static IGraph scanAdjacencyMatrix(Reader reader) {
+	public static IGraph scanAdjacencyMatrix(final Reader reader) {
 		IGraph graph = null;
-		BufferedReader br = new BufferedReader(reader);
+		final BufferedReader br = new BufferedReader(reader);
 		try {
 			// read the number of vertices of the graph
 			// that is specified on the first line.
-			int n = Integer.parseInt(br.readLine());
+			final int n = Integer.parseInt(br.readLine());
 			// System.out.println(n);
 			if (n > 0) {
 				// create a graph with n vertices
@@ -128,22 +128,23 @@ public final class GraphIO {
 					System.err.println("The data is incomplete!");
 					System.exit(1);
 				}
-				String[] vArr = line.split("\\s+");
+				final String[] vArr = line.split("\\s+");
 				if (vArr.length != n) {
 					System.out.println(vArr.length);
 					System.err.println("Bad format for data input stream!");
 					System.exit(1);
 				}
 				for (int v = 0; v < vArr.length; v++) {
-					int value = Integer.parseInt(vArr[v]);
+					final int value = Integer.parseInt(vArr[v]);
 					// value > 0 or value = 0
-					if (value > 0)
-						graph.insert(new Edge(u, v));
+					if (value > 0) {
+                        graph.insert(new Edge(u, v));
+                    }
 				}
 				u++;
 			}
 			br.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return graph;
@@ -153,20 +154,20 @@ public final class GraphIO {
 	 * Scans a graph from a text data file name. The data file is organised as
 	 * follows:
 	 * <ul>
-	 * <li>The first line is the number of vertices of the graph</li> 
+	 * <li>The first line is the number of vertices of the graph</li>
 	 * <li>The other lines contains a matrix representing the graph.
 	 * </ul>
-	 * 
+	 *
 	 * @param filename
 	 * @see #scanAdjacencyMatrix(Reader)
 	 * @return an adjacency list graph.
 	 */
-	public static IGraph scanAdjacencyMatrix(String filename) {
+	public static IGraph scanAdjacencyMatrix(final String filename) {
 		IGraph graph = null;
 		try {
-			InputStreamReader isr = new FileReader(filename);
+			final InputStreamReader isr = new FileReader(filename);
 			graph = scanAdjacencyMatrix(isr);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return graph;
@@ -174,19 +175,18 @@ public final class GraphIO {
 
 	/**
 	 * Print to the standard output all edges of the graph
-	 * 
+	 *
 	 * @param graph
 	 */
-	public static void printEdges(IGraph graph) {
+	public static void printEdges(final IGraph graph) {
 		Edge[] edges = null;
 		if (graph instanceof IWeightedGraph) {
 			edges = GraphUtilities.getWeightedEdges((IWeightedGraph) graph);
 		} else {
 			edges = GraphUtilities.getEdges(graph);
 		}
-		for (int i = 0; i < edges.length; i++) {
-			Edge e = edges[i];
-			double w = e.getWeight();
+		for (final Edge e : edges) {
+			final double w = e.getWeight();
 			System.out.println(e.getU() + " - " + e.getV() + " (" + w + ")");
 		}
 		// System.out.println("There are " + edges.length + " edges.");
@@ -194,33 +194,35 @@ public final class GraphIO {
 
 	/**
 	 * Print out a sparse graph to the standard output.
-	 * 
+	 *
 	 * @param graph
 	 *            a sparse graph
 	 */
-	private static void printSparseGraph(IGraph graph) {
+	private static void printSparseGraph(final IGraph graph) {
 		printEdges(graph);
 	}
 
 	/**
 	 * Print out a dense graph to the standard output.
-	 * 
+	 *
 	 * @param graph
 	 */
-	private static void printDenseGraph(IGraph graph) {
-		int n = graph.getNumberOfVertices();
+	private static void printDenseGraph(final IGraph graph) {
+		final int n = graph.getNumberOfVertices();
 		System.out.print("\t");
-		for (int u = 0; u < n; u++)
-			System.out.print("\t" + u);
+		for (int u = 0; u < n; u++) {
+            System.out.print("\t" + u);
+        }
 		System.out.println();
 		System.out.print("\t");
-		for (int u = 0; u < n; u++)
-			System.out.print("\t-");
+		for (int u = 0; u < n; u++) {
+            System.out.print("\t-");
+        }
 		System.out.println();
 		for (int u = 0; u < n; u++) {
 			System.out.print(u + "\t" + "|");
 			for (int v = 0; v < n; v++) {
-				int b = (graph.edge(u, v) ? 1 : 0);
+				final int b = (graph.edge(u, v) ? 1 : 0);
 				System.out.print("\t" + b);
 			}
 			System.out.println();
@@ -229,12 +231,12 @@ public final class GraphIO {
 
 	/**
 	 * Print out a graph.
-	 * 
+	 *
 	 * @param graph
 	 */
-	public static void print(IGraph graph) {
-		int vC = graph.getNumberOfVertices();
-		int eC = graph.getNumberOfEdges();
+	public static void print(final IGraph graph) {
+		final int vC = graph.getNumberOfVertices();
+		final int eC = graph.getNumberOfEdges();
 		System.out.println("There are " + vC + " vertices and " + eC
 				+ " edges.\n");
 		if (graph instanceof AdjacencyListGraph
@@ -252,18 +254,18 @@ public final class GraphIO {
 	/**
 	 * Scan a weighted graph from an input stream reader. This method is usually
 	 * invoked by the method {@link #scanAdjacencyListWeighted(String)}.
-	 * 
+	 *
 	 * @see #scanAdjacencyListWeighted(String)
 	 * @return an adjacency list weighted graph.
 	 */
 	public static IWeightedGraph scanAdjacencyListWeighted(
-			InputStreamReader inputStreamReader) {
+			final InputStreamReader inputStreamReader) {
 		IWeightedGraph graph = null;
-		BufferedReader br = new BufferedReader(inputStreamReader);
+		final BufferedReader br = new BufferedReader(inputStreamReader);
 		try {
 			// read the number of vertices of the graph
 			// that is specified on the first line.
-			int n = Integer.parseInt(br.readLine());
+			final int n = Integer.parseInt(br.readLine());
 			// System.out.println(n);
 			if (n > 0) {
 				// create a graph with n vertices
@@ -276,19 +278,19 @@ public final class GraphIO {
 			// read edges of the graph
 			String line = "";
 			while ((line = br.readLine()) != null && line.trim().length() > 0) {
-				String[] uvw = line.split("\\s+");
+				final String[] uvw = line.split("\\s+");
 				if (uvw.length != 3) {
 					System.err.println("Bad format for data input stream!");
 					System.exit(1);
 				}
-				int u = Integer.parseInt(uvw[0]);
-				int v = Integer.parseInt(uvw[1]);
-				double weight = Double.parseDouble(uvw[2]);
+				final int u = Integer.parseInt(uvw[0]);
+				final int v = Integer.parseInt(uvw[1]);
+				final double weight = Double.parseDouble(uvw[2]);
 				// insert a new edge to the graph
 				graph.insert(new Edge(u, v, weight));
 			}
 			br.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return graph;
@@ -298,21 +300,21 @@ public final class GraphIO {
 	 * Scan a graph from a text data file name. The data file is organised as
 	 * follows:
 	 * <ul>
-	 * <li>The first line is the number of vertices of the graph</li> 
+	 * <li>The first line is the number of vertices of the graph</li>
 	 * <li>The other lines contains triples u v w (separated by at least a blank char)
 	 * that represent edges (u,v) of the graph and its weight (w).</li>
 	 * </ul>
 	 * See the samples directory for sample weighted graphs.
-	 * 
+	 *
 	 * @param filename
 	 * @return an adjacency list weighted graph.
 	 */
-	public static IWeightedGraph scanAdjacencyListWeighted(String filename) {
+	public static IWeightedGraph scanAdjacencyListWeighted(final String filename) {
 		IWeightedGraph graph = null;
 		try {
-			InputStreamReader isr = new FileReader(filename);
+			final InputStreamReader isr = new FileReader(filename);
 			graph = scanAdjacencyListWeighted(isr);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return graph;

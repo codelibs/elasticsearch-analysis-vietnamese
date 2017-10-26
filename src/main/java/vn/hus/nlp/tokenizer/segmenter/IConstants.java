@@ -16,7 +16,7 @@ public interface IConstants {
 	 * The lexicon dfa.
 	 */
 	static String LEXICON_DFA = "models/tokenization/automata/dfaLexicon.xml";
-	
+
 	/**
 	 * The external lexicon
 	 */

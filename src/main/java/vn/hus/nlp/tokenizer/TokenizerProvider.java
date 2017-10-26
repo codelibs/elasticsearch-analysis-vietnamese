@@ -5,14 +5,14 @@
  */
 package vn.hus.nlp.tokenizer;
 
-import vn.hus.nlp.tokenizer.segmenter.AbstractResolver;
-import vn.hus.nlp.tokenizer.segmenter.Segmenter;
-import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+
+import vn.hus.nlp.tokenizer.segmenter.AbstractResolver;
+import vn.hus.nlp.tokenizer.segmenter.Segmenter;
+import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
 
 
 /**
@@ -47,7 +47,7 @@ public final class TokenizerProvider {
      * Private constructor
      */
     private TokenizerProvider() {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         try {
             properties.load(getClass().getResourceAsStream("/tokenizer.properties"));
             // create a unigram resolver.
@@ -58,15 +58,15 @@ public final class TokenizerProvider {
             tokenizer = new Tokenizer(properties, segmenter);
             // Do not resolve the ambiguity.
 //			tokenizer.setAmbiguitiesResolved(false);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
-    private TokenizerProvider(String propertiesFilename) {
-        Properties properties = new Properties();
+    private TokenizerProvider(final String propertiesFilename) {
+        final Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(propertiesFilename));
             // create a unigram resolver.
@@ -78,15 +78,15 @@ public final class TokenizerProvider {
             tokenizer = new Tokenizer(properties, segmenter);
             // Do not resolve the ambiguity.
 //			tokenizer.setAmbiguitiesResolved(false);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    private TokenizerProvider(Properties properties) {
+    private TokenizerProvider(final Properties properties) {
         // create a unigram resolver.
         resolver = new UnigramResolver(properties.getProperty("unigramModel"));
         // create a lexical segmenter that use the unigram resolver
@@ -115,7 +115,7 @@ public final class TokenizerProvider {
      *
      * @return a provider object
      */
-    public static TokenizerProvider getInstance(String propertiesFilename) {
+    public static TokenizerProvider getInstance(final String propertiesFilename) {
         if (!instanceFlag) {
             instanceFlag = true;
             provider = new TokenizerProvider(propertiesFilename);
@@ -128,7 +128,7 @@ public final class TokenizerProvider {
      *
      * @return a provider object
      */
-    public static TokenizerProvider getInstance(Properties properties) {
+    public static TokenizerProvider getInstance(final Properties properties) {
         if (!instanceFlag) {
             instanceFlag = true;
             provider = new TokenizerProvider(properties);

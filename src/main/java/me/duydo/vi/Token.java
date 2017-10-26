@@ -7,7 +7,7 @@ public class Token {
     private int endOffset = -1;
     private int pos = -1;
 
-    public Token(String type, String text) {
+    public Token(final String type, final String text) {
         this.type = type;
         this.text = text;
     }
@@ -16,7 +16,7 @@ public class Token {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -24,7 +24,7 @@ public class Token {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
     }
 
@@ -32,7 +32,7 @@ public class Token {
         return startOffset;
     }
 
-    public void setStartOffset(int startOffset) {
+    public void setStartOffset(final int startOffset) {
         this.startOffset = startOffset;
     }
 
@@ -40,7 +40,7 @@ public class Token {
         return endOffset;
     }
 
-    public void setEndOffset(int endOffset) {
+    public void setEndOffset(final int endOffset) {
         this.endOffset = endOffset;
     }
 
@@ -48,7 +48,7 @@ public class Token {
         return pos;
     }
 
-    public void setPos(int pos) {
+    public void setPos(final int pos) {
         this.pos = pos;
     }
 }

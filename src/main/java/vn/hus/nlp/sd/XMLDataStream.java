@@ -13,10 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import opennlp.maxent.DataStream;
-
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import opennlp.maxent.DataStream;
 
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
@@ -42,7 +42,7 @@ public class XMLDataStream implements DataStream {
 	 */
 	class XMLFileHandler extends DefaultHandler {
 		@Override
-		public void characters(char[] ch, int start, int length)
+		public void characters(final char[] ch, final int start, final int length)
 				throws SAXException {
 			// take characters and create a string
 			String s = new String(ch, start, length);
@@ -55,9 +55,9 @@ public class XMLDataStream implements DataStream {
 				dataStream.add(s);
 			}
 		}
-		
+
 		@Override
-		public void skippedEntity(String name) throws SAXException {
+		public void skippedEntity(final String name) throws SAXException {
 			System.out.println(name);
 		}
 	}
@@ -66,20 +66,20 @@ public class XMLDataStream implements DataStream {
 	 * @param dataFile
 	 *            the XML data file
 	 */
-	public XMLDataStream(String dataFile) {
+	public XMLDataStream(final String dataFile) {
 		// init the stream
-		dataStream = new ArrayList<String>();
+		dataStream = new ArrayList<>();
 		// init a SAX parser
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+		final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 		SAXParser parser;
 		try {
 			parser = parserFactory.newSAXParser();
 			parser.parse(new File(dataFile), new XMLFileHandler());
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			e.printStackTrace();
-		} catch (SAXException e) {
+		} catch (final SAXException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		// init the iterator
@@ -88,19 +88,21 @@ public class XMLDataStream implements DataStream {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see opennlp.maxent.DataStream#hasNext()
 	 */
-	public boolean hasNext() {
+	@Override
+    public boolean hasNext() {
 		return dataStreamIterator.hasNext();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see opennlp.maxent.DataStream#nextToken()
 	 */
-	public Object nextToken() {
+	@Override
+    public Object nextToken() {
 		return dataStreamIterator.next();
 	}
 

@@ -13,7 +13,7 @@ import opennlp.tools.sentdetect.AbstractEndOfSentenceScanner;
 public class EndOfSentenceScanner extends AbstractEndOfSentenceScanner {
 
     public static final char[] eosCharacters =  {'.','?','!'};
-    
+
     /**
      * Creates a new <code>DefaultEndOfSentenceScanner</code> instance.
      *
@@ -21,7 +21,8 @@ public class EndOfSentenceScanner extends AbstractEndOfSentenceScanner {
     public EndOfSentenceScanner() {
         super();
     }
-    
+
+    @Override
     public char[] getEndOfSentenceCharacters() {
       return eosCharacters;
     }

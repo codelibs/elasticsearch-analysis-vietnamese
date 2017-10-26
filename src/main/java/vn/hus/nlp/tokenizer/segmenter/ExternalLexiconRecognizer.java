@@ -17,50 +17,50 @@ import vn.hus.nlp.lexicon.jaxb.W;
  * <p>
  * Dec 28, 2009, 3:23:53 PM
  * <p>
- * An additional lexicon recognizer which recognises an external lexicon provided 
- * by users in case they want to use a custom lexicon (in addition with the internal 
- * lexicon of the tokenizer). 
+ * An additional lexicon recognizer which recognises an external lexicon provided
+ * by users in case they want to use a custom lexicon (in addition with the internal
+ * lexicon of the tokenizer).
  */
 public class ExternalLexiconRecognizer extends AbstractLexiconRecognizer {
 
-	
+
 	private Set<String> externalLexicon;
-	
-	
+
+
 	/**
-	 * Default constructor. 
+	 * Default constructor.
 	 */
 	public ExternalLexiconRecognizer() {
 		this(IConstants.EXTERNAL_LEXICON);
 	}
-	
+
 	/**
 	 * Creates an external lexicon recognizer given a lexicon.
 	 * @param externalLexiconFilename a lexicon filename
 	 */
-	public ExternalLexiconRecognizer(String externalLexiconFilename) {
+	public ExternalLexiconRecognizer(final String externalLexiconFilename) {
 		// load the prefix lexicon
-		// 
-		LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
-		Corpus lexicon = lexiconUnmarshaller.unmarshal(externalLexiconFilename);
-		List<W> ws = lexicon.getBody().getW();
-		externalLexicon = new HashSet<String>();
+		//
+		final LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
+		final Corpus lexicon = lexiconUnmarshaller.unmarshal(externalLexiconFilename);
+		final List<W> ws = lexicon.getBody().getW();
+		externalLexicon = new HashSet<>();
 		// add all prefixes to the set after converting them to lowercase
-		for (W w : ws) {
+		for (final W w : ws) {
 			externalLexicon.add(w.getContent().toLowerCase());
 		}
 		System.out.println("External lexicon loaded.");
 	}
 
-	public ExternalLexiconRecognizer(Properties properties) {
+	public ExternalLexiconRecognizer(final Properties properties) {
 		this(properties.getProperty("externalLexicon"));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.nlp.tokenizer.segmenter.AbstractLexiconRecognizer#accept(java.lang.String)
 	 */
 	@Override
-	public boolean accept(String token) {
+	public boolean accept(final String token) {
 		return externalLexicon.contains(token);
 	}
 

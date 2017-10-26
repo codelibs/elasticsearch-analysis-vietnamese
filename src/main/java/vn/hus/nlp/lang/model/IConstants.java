@@ -1,22 +1,22 @@
 /**
- * 
+ *
  */
 package vn.hus.nlp.lang.model;
 
 /**
  * @author phuonglh
- * 
+ *
  * Some constants for the plugin.
  *
  */
 public interface IConstants {
-	
+
 	/**
-	 * Debug the package or not 
+	 * Debug the package or not
 	 */
 	static final boolean DEBUG = true;
 	/**
-	 * The reference corpora directory that contains text files to train 
+	 * The reference corpora directory that contains text files to train
 	 * the model.
 	 */
 	static final String CORPORA_DIRECTORY = "corpora/ref";
@@ -28,7 +28,7 @@ public interface IConstants {
 	 * Bigram model
 	 */
 	static final String BIGRAM_MODEL = "resources/bigram.xml";
-	
+
 	/**
 	 * The conditional probabilities.
 	 */

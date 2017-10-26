@@ -16,36 +16,36 @@ import vn.hus.nlp.fsm.builder.SimpleFSMBuilder;
  * Test the construction of a simple FST.
  */
 public class SimpleFSTClient {
-	
-	
+
+
 	public static void test1() {
-		String[] inputs = {"ba"};
-		
+		final String[] inputs = {"ba"};
+
 //		String[][] outputs = {{"b", "a"}};
 //		String[][] outputs = {{"m", "e"}};
-		String[][] outputs = {{"ong", "ba"}};
-		
-		FSMBuilder  builder = new SimpleFSMBuilder(IConstants.FSM_FST);
-		builder.create(inputs, outputs);
-		builder.printMachine();
-		builder.dispose();
-	}
-	
-	public static void test2() {
-		String[] inputs = {"ba", "bo"};
-		
-//		String[][] outputs = {{"b", "a"}, {"b", "o"}};
-		String[][] outputs = {{"b", "a"}, {"c", "o"}};
-		
-		FSMBuilder  builder = new SimpleFSMBuilder(IConstants.FSM_FST);
+		final String[][] outputs = {{"ong", "ba"}};
+
+		final FSMBuilder  builder = new SimpleFSMBuilder(IConstants.FSM_FST);
 		builder.create(inputs, outputs);
 		builder.printMachine();
 		builder.dispose();
 	}
 
-	
-	
-	public static void main(String[] args) {
+	public static void test2() {
+		final String[] inputs = {"ba", "bo"};
+
+//		String[][] outputs = {{"b", "a"}, {"b", "o"}};
+		final String[][] outputs = {{"b", "a"}, {"c", "o"}};
+
+		final FSMBuilder  builder = new SimpleFSMBuilder(IConstants.FSM_FST);
+		builder.create(inputs, outputs);
+		builder.printMachine();
+		builder.dispose();
+	}
+
+
+
+	public static void main(final String[] args) {
 //		test1();
 		test2();
 	}

@@ -14,18 +14,19 @@
 
 package org.apache.lucene.analysis.vi;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 
 
 /**
@@ -35,7 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class VietnameseTokenizer extends Tokenizer {
 
-    private List<TaggedWord> pending = new CopyOnWriteArrayList<>();
+    private final List<TaggedWord> pending = new CopyOnWriteArrayList<>();
     private int offset = 0;
     private int pos = 0;
 
@@ -47,7 +48,7 @@ public class VietnameseTokenizer extends Tokenizer {
     private final me.duydo.vi.Tokenizer tokenizer;
     private String inputText;
 
-    public VietnameseTokenizer(me.duydo.vi.Tokenizer tokenizer) {
+    public VietnameseTokenizer(final me.duydo.vi.Tokenizer tokenizer) {
         super();
         this.tokenizer = tokenizer;
     }
@@ -89,7 +90,7 @@ public class VietnameseTokenizer extends Tokenizer {
     /**
      * Only accept the word characters.
      */
-    private final boolean accept(TaggedWord word) {
+    private final boolean accept(final TaggedWord word) {
         final String type = word.getRule().getName().toLowerCase();
         if ("punctuation".equals(type) || "special".equals(type)) {
             return false;

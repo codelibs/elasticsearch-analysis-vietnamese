@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package vn.hus.nlp.tokenizer.nio;
 
@@ -25,36 +25,36 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *         Jul 13, 2009, 1:49:56 PM
  *         <p>
  *         An XML exporter for exporting tokenization results to XML format.
- * 
+ *
  */
 public class XMLCorpusExporter implements IExporter {
 
-	private CorpusMarshaller corpusMarshaller;
-	
+	private final CorpusMarshaller corpusMarshaller;
+
 	public XMLCorpusExporter() {
 		corpusMarshaller = new CorpusMarshaller();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.nlp.tokenizer.nio.IExporter#export(java.util.List)
 	 */
-	public String export(List<List<TaggedWord>> list) {
-		ObjectFactory factory = CorpusMarshaller.getFactory();
-		Corpus corpus = factory.createCorpus();
+	@Override
+    public String export(final List<List<TaggedWord>> list) {
+		final ObjectFactory factory = CorpusMarshaller.getFactory();
+		final Corpus corpus = factory.createCorpus();
 		corpus.setId(new Date().toString());
-		Body body = factory.createBody();
+		final Body body = factory.createBody();
 		corpus.setBody(body);
 
-		Iterator<List<TaggedWord>> iter = list.iterator();
+		final Iterator<List<TaggedWord>> iter = list.iterator();
 		while (iter.hasNext()) {
-			List<TaggedWord> list2 = iter.next();
+			final List<TaggedWord> list2 = iter.next();
 			if (list2.size() == 1 && list2.get(0).getText().equals("\n")) {
 				body.getPOrS().add(factory.createP());
 			} else {
-				S s = factory.createS();
-				for (Iterator<TaggedWord> it = list2.iterator(); it.hasNext(); ) {
-					TaggedWord tw = it.next();
-					W w = factory.createW();
+				final S s = factory.createS();
+				for (final TaggedWord tw : list2) {
+					final W w = factory.createW();
 					w.setContent(tw.getText());
 					w.setT(tw.getRule().getName());
 					s.getW().add(w);
@@ -62,15 +62,15 @@ public class XMLCorpusExporter implements IExporter {
 				body.getPOrS().add(s);
 			}
 		}
-		
-		StringWriter writer = new StringWriter();
-		
+
+		final StringWriter writer = new StringWriter();
+
 		try {
 			corpusMarshaller.getMarshaller().marshal(corpus, writer);
 			writer.close();
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return writer.toString();

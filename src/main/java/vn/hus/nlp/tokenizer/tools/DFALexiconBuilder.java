@@ -24,32 +24,32 @@ import vn.hus.nlp.tokenizer.IConstants;
  *         updates on the lexicon (for example add or remove words). This assures
  *         that the minimal DFA encoding the lexicon is updated with changes.
  *         The construction of the minimal DFA may take some time, so it is recommended
- *         that this utility is not called frequently. They are often used when 
- *         user made a remarkable changes to the Vietnamese lexicon.  
+ *         that this utility is not called frequently. They are often used when
+ *         user made a remarkable changes to the Vietnamese lexicon.
  */
 public class DFALexiconBuilder {
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// load the lexicon 
-		LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
-		Corpus lexicon = lexiconUnmarshaller.unmarshal(IConstants.LEXICON);
-		List<W> ws = lexicon.getBody().getW();
-		List<String> words = new ArrayList<String>();
-		for (W w : ws) {
+	public static void main(final String[] args) {
+		// load the lexicon
+		final LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
+		final Corpus lexicon = lexiconUnmarshaller.unmarshal(IConstants.LEXICON);
+		final List<W> ws = lexicon.getBody().getW();
+		final List<String> words = new ArrayList<>();
+		for (final W w : ws) {
 			words.add(w.getContent());
 		}
 		// create an FSM builder of type DFA.
 		//
-		FSMBuilder  builder = new MinimalFSMBuilder(vn.hus.nlp.fsm.IConstants.FSM_DFA);
+		final FSMBuilder  builder = new MinimalFSMBuilder(vn.hus.nlp.fsm.IConstants.FSM_DFA);
 		System.out.println("Updating the lexicon automaton...");
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 		builder.create(words);
-		long endTime = System.currentTimeMillis();
+		final long endTime = System.currentTimeMillis();
 		System.err.println("Duration = " + (endTime - startTime) + " (ms)");
-		// encode the result 
+		// encode the result
 		builder.encode(IConstants.LEXICON_DFA);
 		// print some statistic of the DFA:
 		FSMUtilities.statistic(builder.getMachine());

@@ -4,7 +4,7 @@ package vn.hus.nlp.tokenizer.io;
  * @author Le Hong Phuong
  *         <p>
  *         This is a helper factory class for easy of creation of outputers.
- * 
+ *
  */
 public final class FormatterFactory {
 
@@ -16,7 +16,7 @@ public final class FormatterFactory {
 
 	/**
 	 * Private constructor
-	 * 
+	 *
 	 */
 	private FormatterFactory() {
 	}
@@ -30,18 +30,20 @@ public final class FormatterFactory {
 
 	/**
 	 * Get an formatter
-	 * 
+	 *
 	 * @param name
 	 *            name of the formatter
 	 * @return a formatter
 	 */
-	public static IOutputFormatter getFormater(String name) {
-		if (name.equals(FormatterFactory.PLAIN_OUTPUTER_NAME))
-			return new PlainFormatter();
-		else if (name.equals(FormatterFactory.XML_OUTPUTER_NAME))
-			return new XMLFormatter();
-		else if (name.equals(FormatterFactory.TWO_COLUMNS_OUTPUTER_NAME))
-			return new TwoColumnsFormatter();
-		else return null;
+	public static IOutputFormatter getFormater(final String name) {
+		if (name.equals(FormatterFactory.PLAIN_OUTPUTER_NAME)) {
+            return new PlainFormatter();
+        } else if (name.equals(FormatterFactory.XML_OUTPUTER_NAME)) {
+            return new XMLFormatter();
+        } else if (name.equals(FormatterFactory.TWO_COLUMNS_OUTPUTER_NAME)) {
+            return new TwoColumnsFormatter();
+        } else {
+            return null;
+        }
 	}
 }

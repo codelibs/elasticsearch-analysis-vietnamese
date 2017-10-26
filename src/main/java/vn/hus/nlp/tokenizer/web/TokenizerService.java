@@ -25,9 +25,9 @@ public class TokenizerService extends Thread {
 	public TokenizerService() {
 		// do nothing
 	}
-	
-	
-	public TokenizerService(int p) {
+
+
+	public TokenizerService(final int p) {
 		this.port = p;
 
 	}
@@ -37,14 +37,14 @@ public class TokenizerService extends Thread {
 			// create the tokenizer
 			tokenizer = new VietTokenizer();
 			/* start session threads */
-			pool = new Vector<Session>();
+			pool = new Vector<>();
 			for (int i = 0; i < IConstants.MAX_NUMBER_SESSIONS; ++i) {
-				Session w = new Session(tokenizer);
+				final Session w = new Session(tokenizer);
 				w.start(); // start a pool of session threads at start-up time
 							// rather than on demand for efficiency
 				pool.add(w);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println("Error while initializing service:" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -53,11 +53,12 @@ public class TokenizerService extends Thread {
 	/* (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		System.out.println("Starting tokenizer service!");
 		try {
 			this.socket = new ServerSocket(this.port);
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			System.out.println(ioe);
 			System.exit(1);
 		}
@@ -80,7 +81,7 @@ public class TokenizerService extends Thread {
 						w.setSocket(incoming);
 					}
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				System.out.println(e);
 				e.printStackTrace();
 			}

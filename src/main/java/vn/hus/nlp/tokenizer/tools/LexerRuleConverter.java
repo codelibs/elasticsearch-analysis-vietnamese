@@ -29,35 +29,36 @@ public class LexerRuleConverter {
 	 */
 	static private final String lxRuleString = "^\\s*(\\S+)\\s+(\\S+)\\s*$";
 
-	private final Map<String, String> lexerMap = new TreeMap<String, String>();
+	private final Map<String, String> lexerMap = new TreeMap<>();
 
 	/**
 	 * Load lexer specification file. This text file contains lexical rules to
 	 * tokenize a text
-	 * 
+	 *
 	 * @param lexersText
 	 *            the lexer text filename
 	 * @return a map
 	 */
-	private Map<String, String> load(String lexersText) {
+	private Map<String, String> load(final String lexersText) {
 		try {
 			// Read the specification text file line by line
-			FileInputStream fis = new FileInputStream(lexersText);
-			InputStreamReader isr = new InputStreamReader(fis);
-			LineNumberReader lnr = new LineNumberReader(isr);
+			final FileInputStream fis = new FileInputStream(lexersText);
+			final InputStreamReader isr = new InputStreamReader(fis);
+			final LineNumberReader lnr = new LineNumberReader(isr);
 
 			// Pattern for parsing each line of specification file
-			Pattern lxRule = Pattern.compile(lxRuleString);
+			final Pattern lxRule = Pattern.compile(lxRuleString);
 			while (true) {
-				String line = lnr.readLine();
+				final String line = lnr.readLine();
 				// read until file is exhausted
-				if (line == null)
-					break;
-				Matcher matcher = lxRule.matcher(line);
+				if (line == null) {
+                    break;
+                }
+				final Matcher matcher = lxRule.matcher(line);
 				if (matcher.matches()) {
 					// add rules to the list of rules
-					String name = matcher.group(1);
-					String regex = matcher.group(2);
+					final String name = matcher.group(1);
+					final String regex = matcher.group(2);
 					lexerMap.put(regex,name);
 				} else {
 					System.err.println("Syntax error in " + lexersText
@@ -67,7 +68,7 @@ public class LexerRuleConverter {
 			}
 			// close the file
 			fis.close();
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			System.err.println("IOException!");
 		}
 		return lexerMap;
@@ -75,15 +76,15 @@ public class LexerRuleConverter {
 
 	/**
 	 * Convert the lexers text to lexer xml.
-	 * 
+	 *
 	 * @param lexersXML
 	 */
-	private void convert(String lexersXML) {
+	private void convert(final String lexersXML) {
 		new LexiconMarshaller().marshal(lexerMap, lexersXML);
 	}
 
-	public static void main(String[] args) {
-		LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
+	public static void main(final String[] args) {
+		final LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
 		lexerRuleConverter.load("resources/lexers/lexers.txt");
 		lexerRuleConverter.convert("resources/lexers/lexers.xml");
 		System.out.println("Done!");

@@ -5,7 +5,6 @@
 package vn.hus.nlp.tokenizer.segmenter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
@@ -43,21 +42,21 @@ import vn.hus.nlp.utils.CaseConverter;
 public class Segmenter {
 
 	private static StringNormalizer normalizer;
-	
+
 	private Logger logger;
-	
+
 	/**
 	 * The DFA representing Vietnamese lexicon (the internal lexicon).
 	 */
 	private static AbstractLexiconRecognizer lexiconRecognizer;
-	
+
 	/**
 	 * The external lexicon recognizer.
 	 */
 	private static AbstractLexiconRecognizer externalLexiconRecognizer;
-	
+
 	/**
-	 * Result of the segmentation. A segmentation can have several results. 
+	 * Result of the segmentation. A segmentation can have several results.
 	 * Each result is represented by an array of words.
 	 */
 	private final List<String[]> result;
@@ -68,14 +67,14 @@ public class Segmenter {
 	private AbstractResolver resolver = null;
 
 	private static double MAX_EDGE_WEIGHT = 100;
-	
+
 	private static boolean DEBUG = false;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public Segmenter() {
-		result = new ArrayList<String[]>();
+		result = new ArrayList<>();
 		createLogger();
 		// create DFA lexicon recognizer
 		getDFALexiconRecognizer();
@@ -89,18 +88,18 @@ public class Segmenter {
 	 * Build a segmenter with an ambiguity resolver.
 	 * @param resolver
 	 */
-	public Segmenter(AbstractResolver resolver) {
+	public Segmenter(final AbstractResolver resolver) {
 		this();
 		this.resolver = resolver;
 	}
-	
+
 	/**
-	 * Build a segmenter with a properties object and an ambiguity resolver.  
+	 * Build a segmenter with a properties object and an ambiguity resolver.
 	 * @param properties
 	 * @param resolver
 	 */
-	public Segmenter(Properties properties, AbstractResolver resolver) {
-		result = new ArrayList<String[]>();
+	public Segmenter(final Properties properties, final AbstractResolver resolver) {
+		result = new ArrayList<>();
 		createLogger();
 		// create DFA lexicon recognizer
 		getDFALexiconRecognizer(properties);
@@ -110,7 +109,7 @@ public class Segmenter {
 		normalizer = StringNormalizer.getInstance(properties);
 		this.resolver = resolver;
 	}
-	
+
 	private void createLogger() {
 		if (logger == null) {
 			logger = Logger.getLogger(Segmenter.class.getName());
@@ -129,38 +128,39 @@ public class Segmenter {
 	}
 	/**
 	 * A pre-processing of segmentation. If the first character of the phrase is
-	 * an uppercase, then it is converted to the corresponding lowercase; all 
-	 * syllables are assured to have correct accents. This method is called before 
+	 * an uppercase, then it is converted to the corresponding lowercase; all
+	 * syllables are assured to have correct accents. This method is called before
 	 * method {@link #segment(String)}
-	 * 
+	 *
 	 * @param phrase
 	 *            a phrase to segment
 	 * @return a phrase after pre-process
 	 */
-	private static String normalize(String phrase) {
+	private static String normalize(final String phrase) {
 		// 1. change the case of the first character.
 		//
-		StringBuffer s = new StringBuffer(phrase);
-		char firstChar = s.charAt(0);
+		final StringBuffer s = new StringBuffer(phrase);
+		final char firstChar = s.charAt(0);
 		char lowerChar = firstChar;
 		// convert first character
 		if ('A' <= firstChar && firstChar <= 'Z') {
 			lowerChar = Character.toLowerCase(firstChar);
-		} else if (CaseConverter.isValidUpper(firstChar))
-			lowerChar = CaseConverter.toLower(firstChar);
+		} else if (CaseConverter.isValidUpper(firstChar)) {
+            lowerChar = CaseConverter.toLower(firstChar);
+        }
 		s.setCharAt(0, lowerChar);
 		// 2. normalize the accents of the phrase
 		return normalizer.normalize(s.toString());
 	}
-	
+
 	/**
 	 * @param syllables an array of syllables (a phrase)
-	 * @return a weighted digraph representing the phrase to be segmented. The maximum weight 
+	 * @return a weighted digraph representing the phrase to be segmented. The maximum weight
 	 * of edges is 1.
 	 */
-	private IWeightedGraph makeGraph(String[] syllables) {
-		int nV = syllables.length + 1;
-		IWeightedGraph graph = new AdjacencyListWeightedGraph(nV, true);
+	private IWeightedGraph makeGraph(final String[] syllables) {
+		final int nV = syllables.length + 1;
+		final IWeightedGraph graph = new AdjacencyListWeightedGraph(nV, true);
 		for (int i = 0; i < nV - 1; i++) {
 			String word = "";
 			int j = 0;
@@ -176,18 +176,18 @@ public class Segmenter {
 				if (getDFALexiconRecognizer().accept(word) || getExternalLexiconRecognizer().accept(word)) {
 					// calculate the weight of the edge (i,i+j+1)
 					double weight = (double) 1/(j+1);
-					// keep only two decimal digits of weight 
+					// keep only two decimal digits of weight
 					weight = Math.floor(weight * 100);
 					// insert an edge with an appropriate weight
 					graph.insert(new Edge(i, i+j+1, weight));
 				}
 				j++;
-				
+
 			}
 		}
 		return graph;
 	}
-	
+
 	/**
 	 * Creates an internal lexicon recognizer.
 	 * @return the DFA lexicon recognizer in use
@@ -200,23 +200,23 @@ public class Segmenter {
 		}
 		return lexiconRecognizer;
 	}
-	
+
 	/**
 	 * Creates an internal lexicon recognizer.
 	 * @return the DFA lexicon recognizer in use
 	 */
-	private AbstractLexiconRecognizer getDFALexiconRecognizer(Properties properties) {
+	private AbstractLexiconRecognizer getDFALexiconRecognizer(final Properties properties) {
 		if (lexiconRecognizer == null) {
 			// use the DFA lexicon recognizer
 			// user can use any lexicon recognizer here.
 			lexiconRecognizer = DFALexiconRecognizer.getInstance(properties.getProperty("lexiconDFA"));
 		}
 		return lexiconRecognizer;
-	}	
-	
+	}
+
 	/**
 	 * Creates an external lexicon recognizer.
-	 * @return the external lexicon recognizer 
+	 * @return the external lexicon recognizer
 	 */
 	private AbstractLexiconRecognizer getExternalLexiconRecognizer() {
 		if (externalLexiconRecognizer == null) {
@@ -228,48 +228,48 @@ public class Segmenter {
 	/**
 	 * Creates an external lexicon recognizer.
 	 * @param properties
-	 * @return the external lexicon recognizer 
+	 * @return the external lexicon recognizer
 	 */
-	private AbstractLexiconRecognizer getExternalLexiconRecognizer(Properties properties) {
+	private AbstractLexiconRecognizer getExternalLexiconRecognizer(final Properties properties) {
 		if (externalLexiconRecognizer == null) {
 			externalLexiconRecognizer = new ExternalLexiconRecognizer(properties);
 		}
 		return externalLexiconRecognizer;
 	}
 
-	
+
 	/**
-	 * Try to connect an unconnected graph. If a graph is unconnected, we 
-	 * find all of its isolated vertices and add a "fake" transition to them. 
-	 * A vertex is called isolated if it has not any intransition.  
-	 * @param graph a graph 
+	 * Try to connect an unconnected graph. If a graph is unconnected, we
+	 * find all of its isolated vertices and add a "fake" transition to them.
+	 * A vertex is called isolated if it has not any intransition.
+	 * @param graph a graph
 	 */
-	private void connect(IGraph graph) {
+	private void connect(final IGraph graph) {
 		// no need to connect the graph if it's connected.
-		if (GraphConnectivity.countComponents(graph) == 1) 
-			return;
-		
-		// get all isolated vertices - vertices that do not have any intransitions. 
-		int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
+		if (GraphConnectivity.countComponents(graph) == 1) {
+            return;
+        }
+
+		// get all isolated vertices - vertices that do not have any intransitions.
+		final int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
 		// info for debug
 		if (DEBUG) {
 			System.err.println("The graph for the phrase is: ");
 			GraphIO.print(graph);
 			System.out.println("Isolated vertices: ");
-			for (int i : isolatedVertices) {
+			for (final int i : isolatedVertices) {
 				System.out.println(i);
 			}
 		}
-		
-		// There is a trick here: vertex 0 is always isolated in our linear graph since 
+
+		// There is a trick here: vertex 0 is always isolated in our linear graph since
 		// it is the initial vertex and does not have any intransition.
 		// We need to check whether it has an outtransition or not (its degree is not zero),
 		// if no, we connect it to the nearest vertex - vertex 1 - to get an edge with weight 1.0;
 		// if yes, we do nothing. Note that since the graph represents an array of non-null syllables,
 		// so the number of vertices of the graph is at least 2 and it does contain vertex 1.
 		boolean zeroVertex = false;
-		for (int i = 0; i < isolatedVertices.length; i++) {
-			int u = isolatedVertices[i];
+		for (final int u : isolatedVertices) {
 			if (u == 0) {
 				zeroVertex = true;
 				/*
@@ -278,12 +278,12 @@ public class Segmenter {
 					graph.insert(new Edge(0,1,MAX_EDGE_WEIGHT));
 				}
 				*/
-				// we always add a new edge (0,1) regardless of vertex 0 is 
+				// we always add a new edge (0,1) regardless of vertex 0 is
 				// of degree 0 or higher.
 				graph.insert(new Edge(0,1,MAX_EDGE_WEIGHT));
 			} else {
 				if (u != 1) {
-					// u is an internal isolated vertex, u > 0. We simply add an edge (u-1,u) 
+					// u is an internal isolated vertex, u > 0. We simply add an edge (u-1,u)
 					// also with the maximum weight 1.0
 					graph.insert(new Edge(u-1,u,MAX_EDGE_WEIGHT));
 				} else { // u == 1
@@ -298,9 +298,9 @@ public class Segmenter {
 			logger.log(Level.INFO, "Hmm, fail to connect the graph!");
 		}
 	}
-	
+
 	/**
-	 * Prepare to segment a phrase. 
+	 * Prepare to segment a phrase.
 	 * @param phrase a phrase to be segmented.
 	 * @see #segment(String)
 	 * @return an array of syllables of the phrase
@@ -311,27 +311,28 @@ public class Segmenter {
 		// normalize the phrase
 		phrase = Segmenter.normalize(phrase);
 		// get syllables of the phrase
-		String[] syllables = phrase.split("\\s+");
+		final String[] syllables = phrase.split("\\s+");
 		return syllables;
 	}
-	
+
 	/**
-	 * Build a segmentation of a phrase given a path from vertex 0 to 
+	 * Build a segmentation of a phrase given a path from vertex 0 to
 	 * the end vertex. The path must begin with vertex 0.
 	 * @param syllables an array of syllables
 	 * @param path a path, that is an array of vertices
 	 * @return a segmentation.
 	 * @see #segment(String)
 	 */
-	private String[] buildSegmentation(String[] syllables, int[] path) {
-		String[] segmentation = new String[path.length-1];
+	private String[] buildSegmentation(final String[] syllables, final int[] path) {
+		final String[] segmentation = new String[path.length-1];
 		int vertex = 0;
 		int ii = 0;
 		for (int k = 1; k < path.length; k++) {
-			int nextVertex = path[k];
+			final int nextVertex = path[k];
 			String word = "";
-			for (int j = vertex; j < nextVertex; j++)
-				word += (syllables[j] + vn.hus.nlp.fsm.IConstants.BLANK_CHARACTER);
+			for (int j = vertex; j < nextVertex; j++) {
+                word += (syllables[j] + vn.hus.nlp.fsm.IConstants.BLANK_CHARACTER);
+            }
 			word = word.trim();
 			segmentation[ii++] = word;
 			vertex = nextVertex;
@@ -344,69 +345,67 @@ public class Segmenter {
 	 * @param phrase
 	 * @return a list of possible segmentations.
 	 */
-	public List<String[]> segment(String phrase) {
+	public List<String[]> segment(final String phrase) {
 		// save the original phrase before normalizing it
-		// objective is not to change the original words of the phrase in the 
+		// objective is not to change the original words of the phrase in the
 		// result segmentations.
-		String[] original = phrase.split("\\p{Space}+");
+		final String[] original = phrase.split("\\p{Space}+");
 		// get syllables of the phrase
-		String[] syllables = prepare(phrase);
+		final String[] syllables = prepare(phrase);
 		// create a weighted linear graph of the phrase
-		IWeightedGraph graph = makeGraph(syllables);
+		final IWeightedGraph graph = makeGraph(syllables);
 		// get the end vertex of the linear graph
-		int nV = graph.getNumberOfVertices();
+		final int nV = graph.getNumberOfVertices();
 		// test the connectivity between the start vertex and the end vertex of
 		// the graph.
-		// try to connect it if it is not connected and log the abnormal phrase out 
+		// try to connect it if it is not connected and log the abnormal phrase out
 		if (!GraphConnectivity.isConnected(graph, 0, nV-1)) {
 //			logger.log(Level.INFO, phrase);
 //			logger.log(Level.INFO, "The graph of this phrase is not connected. Try to connect it.");
 			connect(graph);
 		}
 		// get all shortest paths from vertex 0 to the end vertex
-		ShortestPathFinder pathFinder = new ShortestPathFinder(graph);
-		Node[] allShortestPaths = pathFinder.getAllShortestPaths(nV-1);
+		final ShortestPathFinder pathFinder = new ShortestPathFinder(graph);
+		final Node[] allShortestPaths = pathFinder.getAllShortestPaths(nV-1);
 //		System.out.println("There are " + allShortestPaths.length + " segmentation(s) for the phrase."); // DEBUG
 		// build segmentations corresponding to the shortest paths
-		for (int i = 0; i < allShortestPaths.length; i++) {
-			Node path = allShortestPaths[i];
-			int[] a = path.toArray();
+		for (final Node path : allShortestPaths) {
+			final int[] a = path.toArray();
 			// get the result on the original
-			String[] segmentation = buildSegmentation(original, a);
+			final String[] segmentation = buildSegmentation(original, a);
 			result.add(segmentation);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @param segmentations a list of possible segmentations.
 	 * @return the most probable segmentation
 	 */
-	public String[] resolveAmbiguity(List<String[]> segmentations) {
+	public String[] resolveAmbiguity(final List<String[]> segmentations) {
 		return resolver.resolve(segmentations);
 	}
-	
+
 
 
 	/**
 	 * Print the result of the segmentation.
 	 */
 	public void printResult() {
-		for (Iterator<String[]> it = result.iterator(); it.hasNext(); ) {
-			String[] segmentation = it.next();
-			for (int i = 0; i < segmentation.length; i++) {
-				System.out.print("[" + segmentation[i]+"] ");
+		for (final String[] segmentation : result) {
+			for (final String element : segmentation) {
+				System.out.print("[" + element+"] ");
 			}
 			System.out.println();
 		}
 	}
 	/**
-	 * Dispose the segmenter to save space. 
+	 * Dispose the segmenter to save space.
 	 */
 	public void dispose() {
 		result.clear();
 		lexiconRecognizer.dispose();
 		externalLexiconRecognizer.dispose();
 	}
-	
+
 }

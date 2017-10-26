@@ -48,24 +48,24 @@ public class ShortestPathFinder {
 	private int k;
 
 	private Set<Node> shortestPaths;
-	
-	private int startVertex = 0; 
-	
-	private double epsilon = 0.0001d;
+
+	private int startVertex = 0;
+
+	private final double epsilon = 0.0001d;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 * @param graph a weighted graph
 	 */
-	public ShortestPathFinder(IWeightedGraph graph) {
+	public ShortestPathFinder(final IWeightedGraph graph) {
 		// Init the graph
 		//
 		this.graph = graph;
 		// init the weights of vertices
-		// 
-		int n = graph.getNumberOfVertices();
+		//
+		final int n = graph.getNumberOfVertices();
 		weights = new double[n];
-		double max = maxWeight();
+		final double max = maxWeight();
 		for (int i = 0; i < n; i++) {
 			weights[i] = max;
 		}
@@ -76,18 +76,18 @@ public class ShortestPathFinder {
 		//
 		dijkstra();
 	}
-	
-	
-	public ShortestPathFinder(IWeightedGraph graph, int startVertex) {
+
+
+	public ShortestPathFinder(final IWeightedGraph graph, final int startVertex) {
 		this.startVertex = startVertex;
 		// Init the graph
 		//
 		this.graph = graph;
 		// init the weights of vertices
-		// 
-		int n = graph.getNumberOfVertices();
+		//
+		final int n = graph.getNumberOfVertices();
 		weights = new double[n];
-		double max = maxWeight();
+		final double max = maxWeight();
 		for (int i = 0; i < n; i++) {
 			weights[i] = max;
 		}
@@ -101,7 +101,7 @@ public class ShortestPathFinder {
 
 	/**
 	 * Perform Dijkstra algorithm on the vertex 0.
-	 * 
+	 *
 	 * @see #dijkstra(int)
 	 */
 	public void dijkstra() {
@@ -116,25 +116,25 @@ public class ShortestPathFinder {
 	 * paths from <tt>u</tt> to some vertex <tt>v</tt>, use the method
 	 * {@link #getWeight(int)}. To get the last spanning edge of a shortest path
 	 * that leads to <tt>v</tt>, use the method {@link #getSpanningEdge(int)}.
-	 * 
+	 *
 	 * @param u
 	 *            the source vertex.
 	 */
-	public void dijkstra(int u) {
-		int cE = graph.getNumberOfEdges();
+	public void dijkstra(final int u) {
+		final int cE = graph.getNumberOfEdges();
 		weights[u] = 0;
 		// create a queue with a fixed size to hold edges of the graph.
 		// The size of the queue is not larger than number of edges of
 		// the graph.
-		Queue<Edge> queue = new ArrayBlockingQueue<Edge>(cE);
+		final Queue<Edge> queue = new ArrayBlockingQueue<>(cE);
 		// add a fake edge to start the loop.
 		queue.add(new Edge(u, u));
 		while (!queue.isEmpty()) {
 			// get the head of the queue
-			Edge edge = queue.remove();
-			int uu = edge.getU();
-			int vv = edge.getV();
-			double w = edge.getWeight();
+			final Edge edge = queue.remove();
+			final int uu = edge.getU();
+			final int vv = edge.getV();
+			final double w = edge.getWeight();
 			// update the weights of vertices
 			// and the spanning tree.
 			if (weights[uu] + w <= weights[vv]) {
@@ -142,12 +142,13 @@ public class ShortestPathFinder {
 				spanningTree[vv] = edge;
 			}
 			// examine edges adjacent to vertex vv
-			EdgeIterator iterator = graph.edgeIterator(vv);
+			final EdgeIterator iterator = graph.edgeIterator(vv);
 			while (iterator.hasNext()) {
-				Edge e = iterator.next();
+				final Edge e = iterator.next();
 				// insert into the queue only better edges
-				if (weights[vv] + e.getWeight() < weights[e.getV()])
-					queue.add(e);
+				if (weights[vv] + e.getWeight() < weights[e.getV()]) {
+                    queue.add(e);
+                }
 			}
 		}
 	}
@@ -156,15 +157,16 @@ public class ShortestPathFinder {
 	 * Find the maximal possible weight of a path of the graph. This value is
 	 * used in the Dijkstra algorithm. In a graph, there are at most n edges in
 	 * each path.
-	 * 
+	 *
 	 * @return
 	 */
 	private double maxWeight() {
-		Edge[] edges = GraphUtilities.getWeightedEdges(graph);
+		final Edge[] edges = GraphUtilities.getWeightedEdges(graph);
 		double max = 0;
-		for (int i = 0; i < edges.length; i++) {
-			if (max < edges[i].getWeight())
-				max = edges[i].getWeight();
+		for (final Edge edge : edges) {
+			if (max < edge.getWeight()) {
+                max = edge.getWeight();
+            }
 		}
 		return max * graph.getNumberOfVertices();
 	}
@@ -172,18 +174,18 @@ public class ShortestPathFinder {
 	/**
 	 * Get the last spanning edge of a shortest path that leads to a vertex
 	 * <tt>v</tt>.
-	 * 
+	 *
 	 * @param v
 	 * @return the last edge of a shortest path that leads to <tt>v</tt>.
 	 * @see #dijkstra(int)
 	 */
-	public Edge getSpanningEdge(int v) {
+	public Edge getSpanningEdge(final int v) {
 		return spanningTree[v];
 	}
 
 	/**
 	 * Get all the minimal spanning tree.
-	 * 
+	 *
 	 * @return all the minimal spanning tree.
 	 */
 	public Edge[] getSpanningTree() {
@@ -192,11 +194,11 @@ public class ShortestPathFinder {
 
 	/**
 	 * Get the minimal weight of the path from vertex zero to vertex u.
-	 * 
+	 *
 	 * @param u
 	 * @return the weight of shortest paths to <tt>u</tt>.
 	 */
-	public double getWeight(int u) {
+	public double getWeight(final int u) {
 		return weights[u];
 	}
 
@@ -206,11 +208,11 @@ public class ShortestPathFinder {
 	 * <tt>v</tt>. A shortest path can be easily constructed from the minimal
 	 * spanning tree. To find all possible shortest paths to <tt>v</tt>, use the
 	 * method {@link #getAllShortestPaths(int)} instead.
-	 * 
+	 *
 	 * @param v
 	 * @return an array of vertex indices from the start vertex to <tt>v</tt>.
 	 */
-	public int[] getAShortestPath(int v) {
+	public int[] getAShortestPath(final int v) {
 		// calculate number of edges
 		// on the shortest path to v
 		int nEdges = 0;
@@ -220,7 +222,7 @@ public class ShortestPathFinder {
 			e = getSpanningEdge(e.getU());
 		}
 		// create the index array
-		int shortestPath[] = new int[nEdges + 1];
+		final int shortestPath[] = new int[nEdges + 1];
 
 		int k = nEdges;
 		Edge ee = getSpanningEdge(v);
@@ -237,25 +239,25 @@ public class ShortestPathFinder {
 	/**
 	 * Get all shortest paths that lead to a vertex <tt>v</tt>. A shortest path
 	 * is a linked-list of nodes from vertex startVertex
-	 * 
+	 *
 	 * @see #getAShortestPath(int)
 	 * @param v
 	 * @return all shortest paths.
 	 */
-	public Node[] getAllShortestPaths(int v) {
+	public Node[] getAllShortestPaths(final int v) {
 		// init the path array
 		path = new int[graph.getNumberOfVertices()];
 		for (int i = 0; i < path.length; i++) {
 			path[i] = -1;
 		}
 		k = 0;
-		shortestPaths = new HashSet<Node>();
+		shortestPaths = new HashSet<>();
 		// find all shortest path to v
 		backtrack(v, weights[v]);
 		return shortestPaths.toArray(new Node[shortestPaths.size()]);
 	}
 
-	private void backtrack(int v, double weight) {
+	private void backtrack(final int v, final double weight) {
 		path[k] = v;
 		if ((v == startVertex) && (Math.abs(weight - 0) < epsilon)) {
 			// get a shortest path
@@ -264,10 +266,9 @@ public class ShortestPathFinder {
 			k++;
 			// get incoming edges of vertex v
 			// and try
-			Edge[] edges = getIncomingEdges(v);
-			for (int u = 0; u < edges.length; u++) {
-				Edge e = edges[u];
-				double newWeight = weight - e.getWeight();
+			final Edge[] edges = getIncomingEdges(v);
+			for (final Edge e : edges) {
+				final double newWeight = weight - e.getWeight();
 				if (newWeight >= 0) {
 					backtrack(e.getU(), newWeight);
 				}
@@ -280,12 +281,12 @@ public class ShortestPathFinder {
 
 	/**
 	 * Create a list of vertices from an array of size m of vertices.
-	 * 
+	 *
 	 * @param a
 	 * @param m
 	 * @return
 	 */
-	private Node getPath(int[] a, int m) {
+	private Node getPath(final int[] a, final int m) {
 		Node list = new Node();
 		for (int i = 0; i < m; i++) {
 			// System.out.println("a[" + i + "] = " + a[i]); // DEBUG
@@ -297,16 +298,16 @@ public class ShortestPathFinder {
 
 	/**
 	 * Get incoming edges to a vertex.
-	 * 
+	 *
 	 * @param v
 	 * @return an array of edges
 	 */
-	private Edge[] getIncomingEdges(int v) {
-		List<Edge> edgeList = new ArrayList<Edge>();
+	private Edge[] getIncomingEdges(final int v) {
+		final List<Edge> edgeList = new ArrayList<>();
 		for (int u = 0; u < graph.getNumberOfVertices(); u++) {
-			EdgeIterator iterator = graph.edgeIterator(u);
+			final EdgeIterator iterator = graph.edgeIterator(u);
 			while (iterator.hasNext()) {
-				Edge e = iterator.next();
+				final Edge e = iterator.next();
 				if (e.getV() == v) {
 					edgeList.add(e);
 				}

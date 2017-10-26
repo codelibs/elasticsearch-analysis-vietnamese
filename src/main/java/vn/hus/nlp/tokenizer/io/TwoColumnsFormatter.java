@@ -13,15 +13,16 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *         <code>IOuputFormatter</code>. Its purpose is to provide a plain
  *         segmentation output in the form of two columns : token text and its
  *         lexical type.
- * 
+ *
  */
 public class TwoColumnsFormatter implements IOutputFormatter {
 
 	/* (non-Javadoc)
 	 * @see vn.hus.tokenizer.io.IOutputFormatter#outputLexeme(vn.hus.tokenizer.tokens.LexerToken)
 	 */
-	public String outputLexeme(TaggedWord token) {
-		StringBuffer stBuf = new StringBuffer();
+	@Override
+    public String outputLexeme(final TaggedWord token) {
+		final StringBuffer stBuf = new StringBuffer();
 		// output the text
 		stBuf.append(token.getText());
 		// a tab character

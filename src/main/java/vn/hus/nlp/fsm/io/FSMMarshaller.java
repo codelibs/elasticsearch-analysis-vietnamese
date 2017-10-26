@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +35,11 @@ import vn.hus.nlp.fsm.jaxb.Transitions;
  * <p>
  */
 public class FSMMarshaller {
-	
-	private JAXBContext jaxbContext; 
-	
+
+	private JAXBContext jaxbContext;
+
 	private Marshaller marshaller;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -49,18 +48,18 @@ public class FSMMarshaller {
 		//
 		createContext();
 	}
-	
+
 	private void createContext() {
 		jaxbContext = null;
 		try {
-			ClassLoader cl = ObjectFactory.class.getClassLoader();
+			final ClassLoader cl = ObjectFactory.class.getClassLoader();
 			jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get the marshaller object.
 	 * @return
@@ -72,45 +71,43 @@ public class FSMMarshaller {
 				marshaller = jaxbContext.createMarshaller();
 				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
 				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (JAXBException e) {
+			} catch (final JAXBException e) {
 				e.printStackTrace();
 			}
 		}
 		return marshaller;
 	}
 
-	
+
 	/**
-	 * Create a FSM object from a state machine 
+	 * Create a FSM object from a state machine
 	 * @param fsm a FSM
 	 * @param name the name of FSM
 	 * @return a Fsm object.
 	 */
-	private Fsm createFsm(FSM fsm, String name) {
+	private Fsm createFsm(final FSM fsm, final String name) {
 		// create the marshaller
 		getMarshaller();
 		// build the machine object
-		ObjectFactory of = new ObjectFactory();
-		Fsm _fsm = of.createFsm();
+		final ObjectFactory of = new ObjectFactory();
+		final Fsm _fsm = of.createFsm();
 		_fsm.setName(name);
-		States _states= of.createStates();
+		final States _states= of.createStates();
 		_fsm.setStates(_states);
-		Transitions _transitions = of.createTransitions();
+		final Transitions _transitions = of.createTransitions();
 		_fsm.setTransitions(_transitions);
-		Map<Integer, State> states = fsm.getStates();
-		for (Iterator<Integer> it = states.keySet().iterator(); it.hasNext(); ) {
-			Integer id = it.next();
-			State state = states.get(id);
+		final Map<Integer, State> states = fsm.getStates();
+		for (final Integer id : states.keySet()) {
+			final State state = states.get(id);
 			// create state objects
-			S _s = of.createS();
+			final S _s = of.createS();
 			_s.setId(id.intValue());
 			_s.setType(state.getType());
 			_states.getS().add(_s);
 			// create transition objects
-			List<Transition> outTransitions = state.getOutTransitions();
-			for (Iterator<Transition> i = outTransitions.iterator(); i.hasNext();) {
-				Transition t = i.next();
-				T _t = of.createT();
+			final List<Transition> outTransitions = state.getOutTransitions();
+			for (final Transition t : outTransitions) {
+				final T _t = of.createT();
 				_t.setSrc(t.getSource());
 				_t.setTar(t.getTarget());
 				_t.setInp("" + t.getInput());
@@ -122,36 +119,36 @@ public class FSMMarshaller {
 		}
 		return _fsm;
 	}
-	
+
 	/**
 	 * Marshal a fsm to a file.
 	 * @param fsm a finite state machine.
 	 * @param filename a file.
 	 */
-	public void marshal(FSM fsm, String filename) {
-		Fsm _fsm = createFsm(fsm, filename);
+	public void marshal(final FSM fsm, final String filename) {
+		final Fsm _fsm = createFsm(fsm, filename);
 		// marshal the object
 		try {
 			marshaller.marshal(_fsm, new FileOutputStream(new File(filename)));
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Marshal a fsm to an output stream. This method is used only to 
-	 * test the created machine. 
+	 * Marshal a fsm to an output stream. This method is used only to
+	 * test the created machine.
 	 * @param fsm
 	 * @param os
 	 */
-	public void marshal(FSM fsm, OutputStream os) {
-		Fsm _fsm = createFsm(fsm, "sample_fsm");
+	public void marshal(final FSM fsm, final OutputStream os) {
+		final Fsm _fsm = createFsm(fsm, "sample_fsm");
 		// marshal the object
 		try {
 			marshaller.marshal(_fsm, os);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}

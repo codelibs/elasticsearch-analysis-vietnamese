@@ -27,7 +27,7 @@ public class DFAConfiguration extends Configuration {
 
 	/**
 	 * Instantiates a new DFAConfiguration.
-	 * 
+	 *
 	 * @param state
 	 *            the state the dfa is currently in.
 	 * @param parent
@@ -37,10 +37,10 @@ public class DFAConfiguration extends Configuration {
 	 *            the total input
 	 * @param unprocessedInput
 	 *            the unprocessed input
-	 * 
+	 *
 	 */
-	public DFAConfiguration(State state, DFAConfiguration parent,
-			String totalInput, String unprocessedInput) {
+	public DFAConfiguration(final State state, final DFAConfiguration parent,
+			final String totalInput, final String unprocessedInput) {
 		super(state, parent);
 		this.totalInput = totalInput;
 		this.unprocessedInput = unprocessedInput;
@@ -55,7 +55,7 @@ public class DFAConfiguration extends Configuration {
 
 	/**
 	 * Returns the unprocessed input.
-	 * 
+	 *
 	 * @return the unprocessed input.
 	 */
 	public String getUnprocessedInput() {
@@ -64,18 +64,18 @@ public class DFAConfiguration extends Configuration {
 
 	/**
 	 * Changes the unprocessed input.
-	 * 
+	 *
 	 * @param unprocessedInput
 	 *            the string that will represent the unprocessed input of the
 	 *            DFA.
 	 */
-	public void setUnprocessedInput(String unprocessedInput) {
+	public void setUnprocessedInput(final String unprocessedInput) {
 		this.unprocessedInput = unprocessedInput;
 	}
 
 	/**
 	 * Returns a string representation of this object.
-	 * 
+	 *
 	 * @return a string representation of this object.
 	 */
 	@Override
@@ -87,27 +87,28 @@ public class DFAConfiguration extends Configuration {
 	 * Checks for equality. Two DFAConfigurations are equal if they have the
 	 * same unprocessed input, and satisfy the .equals() test of the base
 	 * <code>Configuration</code> class.
-	 * 
+	 *
 	 * @param configuration
 	 *            the configuration to check against this one for equality
 	 * @return <code>true</code> if the two configurations are equal,
 	 *         <code>false</code> otherwise
 	 */
 	@Override
-	public boolean equals(Object configuration) {
-		if (configuration == this)
-			return true;
+	public boolean equals(final Object configuration) {
+		if (configuration == this) {
+            return true;
+        }
 		try {
 			return super.equals(configuration)
 					&& unprocessedInput.equals(((DFAConfiguration) configuration).unprocessedInput);
-		} catch (ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return false;
 		}
 	}
 
 	/**
 	 * Returns a hash code for this object.
-	 * 
+	 *
 	 * @return a hashcode for this object
 	 */
 	@Override

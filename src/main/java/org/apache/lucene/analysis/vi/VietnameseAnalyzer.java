@@ -14,12 +14,17 @@
 
 package org.apache.lucene.analysis.vi;
 
-import org.apache.lucene.analysis.*;
-
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.StopFilter;
+import org.apache.lucene.analysis.StopwordAnalyzerBase;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 
 /**
  * @author duydo
@@ -70,13 +75,13 @@ public class VietnameseAnalyzer extends StopwordAnalyzerBase {
     /**
      * Builds an analyzer with the default stop words
      */
-    public VietnameseAnalyzer(CharArraySet stopWords) {
+    public VietnameseAnalyzer(final CharArraySet stopWords) {
         super(stopWords);
         tokenizer = AccessController.doPrivileged((PrivilegedAction<me.duydo.vi.Tokenizer>) () -> new me.duydo.vi.Tokenizer());
     }
 
     @Override
-    protected TokenStreamComponents createComponents(String fieldName) {
+    protected TokenStreamComponents createComponents(final String fieldName) {
         final Tokenizer tokenizer = new VietnameseTokenizer(this.tokenizer);
         TokenStream tokenStream = new LowerCaseFilter(tokenizer);
         tokenStream = new StopFilter(tokenStream, stopwords);

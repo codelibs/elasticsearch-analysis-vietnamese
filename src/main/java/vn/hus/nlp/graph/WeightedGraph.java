@@ -20,17 +20,19 @@ public abstract class WeightedGraph extends Graph implements IWeightedGraph {
 	 * @param n
 	 * @param directed
 	 */
-	public WeightedGraph(int n, boolean directed) {
+	public WeightedGraph(final int n, final boolean directed) {
 		super(n, directed);
 	}
 	/* (non-Javadoc)
 	 * @see vn.hus.graph.IWeightedGraph#edgeIterator(int)
 	 */
-	public abstract EdgeIterator edgeIterator(int u);
+	@Override
+    public abstract EdgeIterator edgeIterator(int u);
 
 	/* (non-Javadoc)
 	 * @see vn.hus.graph.IWeightedGraph#getEdge(int, int)
 	 */
-	public abstract Edge getEdge(int u, int v);
+	@Override
+    public abstract Edge getEdge(int u, int v);
 
 }

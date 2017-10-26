@@ -21,7 +21,7 @@ public class AdjacencyMatrixGraph extends Graph {
 	 * @param n
 	 * @param directed
 	 */
-	public AdjacencyMatrixGraph(int n, boolean directed) {
+	public AdjacencyMatrixGraph(final int n, final boolean directed) {
 		super(n, directed);
 		adj = new boolean[n][n];
 	}
@@ -30,9 +30,9 @@ public class AdjacencyMatrixGraph extends Graph {
 	 * @see vn.hus.graph.Graph#insert(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void insert(Edge edge) {
-		int u = edge.getU();
-		int v = edge.getV();
+	public void insert(final Edge edge) {
+		final int u = edge.getU();
+		final int v = edge.getV();
 		if (!adj[u][v]) {
 			cE++;
 		}
@@ -46,7 +46,7 @@ public class AdjacencyMatrixGraph extends Graph {
 	 * @see vn.hus.graph.Graph#iterator(int)
 	 */
 	@Override
-	public VertexIterator vertexIterator(int u) {
+	public VertexIterator vertexIterator(final int u) {
 		return new AdjacencyMatrixVertexIterator(this, u);
 	}
 
@@ -54,9 +54,9 @@ public class AdjacencyMatrixGraph extends Graph {
 	 * @see vn.hus.graph.Graph#remove(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void remove(Edge edge) {
-		int u = edge.getU();
-		int v = edge.getV();
+	public void remove(final Edge edge) {
+		final int u = edge.getU();
+		final int v = edge.getV();
 		if (adj[u][v]) {
 			cE--;
 		}
@@ -67,7 +67,7 @@ public class AdjacencyMatrixGraph extends Graph {
 	}
 
 	@Override
-	public boolean edge(int u, int v) {
+	public boolean edge(final int u, final int v) {
 		return adj[u][v];
 	}
 
@@ -85,5 +85,5 @@ public class AdjacencyMatrixGraph extends Graph {
 	@Override
 	protected void dispose() {
 	}
-	
+
 }

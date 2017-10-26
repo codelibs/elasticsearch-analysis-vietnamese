@@ -77,7 +77,7 @@ public class Tokenizer  {
 	/**
 	 * A list of tokenizer listeners
 	 */
-	private final List<ITokenizerListener> tokenizerListener = new ArrayList<ITokenizerListener>();
+	private final List<ITokenizerListener> tokenizerListener = new ArrayList<>();
 	/**
 	 * Are ambiguities resolved? True by default.
 	 */
@@ -95,11 +95,11 @@ public class Tokenizer  {
 	 * @param lexersFilename the file that contains lexer rules
 	 * @param segmenter a lexical segmenter<ol></ol>
 	 */
-	public Tokenizer(String lexersFilename, Segmenter segmenter) {
+	public Tokenizer(final String lexersFilename, final Segmenter segmenter) {
 		// load the lexer rules
 		loadLexerRules(lexersFilename);
 		this.segmenter = segmenter;
-		result = new ArrayList<TaggedWord>();
+		result = new ArrayList<>();
 		// use a plain (default) outputer
 		createOutputer();
 		// create result merger
@@ -119,11 +119,11 @@ public class Tokenizer  {
 	 * @param properties
 	 * @param segmenter
 	 */
-	public Tokenizer(Properties properties, Segmenter segmenter) {
+	public Tokenizer(final Properties properties, final Segmenter segmenter) {
 		// load the lexer rules
 		loadLexerRules(properties.getProperty("lexers"));
 		this.segmenter = segmenter;
-		result = new ArrayList<TaggedWord>();
+		result = new ArrayList<>();
 		// use a plain (default) outputer
 		createOutputer();
 		// create result merger
@@ -153,7 +153,7 @@ public class Tokenizer  {
 	/**
 	 * @param outputer The outputer to set.
 	 */
-	public void setOutputer(Outputer outputer) {
+	public void setOutputer(final Outputer outputer) {
 		this.outputer = outputer;
 	}
 
@@ -165,9 +165,9 @@ public class Tokenizer  {
 //			logger.addHandler(new ConsoleHandler());
 			try {
 				logger.addHandler(new FileHandler("tokenizer.log"));
-			} catch (SecurityException e) {
+			} catch (final SecurityException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			logger.setLevel(Level.FINEST);
@@ -181,13 +181,13 @@ public class Tokenizer  {
 	 * @param lexersFilename
 	 *            specification file
 	 */
-	private void loadLexerRules(String lexersFilename) {
-		LexiconUnmarshaller unmarshaller = new LexiconUnmarshaller();
-		Corpus corpus = unmarshaller.unmarshal(lexersFilename);
-		ArrayList<LexerRule> ruleList = new ArrayList<LexerRule>();
-		List<W> lexers = corpus.getBody().getW();
-		for (W w : lexers) {
-			LexerRule lr = new LexerRule(w.getMsd(), w.getContent());
+	private void loadLexerRules(final String lexersFilename) {
+		final LexiconUnmarshaller unmarshaller = new LexiconUnmarshaller();
+		final Corpus corpus = unmarshaller.unmarshal(lexersFilename);
+		final ArrayList<LexerRule> ruleList = new ArrayList<>();
+		final List<W> lexers = corpus.getBody().getW();
+		for (final W w : lexers) {
+			final LexerRule lr = new LexerRule(w.getMsd(), w.getContent());
 //			System.out.println(w.getMsd() + ": " + w.getContent());
 			ruleList.add(lr);
 		}
@@ -201,7 +201,7 @@ public class Tokenizer  {
 	 * segmentations. Otherwise, it selects automatically the most
 	 * probable segmentation returned by the ambiguity resolver.
 	 */
-	public void tokenize(Reader reader) throws IOException {
+	public void tokenize(final Reader reader) throws IOException {
 		// Firstly, the result list is emptied
 		result.clear();
 		lineReader = new LineNumberReader(reader);
@@ -211,23 +211,23 @@ public class Tokenizer  {
 		// do tokenization
 		while (true) {
 			// get the next token
-			TaggedWord taggedWord = getNextToken();
+			final TaggedWord taggedWord = getNextToken();
 			// stop if there is no more token
 			if (taggedWord == null) {
 				break;
 			}
-//			// DEBUG 
+//			// DEBUG
 //			System.out.println("taggedWord = " + taggedWord);
 			// if this token is a phrase, we need to use a segmenter
 			// object to segment it.
 			if (taggedWord.isPhrase()) {
 //				System.out.println("taggedWord phrase = " + taggedWord);
-				String phrase = taggedWord.getText().trim();
+				final String phrase = taggedWord.getText().trim();
 				if (!isSimplePhrase(phrase)) {
-					String ruleName = taggedWord.getRule().getName();
+					final String ruleName = taggedWord.getRule().getName();
 					String[] tokens = null;
 					// segment the phrase
-					List<String[]> segmentations = segmenter.segment(phrase);
+					final List<String[]> segmentations = segmenter.segment(phrase);
 					if (segmentations.size() == 0) {
 						logger.log(Level.WARNING, "The segmenter cannot segment the phrase \"" + phrase + "\"");
 					}
@@ -237,7 +237,7 @@ public class Tokenizer  {
 						tokens = segmenter.resolveAmbiguity(segmentations);
 					} else {
 						// get the first segmentation
-						Iterator<String[]> it = segmentations.iterator();
+						final Iterator<String[]> it = segmentations.iterator();
 						if (it.hasNext()) {
 							tokens = it.next();
 						}
@@ -247,23 +247,24 @@ public class Tokenizer  {
 					}
 
 					// build tokens of the segmentation
-					for (int j = 0; j < tokens.length; j++) {
-						WordToken token = new WordToken(
-								new LexerRule(ruleName), tokens[j], lineReader.getLineNumber(), column);
+					for (final String token2 : tokens) {
+						final WordToken token = new WordToken(
+								new LexerRule(ruleName), token2, lineReader.getLineNumber(), column);
 						result.add(token);
-						column += tokens[j].length();
+						column += token2.length();
 					}
 				} else { // phrase is simple
-					if (phrase.length() > 0)
-						result.add(taggedWord);
+					if (phrase.length() > 0) {
+                        result.add(taggedWord);
+                    }
 				}
 			} else { // lexerToken is not a phrase
 				// check to see if it is a named entity
 				if (taggedWord.isNamedEntity()) {
 					// try to split the lexer into two lexers
-					TaggedWord[] tokens = resultSplitter.split(taggedWord);
+					final TaggedWord[] tokens = resultSplitter.split(taggedWord);
 					if (tokens != null) {
-						for (TaggedWord token : tokens) {
+						for (final TaggedWord token : tokens) {
 							result.add(token);
 						}
 					} else {
@@ -281,8 +282,9 @@ public class Tokenizer  {
 			fireProcess(taggedWord);
 		}
 		// close the line reader
-		if (lineReader != null)
-			lineReader.close();
+		if (lineReader != null) {
+            lineReader.close();
+        }
 		// merge the result
 		result = resultMerger.mergeList(result);
 	}
@@ -294,12 +296,12 @@ public class Tokenizer  {
 	 * @param filename
 	 *            a filename
 	 */
-	public void tokenize(String filename) {
+	public void tokenize(final String filename) {
 		// create a UTF8 reader
 		UTF8FileUtility.createReader(filename);
 		try {
 			tokenize(UTF8FileUtility.reader);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		UTF8FileUtility.closeReader();
@@ -312,86 +314,11 @@ public class Tokenizer  {
 	 */
 	private boolean isSimplePhrase(String phrase) {
 		phrase = phrase.trim();
-		if (phrase.indexOf(IConstants.BLANK_CHARACTER) >= 0)
-			return false;
-		else return true;
-	}
-
-	/**
-	 * Return the next token from the input. This old version is deprecated.
-	 *
-	 * @return next token from the input
-	 * @throws IOException
-	 * @see {@link #getNextToken()}
-	 */
-	@SuppressWarnings("unused")
-	@Deprecated
-	private TaggedWord getNextTokenOld() throws IOException {
-		// scan the file line by line and quit when no more lines are left
-		if (line == null || line.length() == 0) {
-			line = lineReader.readLine();
-			if (line == null) {
-				if (inputStream != null)
-					inputStream.close();
-				lineReader = null;
-				return null;
-			}
-			// an empty line:
-			if (line.length() == 0) {
-				return new TaggedWord("\n");
-			}
-			column = 1;
-		}
-		// match the next token
-		TaggedWord token = null;
-		// the end of the next token, within the line
-		int tokenEnd = -1;
-		// the length of the rule that matches the most characters from the
-		// input
-		int longestMatchLen = -1;
-		String text = "";
-		// find the rule that matches the longest substring of the input
-		for (int i = 0; i < rules.length; i++) {
-			LexerRule rule = rules[i];
-			// get the precompiled pattern for this rule
-			Pattern pattern = rule.getPattern();
-			// create a matcher to perform match operations on the string
-			// by interpreting the pattern
-			Matcher matcher = pattern.matcher(line);
-			// if there is a match, calculate its length
-			// and compare it with the longest match len
-			// Here, we attempts to match the input string, starting at the beginning, against the pattern.
-			// The method lookingAt() always starts at the beginning of the region;
-			// unlike that method, it does not require that the entire region be matched.
-			// This method returns true if, and only if, a prefix of the input sequence matches
-			// this matcher's pattern
-			// Problem: if the string is "abc xyz@gmail.com", the next word will be "abc xyz",
-			// which is a wrong segmentation! Need a less greedy method to overcome this shortcomming.
-			if (matcher.lookingAt()) {
-				int matchLen = matcher.end();
-				if (matchLen > longestMatchLen) {
-					longestMatchLen = matchLen;
-					text = matcher.group(0);
-					int lineNumber = lineReader.getLineNumber();
-					token = new TaggedWord(rule, text, lineNumber, column);
-					tokenEnd = matchLen;
-				}
-			}
-		}
-		// if we didn't match anything, we exit...
-		if (token == null) {
-			logger.log(Level.WARNING, "Error! line = " + lineReader.getLineNumber()
-					+ ", col = " + column);
-			System.out.println(line);
-			System.exit(1);
-			return null;
-		} else {
-			// we match something, skip past the token, get ready
-			// for the next match, and return the token
-			column += tokenEnd;
-			line = line.substring(tokenEnd);
-			return token;
-		}
+		if (phrase.indexOf(IConstants.BLANK_CHARACTER) >= 0) {
+            return false;
+        } else {
+            return true;
+        }
 	}
 
 	/**
@@ -406,8 +333,9 @@ public class Tokenizer  {
 		if (line == null || line.length() == 0) {
 			line = lineReader.readLine();
 			if (line == null) {
-				if (inputStream != null)
-					inputStream.close();
+				if (inputStream != null) {
+                    inputStream.close();
+                }
 				lineReader = null;
 				return null;
 			}
@@ -426,19 +354,18 @@ public class Tokenizer  {
 		// the length of the rule that matches the most characters from the
 		// input
 		int longestMatchLen = -1;
-		int lineNumber = lineReader.getLineNumber();
+		final int lineNumber = lineReader.getLineNumber();
 		LexerRule selectedRule = null;
 		// find the rule that matches the longest substring of the input
-		for (int i = 0; i < rules.length; i++) {
-			LexerRule rule = rules[i];
+		for (final LexerRule rule : rules) {
 			// get the precompiled pattern for this rule
-			Pattern pattern = rule.getPattern();
+			final Pattern pattern = rule.getPattern();
 			// create a matcher to perform match operations on the string
 			// by interpreting the pattern
-			Matcher matcher = pattern.matcher(line);
+			final Matcher matcher = pattern.matcher(line);
 			// find the longest match from the start
 			if (matcher.lookingAt()) {
-				int matchLen = matcher.end();
+				final int matchLen = matcher.end();
 				if (matchLen > longestMatchLen) {
 					longestMatchLen = matchLen;
 					tokenEnd = matchLen;
@@ -466,7 +393,7 @@ public class Tokenizer  {
 		if (selectedRule == null) {
 			selectedRule = new LexerRule("word");
 		}
-		String text = line.substring(0, endIndex);
+		final String text = line.substring(0, endIndex);
 		token = new TaggedWord(selectedRule, text, lineNumber, column);
 		// we match something, skip past the token, get ready
 		// for the next match, and return the token
@@ -484,17 +411,17 @@ public class Tokenizer  {
 	 * @param outputer an outputer
 	 * @see vn.hus.nlp.tokenizer.io.IOutputFormatter
 	 */
-	public void exportResult(String filename, Outputer outputer) {
+	public void exportResult(final String filename, final Outputer outputer) {
 		System.out.print("Exporting result of tokenization...");
 		try {
-			FileOutputStream fos = new FileOutputStream(filename);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-			BufferedWriter bw = new BufferedWriter(osw);
+			final FileOutputStream fos = new FileOutputStream(filename);
+			final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+			final BufferedWriter bw = new BufferedWriter(osw);
 			bw.write(outputer.output(result));
 			bw.flush();
 			bw.close();
 		}
-		catch (IOException e) {
+		catch (final IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println("OK.");
@@ -504,11 +431,10 @@ public class Tokenizer  {
 	 * format.
 	 * @param filename
 	 */
-	public void exportResult(String filename) {
+	public void exportResult(final String filename) {
 		System.out.print("Exporting result of tokenization...");
 		UTF8FileUtility.createWriter(filename);
-		for (Iterator<TaggedWord> iter = result.iterator(); iter.hasNext();) {
-			TaggedWord token = iter.next();
+		for (final TaggedWord token : result) {
 			UTF8FileUtility.write(token.toString() + "\n");
 		}
 		UTF8FileUtility.closeWriter();
@@ -526,7 +452,7 @@ public class Tokenizer  {
 	 * @param result
 	 *            The result to set.
 	 */
-	public void setResult(List<TaggedWord> result) {
+	public void setResult(final List<TaggedWord> result) {
 		this.result = result;
 	}
 
@@ -536,14 +462,14 @@ public class Tokenizer  {
 	 * Adds a listener
 	 * @param listener a listener to add
 	 */
-	public void addTokenizerListener(ITokenizerListener listener) {
+	public void addTokenizerListener(final ITokenizerListener listener) {
 		tokenizerListener.add(listener);
 	}
 	/**
 	 * Removes a tokenier listener
 	 * @param listener a listener to remove
 	 */
-	public void removeTokenizerListener(ITokenizerListener listener) {
+	public void removeTokenizerListener(final ITokenizerListener listener) {
 		tokenizerListener.remove(listener);
 	}
 	/**
@@ -558,8 +484,8 @@ public class Tokenizer  {
 	 * Reports process of the tokenization to all listener
 	 * @param token the processed token
 	 */
-	private void fireProcess(TaggedWord token) {
-		for (ITokenizerListener listener : tokenizerListener) {
+	private void fireProcess(final TaggedWord token) {
+		for (final ITokenizerListener listener : tokenizerListener) {
 			listener.processToken(token);
 		}
 	}
@@ -589,7 +515,7 @@ public class Tokenizer  {
 	 * Is the ambiguity resolved?
 	 * @param b <code>true/false</code>
 	 */
-	public void setAmbiguitiesResolved(boolean b) {
+	public void setAmbiguitiesResolved(final boolean b) {
 		isAmbiguitiesResolved = b;
 	}
 
@@ -611,7 +537,7 @@ public class Tokenizer  {
 	private class SimpleProgressReporter implements ITokenizerListener {
 
 		@Override
-		public void processToken(TaggedWord token) {
+		public void processToken(final TaggedWord token) {
 			// report some simple progress
 			if (result.size() % 1000 == 0) {
 				System.out.print(".");

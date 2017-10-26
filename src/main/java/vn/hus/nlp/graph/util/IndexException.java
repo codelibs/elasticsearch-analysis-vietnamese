@@ -9,10 +9,10 @@ package vn.hus.nlp.graph.util;
  * <p>
  * Oct 20, 2007, 11:29:53 AM
  * <p>
- * An index exception. 
+ * An index exception.
  */
 public class IndexException extends Exception {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public IndexException() {

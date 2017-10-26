@@ -32,7 +32,7 @@ public class Node {
 	 * @param v current vertex data of the node.
 	 * @param next the next node.
 	 */
-	public Node(int v, Node next) {
+	public Node(final int v, final Node next) {
 		this.v = v;
 		this.next = next;
 	}
@@ -44,7 +44,7 @@ public class Node {
 	public Node getNext() {
 		return next;
 	}
-	
+
 	/**
 	 * Get the vertex.
 	 * @return the vertex
@@ -52,7 +52,7 @@ public class Node {
 	public int getV() {
 		return v;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -69,20 +69,20 @@ public class Node {
 		}
 		return s;
 	}
-	
+
 	/**
 	 * Convert the list to an array of integers.
 	 * @return an array of integers
 	 */
 	public int[] toArray() {
-		List<Integer> list = new ArrayList<Integer>();
-		
+		final List<Integer> list = new ArrayList<>();
+
 		Node node = this;
 		while (node.getV() != -1) {
 			list.add(node.getV());
 			node = node.getNext();
 		}
-		int[] a = new int[list.size()];
+		final int[] a = new int[list.size()];
 		for (int i = 0; i < a.length; i++) {
 			a[i] = list.get(i).intValue();
 		}

@@ -29,13 +29,13 @@ public abstract class Graph implements IGraph {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param n
 	 *            number of vertices of the graph.
 	 * @param directed
 	 *            <code>true/false</code>
 	 */
-	public Graph(int n, boolean directed) {
+	public Graph(final int n, final boolean directed) {
 		this.directed = directed;
 		cV = n;
 		cE = 0;
@@ -43,60 +43,67 @@ public abstract class Graph implements IGraph {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#edge(int, int)
 	 */
-	public abstract boolean edge(int u, int v);
+	@Override
+    public abstract boolean edge(int u, int v);
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#getNumberOfEdges()
 	 */
-	public int getNumberOfEdges() {
+	@Override
+    public int getNumberOfEdges() {
 		return cE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#getNumberOfVertices()
 	 */
-	public int getNumberOfVertices() {
+	@Override
+    public int getNumberOfVertices() {
 		return cV;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#insert(vn.hus.graph.Edge)
 	 */
-	public abstract void insert(Edge edge);
-	
+	@Override
+    public abstract void insert(Edge edge);
+
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#isDirected()
 	 */
-	public boolean isDirected() {
+	@Override
+    public boolean isDirected() {
 		return directed;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#iterator(int)
 	 */
-	public abstract VertexIterator vertexIterator(int u);
+	@Override
+    public abstract VertexIterator vertexIterator(int u);
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#remove(vn.hus.graph.Edge)
 	 */
-	public abstract void remove(Edge edge);
-	
+	@Override
+    public abstract void remove(Edge edge);
+
 	/**
 	 * Dispose the graph.
 	 */

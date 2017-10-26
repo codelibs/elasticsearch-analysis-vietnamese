@@ -11,24 +11,24 @@ package vn.hus.nlp.tokenizer;
  * 31 déc. 06
  * </p>
  * Some predefined contants for vnTokenizer tool.
- * 
+ *
  */
 public interface IConstants {
 	/**
 	 * Vietnamese word set
 	 */
 	public static final String WORD_SET = "data/dictionaries/words_v4.txt";
-	
+
 	/**
 	 * The Vietnamese lexicon
 	 */
 	public static final String LEXICON = "data/dictionaries/words_v4.xml";
-	
+
 	/**
 	 * The Vietnamese DFA lexicon
 	 */
 	public static final String LEXICON_DFA = "models/tokenization/automata/lexicon_dfa_minimal.xml";
-	
+
 	/**
 	 * The named entity prefix.
 	 */

@@ -23,7 +23,7 @@ public interface TestConstants {
 	 * The unigram xml file
 	 */
 	static final String UNIGRAM_XML = "samples/1019.xml";
-	
+
 	/**
 	 * The vocabulary with default cutoff (1)
 	 */

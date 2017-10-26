@@ -14,14 +14,14 @@
 
 package org.elasticsearch.index.analysis;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.vi.VietnameseTokenizer;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
-
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * @author duydo
@@ -29,7 +29,7 @@ import java.security.PrivilegedAction;
 public class VietnameseTokenizerFactory extends AbstractTokenizerFactory {
     private final me.duydo.vi.Tokenizer tokenizer;
 
-    public VietnameseTokenizerFactory(IndexSettings indexSettings, Environment environment, String name, Settings settings) {
+    public VietnameseTokenizerFactory(final IndexSettings indexSettings, final Environment environment, final String name, final Settings settings) {
         super(indexSettings, name, settings);
         tokenizer = AccessController.doPrivileged((PrivilegedAction<me.duydo.vi.Tokenizer>) () -> new me.duydo.vi.Tokenizer());
     }

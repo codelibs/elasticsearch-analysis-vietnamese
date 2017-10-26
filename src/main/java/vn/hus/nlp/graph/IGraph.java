@@ -25,12 +25,12 @@ public interface IGraph {
 	int getNumberOfEdges();
 	/**
 	 * Check to see if the graph is directed or undirected.
-	 * @return <code>true</code> if the graph is directed, <code>false</code> if 
+	 * @return <code>true</code> if the graph is directed, <code>false</code> if
 	 * it is not.
 	 */
 	boolean isDirected();
 	/**
-	 * Insert an edge to the graph 
+	 * Insert an edge to the graph
 	 * @param edge
 	 */
 	void insert(Edge edge);

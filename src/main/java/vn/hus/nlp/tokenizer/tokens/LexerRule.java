@@ -24,31 +24,31 @@ public class LexerRule {
 
 	/**
 	 * Instantiate a new lexical rule with a name
-	 * 
+	 *
 	 * @param name
 	 *            a name
 	 */
-	public LexerRule(String name) {
+	public LexerRule(final String name) {
 		this.name = name;
 		this.regex = "";
 	}
 
 	/**
 	 * Instantiate a new lexical rule with a name and a regex
-	 * 
+	 *
 	 * @param name
 	 *            a name
 	 * @param regex
 	 *            a regular expression
 	 */
-	public LexerRule(String name, String regex) {
+	public LexerRule(final String name, final String regex) {
 		this.name = name;
 		this.regex = regex;
 	}
 
 	/**
 	 * Get the category name
-	 * 
+	 *
 	 * @return the name of rule
 	 */
 	public String getName() {
@@ -57,7 +57,7 @@ public class LexerRule {
 
 	/**
 	 * Get the regex defining the rule
-	 * 
+	 *
 	 * @return the regex
 	 */
 	public String getRegex() {
@@ -66,7 +66,7 @@ public class LexerRule {
 
 	/**
 	 * Return the pattern object. Create one if it hasn't been created already.
-	 * 
+	 *
 	 * @return the pattern object
 	 */
 	public Pattern getPattern() {

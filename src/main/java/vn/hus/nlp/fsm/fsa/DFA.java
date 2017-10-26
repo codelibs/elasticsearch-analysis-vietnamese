@@ -26,7 +26,7 @@ public class DFA extends FSM {
 		// init the state machine
 		super();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.fsm.FSM#getSimulator()
 	 */
@@ -34,7 +34,7 @@ public class DFA extends FSM {
 	public ISimulator getSimulator() {
 		return new DFASimulator(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.fsm.FSM#dispose()
 	 */

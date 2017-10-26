@@ -3,8 +3,6 @@
  */
 package vn.hus.nlp.lexicon;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBContext;
@@ -21,11 +19,11 @@ import vn.hus.nlp.lexicon.jaxb.ObjectFactory;
  */
 public class LexiconUnmarshaller {
 
-	
-	JAXBContext jaxbContext; 
-	
+
+	JAXBContext jaxbContext;
+
 	Unmarshaller unmarshaller;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -34,18 +32,18 @@ public class LexiconUnmarshaller {
 		//
 		createContext();
 	}
-	
+
 	private void createContext() {
 		jaxbContext = null;
 		try {
-			ClassLoader cl = ObjectFactory.class.getClassLoader();
+			final ClassLoader cl = ObjectFactory.class.getClassLoader();
 			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get the marshaller object.
 	 * @return the marshaller object
@@ -55,7 +53,7 @@ public class LexiconUnmarshaller {
 			try {
 				// create the unmarshaller
 				unmarshaller = jaxbContext.createUnmarshaller();
-			} catch (JAXBException e) {
+			} catch (final JAXBException e) {
 				e.printStackTrace();
 			}
 		}
@@ -67,22 +65,22 @@ public class LexiconUnmarshaller {
 	 * @param filename a lexicon file
 	 * @return a Corpus object.
 	 */
-	public Corpus unmarshal(String filename) {
+	public Corpus unmarshal(final String filename) {
 		try {
-			InputStream stream = getClass().getResourceAsStream(filename);
-			
+			final InputStream stream = getClass().getResourceAsStream(filename);
+
 			if (stream!=null)
 			{
-				Object object = getUnmarshaller().unmarshal(stream);
+				final Object object = getUnmarshaller().unmarshal(stream);
 				if (object instanceof Corpus) {
-					Corpus corpus = (Corpus) object;
+					final Corpus corpus = (Corpus) object;
 					return corpus;
 				}
 			}
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 }

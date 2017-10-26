@@ -16,26 +16,28 @@ import vn.hus.nlp.graph.util.VertexIterator;
 public class AdjacencyListGraph extends Graph {
 
 	private final Node adj[];
-	
+
 	/**
 	 * Constructor.
 	 * @param n number of vertices of the graph.
 	 * @param directed <code>true/false</code>
 	 */
-	public AdjacencyListGraph(int n, boolean directed) {
+	public AdjacencyListGraph(final int n, final boolean directed) {
 		super(n, directed);
 		adj = new Node[n];
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.graph.Graph#edge(int, int)
 	 */
 	@Override
-	public boolean edge(int u, int v) {
-		VertexIterator iterator = vertexIterator(u);
+	public boolean edge(final int u, final int v) {
+		final VertexIterator iterator = vertexIterator(u);
 		while (iterator.hasNext()) {
-			int w = iterator.next();
-			if (v == w) return true;
+			final int w = iterator.next();
+			if (v == w) {
+                return true;
+            }
 		}
 		return false;
 	}
@@ -44,7 +46,7 @@ public class AdjacencyListGraph extends Graph {
 	 * @see vn.hus.graph.Graph#iterator(int)
 	 */
 	@Override
-	public VertexIterator vertexIterator(int u) {
+	public VertexIterator vertexIterator(final int u) {
 		return new AdjacencyListVertexIterator(this, u);
 	}
 
@@ -52,9 +54,9 @@ public class AdjacencyListGraph extends Graph {
 	 * @see vn.hus.graph.Graph#insert(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void insert(Edge edge) {
-		int u = edge.getU();
-		int v = edge.getV();
+	public void insert(final Edge edge) {
+		final int u = edge.getU();
+		final int v = edge.getV();
 		// add the edge (u,v)
 		adj[u] = new Node(v, adj[u]);
 		// add the edge (v,u) if the graph
@@ -70,7 +72,7 @@ public class AdjacencyListGraph extends Graph {
 	 * @see vn.hus.graph.IGraph#remove(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void remove(Edge edge) {
+	public void remove(final Edge edge) {
 		//TODO
 	}
 
@@ -88,8 +90,8 @@ public class AdjacencyListGraph extends Graph {
 	@Override
 	protected void dispose() {
 		// delete the array of linked-list.
-		for (int u = 0; u < adj.length; u++) {
-			dispose(adj[u]);
+		for (final Node element : adj) {
+			dispose(element);
 		}
 	}
 
@@ -103,6 +105,6 @@ public class AdjacencyListGraph extends Graph {
 		}
 		node = null;
 	}
-	
-	
+
+
 }

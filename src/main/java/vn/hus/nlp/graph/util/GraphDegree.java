@@ -11,7 +11,7 @@ import vn.hus.nlp.graph.IGraph;
  *         <p>
  *         Oct 21, 2007, 11:56:01 PM
  *         <p>
- *         This class provides a way for client to find the degree of a 
+ *         This class provides a way for client to find the degree of a
  *         vertex in a graph in constant time, after linear-time preprocessing
  *         in the constructor. We use a vertex-indexed array to do the trick.
  */
@@ -21,16 +21,16 @@ public final class GraphDegree {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param g
 	 */
-	public GraphDegree(IGraph g) {
+	public GraphDegree(final IGraph g) {
 		this.graph = g;
-		int n = graph.getNumberOfVertices();
+		final int n = graph.getNumberOfVertices();
 		deg = new int[n];
 		for (int u = 0; u < n; u++) {
 			deg[u] = 0;
-			VertexIterator iterator = graph.vertexIterator(u);
+			final VertexIterator iterator = graph.vertexIterator(u);
 			while (iterator.hasNext()) {
 				iterator.next();
 				deg[u]++;
@@ -40,11 +40,11 @@ public final class GraphDegree {
 
 	/**
 	 * Get the degree of a vertex.
-	 * 
+	 *
 	 * @param u
 	 * @return the degree of a vertex
 	 */
-	public int degree(int u) {
+	public int degree(final int u) {
 		return deg[u];
 	}
 
@@ -52,9 +52,9 @@ public final class GraphDegree {
 	 * Print degrees of all the vertices.
 	 */
 	public void printDegrees() {
-		int n = graph.getNumberOfVertices();
+		final int n = graph.getNumberOfVertices();
 		for (int u = 0; u < n; u++) {
-			int d = degree(u);
+			final int d = degree(u);
 			// for testing only:
 			System.out.println("deg(" + u + ") = " + d);
 		}

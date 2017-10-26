@@ -14,7 +14,7 @@ import vn.hus.nlp.graph.util.EdgeIterator;
  *         Interface of a weighted graph.
  */
 public interface IWeightedGraph extends IGraph {
-	
+
 	/**
 	 * Get the edge determined by two vertices.
 	 * @param u
@@ -22,7 +22,7 @@ public interface IWeightedGraph extends IGraph {
 	 * @return the edge or <tt>null</tt> if there does not a such edge.
 	 */
 	public Edge getEdge(int u, int v);
-	
+
 	/**
 	 * Get an iterator of edges that go out from a vertex
 	 * @param u a vertex

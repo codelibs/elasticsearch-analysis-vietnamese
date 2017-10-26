@@ -14,12 +14,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * 
+ *
  * @author LE Hong Phuong
  * This class implements a simple SAX parser to echo the content of an XML file.
  * This utility can be used to convert Vietnamese entities in an XML data file
- * to UTF-8 equivalent characters. 
- * 
+ * to UTF-8 equivalent characters.
+ *
  */
 public class Echo extends DefaultHandler {
 
@@ -30,11 +30,11 @@ public class Echo extends DefaultHandler {
 	static final String FILENAME_INP = "samples/htb0.xml";
 	static final String FILENAME_OUT = "samples/htb0.txt";
 
-	private void emit(String s) throws SAXException {
+	private void emit(final String s) throws SAXException {
 		try {
 			out.write(s);
 			out.flush();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO: handle exception
 			throw new SAXException("I/O error.", e);
 		}
@@ -42,41 +42,47 @@ public class Echo extends DefaultHandler {
 
 	private void nl() throws SAXException {
 		try {
-			String lineEnd = System.getProperty("line.separator");
+			final String lineEnd = System.getProperty("line.separator");
 			out.write(lineEnd);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO: handle exception
 			throw new SAXException("I/O error.", e);
 		}
 	}
 
-	public void startDocument() throws SAXException {
+	@Override
+    public void startDocument() throws SAXException {
 		emit("<?xml version='1.0' encoding='UTF-8'?>");
 		nl();
 	}
 
-	public void endDocument() throws SAXException {
+	@Override
+    public void endDocument() throws SAXException {
 		try {
 			nl();
 			out.flush();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new SAXException("I/O error", e);
 		}
 	}
 
-	public void startElement(String namespaceURI, String sName, // simple name
-			String qName, // qualified name
-			Attributes attrs) throws SAXException {
+	@Override
+    public void startElement(final String namespaceURI, final String sName, // simple name
+			final String qName, // qualified name
+			final Attributes attrs) throws SAXException {
 		echoText();
 		String eName = sName; // element name
 		if ("".equals(eName))
-			eName = qName; // not namespace-aware
+         {
+            eName = qName; // not namespace-aware
+        }
 		emit("<" + eName);
 		if (attrs != null) {
 			for (int i = 0; i < attrs.getLength(); i++) {
 				String aName = attrs.getLocalName(i); // Attr name
-				if ("".equals(aName))
-					aName = attrs.getQName(i);
+				if ("".equals(aName)) {
+                    aName = attrs.getQName(i);
+                }
 				emit(" ");
 				emit(aName + "=\"" + attrs.getValue(i) + "\"");
 			}
@@ -84,19 +90,23 @@ public class Echo extends DefaultHandler {
 		emit(">");
 	}
 
-	public void endElement(String namespaceURI, String sName, // simple name
-			String qName // qualified name
+	@Override
+    public void endElement(final String namespaceURI, final String sName, // simple name
+			final String qName // qualified name
 	) throws SAXException {
 		echoText();
 		String eName = sName; // element name
 		if ("".equals(eName))
-			eName = qName; // not namespace-aware
+         {
+            eName = qName; // not namespace-aware
+        }
 		emit("</" + eName + ">");
-		
+
 	}
 
-	public void characters(char buf[], int offset, int len) throws SAXException {
-		String s = new String(buf, offset, len);
+	@Override
+    public void characters(final char buf[], final int offset, final int len) throws SAXException {
+		final String s = new String(buf, offset, len);
 		if (textBuffer == null) {
 			textBuffer = new StringBuffer(s);
 		} else {
@@ -105,9 +115,10 @@ public class Echo extends DefaultHandler {
 	}
 
 	private void echoText() throws SAXException {
-		if (textBuffer == null)
-			return;
-		String s = "" + textBuffer;
+		if (textBuffer == null) {
+            return;
+        }
+		final String s = "" + textBuffer;
 		emit(s);
 		textBuffer = null;
 	}
@@ -115,21 +126,21 @@ public class Echo extends DefaultHandler {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// TODO Auto-generated method stub
 		try {
 			// create a default handler
-			DefaultHandler handler = new Echo();
+			final DefaultHandler handler = new Echo();
 			// create a SAX parser
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser parser = factory.newSAXParser();
+			final SAXParserFactory factory = SAXParserFactory.newInstance();
+			final SAXParser parser = factory.newSAXParser();
 			// setup the output stream using UTF-8 encoding
-			FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
+			final FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
 			out = new OutputStreamWriter(fout, "UTF-8");
 			// parser the sample file
 			parser.parse(new File(Echo.FILENAME_INP), handler);
 			out.close();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

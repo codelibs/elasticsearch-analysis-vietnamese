@@ -19,18 +19,18 @@ import vn.hus.nlp.fsm.io.FSMUnmarshaller;
  * A recognizer for Vietnamese lexicon that uses an internal DFA representation.
  */
 public final class DFALexiconRecognizer extends AbstractLexiconRecognizer {
-	
+
 	private static DFA lexiconDFA = null;
-	
+
 	private static DFASimulator simulator = null;
-	
+
 	private static DFALexiconRecognizer recognizer = null;
-	
+
 	/**
 	 * Private constructor.
 	 * @param dfaLexiconFilename
 	 */
-	private DFALexiconRecognizer(String dfaLexiconFilename) {
+	private DFALexiconRecognizer(final String dfaLexiconFilename) {
 		if (lexiconDFA == null) {
 			// build the lexicon DFA
 			System.out.print("Load the lexicon automaton... ");
@@ -38,12 +38,12 @@ public final class DFALexiconRecognizer extends AbstractLexiconRecognizer {
 			System.out.println("OK.");
 		}
 	}
-	
+
 	/**
 	 * @param dfaLexiconFilename the DFA lexicon filen
-	 * @return The singleton instance of the lexicon DFA. 
+	 * @return The singleton instance of the lexicon DFA.
 	 */
-	public static DFALexiconRecognizer getInstance(String dfaLexiconFilename) {
+	public static DFALexiconRecognizer getInstance(final String dfaLexiconFilename) {
 		if (recognizer == null) {
 			recognizer = new DFALexiconRecognizer(dfaLexiconFilename);
 		}
@@ -59,12 +59,12 @@ public final class DFALexiconRecognizer extends AbstractLexiconRecognizer {
 		}
 		return simulator;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see vn.hus.segmenter.AbstractLexiconRecognizer#accept(java.lang.String)
 	 */
 	@Override
-	public boolean accept(String token) {
+	public boolean accept(final String token) {
 		return getDFASimulator().accept(token);
 	}
 

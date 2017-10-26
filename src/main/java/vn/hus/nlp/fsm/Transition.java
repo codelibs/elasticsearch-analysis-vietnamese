@@ -39,21 +39,21 @@ public class Transition {
 		output = IConstants.EMPTY_STRING;
 	}
 
-	public Transition(int src, int tar) {
+	public Transition(final int src, final int tar) {
 		source = src;
 		target = tar;
 		input = IConstants.BLANK_CHARACTER;
 		output = IConstants.EMPTY_STRING;
 	}
 
-	public Transition(int src, int tar, char inp) {
+	public Transition(final int src, final int tar, final char inp) {
 		source = src;
 		target = tar;
 		input = inp;
 		output = IConstants.EMPTY_STRING;
 	}
 
-	public Transition(int src, int tar, char inp, String out) {
+	public Transition(final int src, final int tar, final char inp, final String out) {
 		source = src;
 		target = tar;
 		input = inp;
@@ -62,10 +62,10 @@ public class Transition {
 
 	/**
 	 * Copy constructor.
-	 * 
+	 *
 	 * @param t
 	 */
-	public Transition(Transition t) {
+	public Transition(final Transition t) {
 		source = t.getSource();
 		target = t.getTarget();
 		input = t.getInput();
@@ -73,10 +73,11 @@ public class Transition {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Transition))
-			return false;
-		Transition t = (Transition) obj;
+	public boolean equals(final Object obj) {
+		if (!(obj instanceof Transition)) {
+            return false;
+        }
+		final Transition t = (Transition) obj;
 		return (source == t.getSource()) && (target == t.getTarget())
 				&& (input == t.getInput());
 	}
@@ -99,7 +100,7 @@ public class Transition {
 	 * Set the source state of the transition.
 	 * @param source the source state
 	 */
-	public void setSource(int source) {
+	public void setSource(final int source) {
 		this.source = source;
 	}
 
@@ -107,7 +108,7 @@ public class Transition {
 	 * Set the target state of the transition.
 	 * @param target the target state
 	 */
-	public void setTarget(int target) {
+	public void setTarget(final int target) {
 		this.target = target;
 	}
 

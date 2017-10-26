@@ -16,36 +16,36 @@ import vn.hus.nlp.fsm.builder.MinimalFSMBuilder;
  * Test the construction of a minimal FST.
  */
 public class MinimalFSTClient {
-	
-	
+
+
 	public static void test1() {
-		String[] inputs = {"ba"};
-		
+		final String[] inputs = {"ba"};
+
 //		String[][] outputs = {{"b", "a"}};
 //		String[][] outputs = {{"m", "e"}};
-		String[][] outputs = {{"ong", "ba"}};
-		
-		FSMBuilder  builder = new MinimalFSMBuilder(IConstants.FSM_FST);
-		builder.create(inputs, outputs);
-		builder.printMachine();
-		builder.dispose();
-	}
-	
-	public static void test2() {
-		String[] inputs = {"ba", "bo"};
-		
-//		String[][] outputs = {{"b", "a"}, {"b", "o"}};
-		String[][] outputs = {{"ba", "ma"}, {"co", "chu"}};
-		
-		FSMBuilder  builder = new MinimalFSMBuilder(IConstants.FSM_FST);
+		final String[][] outputs = {{"ong", "ba"}};
+
+		final FSMBuilder  builder = new MinimalFSMBuilder(IConstants.FSM_FST);
 		builder.create(inputs, outputs);
 		builder.printMachine();
 		builder.dispose();
 	}
 
-	
-	
-	public static void main(String[] args) {
+	public static void test2() {
+		final String[] inputs = {"ba", "bo"};
+
+//		String[][] outputs = {{"b", "a"}, {"b", "o"}};
+		final String[][] outputs = {{"ba", "ma"}, {"co", "chu"}};
+
+		final FSMBuilder  builder = new MinimalFSMBuilder(IConstants.FSM_FST);
+		builder.create(inputs, outputs);
+		builder.printMachine();
+		builder.dispose();
+	}
+
+
+
+	public static void main(final String[] args) {
 //		test1();
 		test2();
 	}

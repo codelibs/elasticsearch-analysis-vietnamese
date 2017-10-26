@@ -33,7 +33,7 @@ public class DFASimulator extends Simulator {
 	 * the simulation.
 	 */
 	protected DFAConfiguration configuration = null;
-	
+
 	/**
 	 * A simple logger for the simulator.
 	 */
@@ -55,28 +55,29 @@ public class DFASimulator extends Simulator {
 	class SimulatorLogger implements ISimulatorListener {
 
 		private final Logger logger;
-		
+
 		public SimulatorLogger() {
 			logger = Logger.getLogger(DFASimulator.class.getName());
 			// use a console handler to trace the log
 			logger.addHandler(new ConsoleHandler());
 			logger.setLevel(Level.FINEST);
 		}
-		
-		
-		public void update(ConfigurationEvent configurationEvent) {
+
+
+		@Override
+        public void update(final ConfigurationEvent configurationEvent) {
 			// log the configuration event
 			logger.log(Level.INFO, configurationEvent.toString());
 		}
-		
+
 	}
-	
+
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @param dfa an dfa.
 	 */
-	public DFASimulator(DFA dfa) {
+	public DFASimulator(final DFA dfa) {
 		// invoke the parent's constructor to
 		// init listeners
 		super();
@@ -89,33 +90,33 @@ public class DFASimulator extends Simulator {
 
 	/**
 	 * Find the next configuration of the DFA.
-	 * 
+	 *
 	 * @param configuration
 	 * @return The next configuration of current configuration or null if the
 	 *         simulator cannot go further.
 	 */
-	protected DFAConfiguration next(DFAConfiguration configuration) {
+	protected DFAConfiguration next(final DFAConfiguration configuration) {
 		DFAConfiguration nextConfiguration = null;
 		// get information of current configuration
-		State currentState = configuration.getCurrentState();
+		final State currentState = configuration.getCurrentState();
 		String unprocessedInput = configuration.getUnprocessedInput();
-		int len = unprocessedInput.length();
+		final int len = unprocessedInput.length();
 		if (len > 0) {
 			// get all inputs of outtransitions of the current state
-			char[] outTransitionInputs = currentState.getOutTransitionInputs();
+			final char[] outTransitionInputs = currentState.getOutTransitionInputs();
 			// get the first character of the unprocessed input
-			char nextInput = unprocessedInput.charAt(0);
+			final char nextInput = unprocessedInput.charAt(0);
 			// find the next configuration
-			for (int i = 0; i < outTransitionInputs.length; i++) {
-				if (outTransitionInputs[i] == nextInput) {
+			for (final char outTransitionInput : outTransitionInputs) {
+				if (outTransitionInput == nextInput) {
 					// get the next state (possible null)
-					State nextState = dfa.getNextState(currentState, nextInput);
+					final State nextState = dfa.getNextState(currentState, nextInput);
 					if (nextState != null) {
 						// create the next configuration
 						if (unprocessedInput.length() > 0) {
 							unprocessedInput = unprocessedInput.substring(1);
 						}
-						nextConfiguration = new DFAConfiguration(nextState, configuration, 
+						nextConfiguration = new DFAConfiguration(nextState, configuration,
 								configuration.getTotalInput(), unprocessedInput);
 						// create a configuration event and notify all registered listeners
 						if (DEBUG) {
@@ -130,21 +131,22 @@ public class DFASimulator extends Simulator {
 
 	/**
 	 * Track an input on the DFA.
-	 * 
+	 *
 	 * @param input
 	 *            an input
 	 * @return the configuration at which the machine cannot go further on the
 	 *         input.
 	 */
-	public DFAConfiguration track(String input) {
+	@Override
+    public DFAConfiguration track(final String input) {
 		// create the initial configuration of the simulation
 		// that start at the initial state of the machine, has no parent
 		// (null), and the input.
 		configuration = new DFAConfiguration(dfa.getInitialState(), null, input, input);
-		
+
 		while (configuration != null) {
 			// get the next configuration
-			DFAConfiguration nextConfiguration = next(configuration);
+			final DFAConfiguration nextConfiguration = next(configuration);
 			// if the simulator cannot go further
 			if (nextConfiguration == null) {
 				return configuration;
@@ -158,23 +160,23 @@ public class DFASimulator extends Simulator {
 	}
 
 	@Override
-	public boolean accept(String input) {
+	public boolean accept(final String input) {
 		// first track the input
-		DFAConfiguration configuration = track(input);
+		final DFAConfiguration configuration = track(input);
 		// the input is accepted if the current state is final
 		// and there is no unprocessed input
-		return (configuration.getCurrentState().isFinalState() && 
+		return (configuration.getCurrentState().isFinalState() &&
 				(configuration.getUnprocessedInput().length() == 0));
 	}
 
 	/**
-	 * A run of the dfa on an input does not return any 
+	 * A run of the dfa on an input does not return any
 	 * result.
-	 * 
+	 *
 	 * @see vn.hus.nlp.fsm.Simulator#run(java.lang.String)
 	 */
 	@Override
-	public String run(String input) {
+	public String run(final String input) {
 		return null;
 	}
 

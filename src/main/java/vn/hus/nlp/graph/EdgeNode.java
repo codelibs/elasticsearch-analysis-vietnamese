@@ -25,11 +25,11 @@ public class EdgeNode {
 	}
 
 	/**
-	 * Constructor an edge node given an edge and next edge node. 
+	 * Constructor an edge node given an edge and next edge node.
 	 * @param e an edge
 	 * @param next next edge node
 	 */
-	public EdgeNode(Edge e, EdgeNode next) {
+	public EdgeNode(final Edge e, final EdgeNode next) {
 		this.e = e;
 		this.next = next;
 	}
@@ -41,7 +41,7 @@ public class EdgeNode {
 	public EdgeNode getNext() {
 		return next;
 	}
-	
+
 	/**
 	 * Get the edge in the current node.
 	 * @return the edge.

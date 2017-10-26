@@ -26,7 +26,7 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *         <li>Number and percent of three-syllable words
  *         <li>Number and percent of words that have more than three syllables
  *         </ol>
- * 
+ *
  */
 public final class LexiconCounter {
 	/**
@@ -34,18 +34,18 @@ public final class LexiconCounter {
 	 */
 	String lexiconFile;
 
-	public LexiconCounter(String lexiconFile) {
+	public LexiconCounter(final String lexiconFile) {
 		this.lexiconFile = lexiconFile;
 	}
 
 	public void count() {
 		// get all lines of the lexicon
-		String[] lines = UTF8FileUtility.getLines(lexiconFile);
+		final String[] lines = UTF8FileUtility.getLines(lexiconFile);
 		// count
-		int[] counters = { 0, 0, 0, 0, 0};
-		for (int i = 0; i < lines.length; i++) {
-			String[] syllables = lines[i].split("\\s+");
-			int len = syllables.length;
+		final int[] counters = { 0, 0, 0, 0, 0};
+		for (final String line : lines) {
+			final String[] syllables = line.split("\\s+");
+			final int len = syllables.length;
 			if (0 < len) {
 				if (len <= 4) {
 					counters[syllables.length - 1]++;
@@ -55,7 +55,7 @@ public final class LexiconCounter {
 			}
 		}
 		System.out.println("# of lexicon = " + lines.length);
-		Formatter formatter = new Formatter(System.out);
+		final Formatter formatter = new Formatter(System.out);
 		try
 		{
 			for (int i = 0; i < counters.length; i++) {
@@ -63,15 +63,15 @@ public final class LexiconCounter {
 						"# of length ", i+1, counters[i], (float) counters[i]
 								/ lines.length * 100);
 			}
-			
+
 		} finally
 		{
 			formatter.close();
 		}
 		// verify the total number
 		int m = 0;
-		for (int i = 0; i < counters.length; i++) {
-			m += counters[i];
+		for (final int counter : counters) {
+			m += counter;
 		}
 		System.out.println("Total = " + m);
 	}
@@ -79,7 +79,7 @@ public final class LexiconCounter {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		new LexiconCounter("dictionaries/words_v3_set.txt").count();
 	}
 

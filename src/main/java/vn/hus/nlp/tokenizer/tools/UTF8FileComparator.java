@@ -36,7 +36,7 @@ public final class UTF8FileComparator {
 	 */
 	String thirdFile;
 
-	public UTF8FileComparator(String firstFile, String secondFile, String thirdFile) {
+	public UTF8FileComparator(final String firstFile, final String secondFile, final String thirdFile) {
 		this.firstFile = firstFile;
 		this.secondFile = secondFile;
 		this.thirdFile = thirdFile;
@@ -46,13 +46,13 @@ public final class UTF8FileComparator {
 	 *
 	 */
 	public String[] compare() {
-		List<String> differences = new ArrayList<String>();
+		final List<String> differences = new ArrayList<>();
 		// get all lines of the first file
-		String[] firstLines = UTF8FileUtility.getLines(firstFile);
+		final String[] firstLines = UTF8FileUtility.getLines(firstFile);
 		// get all lines of the second file
-		String[] secondLines = UTF8FileUtility.getLines(secondFile);
+		final String[] secondLines = UTF8FileUtility.getLines(secondFile);
 		// compare two arrays of strings to find out differences
-		int min = (firstLines.length < secondLines.length ? firstLines.length
+		final int min = (firstLines.length < secondLines.length ? firstLines.length
 				: secondLines.length);
 		for (int i = 0; i < min; i++) {
 			if (!firstLines[i].equals(secondLines[i])) {
@@ -60,7 +60,7 @@ public final class UTF8FileComparator {
 						+ secondLines[i]);
 			}
 		}
-		return differences.toArray(new String[differences.size()]); 
+		return differences.toArray(new String[differences.size()]);
 	}
 	/**
 	 * Export the differences to the third file
@@ -68,7 +68,7 @@ public final class UTF8FileComparator {
 	 */
 	public void exportResult() {
 		UTF8FileUtility.createWriter(thirdFile);
-		String[] differences = compare();
+		final String[] differences = compare();
 		UTF8FileUtility.write("# of differences = " + differences.length + "\n\n");
 		UTF8FileUtility.write(differences);
 		UTF8FileUtility.closeWriter();
@@ -76,8 +76,8 @@ public final class UTF8FileComparator {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		UTF8FileComparator comparator = new UTF8FileComparator(
+	public static void main(final String[] args) {
+		final UTF8FileComparator comparator = new UTF8FileComparator(
 				"corpus/test/corpus0_tok_ambiguities.txt",
 				"corpus/test/corpus0_tok_resolved.txt",
 				"corpus/test/corpus0_tok_differences.txt");

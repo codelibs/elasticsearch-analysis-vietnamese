@@ -24,52 +24,53 @@ public class AdjacencyListWeightedGraph extends WeightedGraph {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param n
 	 *            number of vertices of the graph.
 	 * @param directed
 	 *            <code>true/false</code>
 	 */
-	public AdjacencyListWeightedGraph(int n, boolean directed) {
+	public AdjacencyListWeightedGraph(final int n, final boolean directed) {
 		super(n, directed);
 		adj = new EdgeNode[n];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.Graph#edge(int, int)
 	 */
 	@Override
-	public boolean edge(int u, int v) {
-		EdgeIterator iterator = edgeIterator(u);
+	public boolean edge(final int u, final int v) {
+		final EdgeIterator iterator = edgeIterator(u);
 		while (iterator.hasNext()) {
-			Edge e = iterator.next();
-			if (v == e.getV())
-				return true;
+			final Edge e = iterator.next();
+			if (v == e.getV()) {
+                return true;
+            }
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.WeightedGraph#edgeIterator(int)
 	 */
 	@Override
-	public EdgeIterator edgeIterator(int u) {
+	public EdgeIterator edgeIterator(final int u) {
 		return new AdjacencyListEdgeIterator(this, u);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.Graph#insert(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void insert(Edge edge) {
-		int u = edge.getU();
-		int v = edge.getV();
+	public void insert(final Edge edge) {
+		final int u = edge.getU();
+		final int v = edge.getV();
 		// add the edge (u,v)
 		adj[u] = new EdgeNode(edge, adj[u]);
 		// add the edge (v,u) if the graph
@@ -83,17 +84,17 @@ public class AdjacencyListWeightedGraph extends WeightedGraph {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.IGraph#remove(vn.hus.graph.Edge)
 	 */
 	@Override
-	public void remove(Edge edge) {
+	public void remove(final Edge edge) {
 		// TODO
 	}
 
 	/**
 	 * Get the adjacency list.
-	 * 
+	 *
 	 * @return the adjacency list.
 	 */
 	public EdgeNode[] getAdj() {
@@ -105,31 +106,32 @@ public class AdjacencyListWeightedGraph extends WeightedGraph {
 	 * @see #edge(int, int)
 	 */
 	@Override
-	public Edge getEdge(int u, int v) {
-		EdgeIterator iterator = edgeIterator(u);
+	public Edge getEdge(final int u, final int v) {
+		final EdgeIterator iterator = edgeIterator(u);
 		while (iterator.hasNext()) {
-			Edge e = iterator.next();
-			if (v == e.getV())
-				return e;
+			final Edge e = iterator.next();
+			if (v == e.getV()) {
+                return e;
+            }
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.Graph#vertexIterator(int)
 	 */
 	@Override
-	public VertexIterator vertexIterator(int u) {
+	public VertexIterator vertexIterator(final int u) {
 		// build the graph2 from graph
-		int nV = getNumberOfVertices();
-		AdjacencyListGraph graph2 = new AdjacencyListGraph(nV, isDirected());
+		final int nV = getNumberOfVertices();
+		final AdjacencyListGraph graph2 = new AdjacencyListGraph(nV, isDirected());
 		// copy the edges of graph to graph2
 		for (int v = 0; v < nV; v++) {
-			EdgeIterator edgeIterator = edgeIterator(v);
+			final EdgeIterator edgeIterator = edgeIterator(v);
 			while (edgeIterator.hasNext()) {
-				Edge edge = edgeIterator.next();
+				final Edge edge = edgeIterator.next();
 				graph2.insert(edge);
 			}
 		}
@@ -139,20 +141,20 @@ public class AdjacencyListWeightedGraph extends WeightedGraph {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see vn.hus.graph.Graph#dispose()
 	 */
 	@Override
 	protected void dispose() {
 		// delete the array of linked-list.
-		for (int u = 0; u < adj.length; u++) {
-			dispose(adj[u]);
+		for (final EdgeNode element : adj) {
+			dispose(element);
 		}
 	}
 
 	/**
 	 * Dispose a LIFO linked list headed by a node.
-	 * 
+	 *
 	 * @param node
 	 *            the top node of the list.
 	 */

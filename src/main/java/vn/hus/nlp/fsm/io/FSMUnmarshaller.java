@@ -4,9 +4,7 @@
  */
 package vn.hus.nlp.fsm.io;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -34,11 +32,11 @@ import vn.hus.nlp.fsm.jaxb.Transitions;
  * <p>
  */
 public class FSMUnmarshaller {
-	
-	private JAXBContext jaxbContext; 
-	
+
+	private JAXBContext jaxbContext;
+
 	private Unmarshaller unmarshaller;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -47,18 +45,18 @@ public class FSMUnmarshaller {
 		//
 		createContext();
 	}
-	
+
 	private void createContext() {
 		jaxbContext = null;
 		try {
-			ClassLoader cl = ObjectFactory.class.getClassLoader();
+			final ClassLoader cl = ObjectFactory.class.getClassLoader();
 			jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Get the marshaller object.
 	 * @return the marshaller object.
@@ -68,7 +66,7 @@ public class FSMUnmarshaller {
 			try {
 				// create the marshaller
 				unmarshaller = jaxbContext.createUnmarshaller();
-			} catch (JAXBException e) {
+			} catch (final JAXBException e) {
 				e.printStackTrace();
 			}
 		}
@@ -80,37 +78,35 @@ public class FSMUnmarshaller {
 	 * @param filename a file.
 	 * @return a state machine
 	 */
-	public FSM unmarshal(String filename, String machineType) {
+	public FSM unmarshal(final String filename, final String machineType) {
 		FSM fsm;
-		if (machineType.equalsIgnoreCase(IConstants.FSM_DFA)) 
-			fsm = new DFA();
-		else {
+		if (machineType.equalsIgnoreCase(IConstants.FSM_DFA)) {
+            fsm = new DFA();
+        } else {
 //			System.out.println("Unmarshal a FST");
 			fsm = new FST();
 		}
-		
+
 		getUnmarshaller();
 		try {
-			
-			InputStream stream = getClass().getResourceAsStream(filename);
-			
-			Object obj = unmarshaller.unmarshal(stream);
+
+			final InputStream stream = getClass().getResourceAsStream(filename);
+
+			final Object obj = unmarshaller.unmarshal(stream);
 			if (obj != null) {
-				Fsm fsm2 = (Fsm)obj;
-				// fill the states 
-				States states = fsm2.getStates();
-				for (Iterator<S> it = states.getS().iterator(); it.hasNext();) {
-					S s = it.next();
-					State state = new State(s.getId()); 
+				final Fsm fsm2 = (Fsm)obj;
+				// fill the states
+				final States states = fsm2.getStates();
+				for (final S s : states.getS()) {
+					final State state = new State(s.getId());
 					state.setType(s.getType());
 					fsm.addState(state);
 				}
 				// fill the transitions
-				Transitions transitions = fsm2.getTransitions();
-				for (Iterator<T> it = transitions.getT().iterator(); it.hasNext();) {
-					T t = it.next();
-					char input = t.getInp().charAt(0);
-					String output = t.getOut();
+				final Transitions transitions = fsm2.getTransitions();
+				for (final T t : transitions.getT()) {
+					final char input = t.getInp().charAt(0);
+					final String output = t.getOut();
 					Transition transition;
 					if (output != null && output.equals(IConstants.EMPTY_STRING)) {
 						transition = new Transition(t.getSrc(), t.getTar(), input);
@@ -119,13 +115,13 @@ public class FSMUnmarshaller {
 					}
 					fsm.addTransition(transition);
 				}
-				
+
 			}
-		} catch (JAXBException e) {
+		} catch (final JAXBException e) {
 			System.out.println("Error when unmarshalling the machine.");
 			e.printStackTrace();
 		}
 		return fsm;
 	}
-	
+
 }

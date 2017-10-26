@@ -5,7 +5,6 @@
 package vn.hus.nlp.fsm;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,42 +23,41 @@ public abstract class Simulator implements ISimulator {
 	 * List of simulator listeners
 	 */
 	protected List<ISimulatorListener> listeners;
-	
+
 	/**
 	 * Default constructor
 	 */
 	public Simulator() {
-		listeners = new ArrayList<ISimulatorListener>();
+		listeners = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Add a simulator listener.
 	 * @param simulatorListener
 	 */
-	public void addSimulatorListener(ISimulatorListener simulatorListener) {
+	public void addSimulatorListener(final ISimulatorListener simulatorListener) {
 		listeners.add(simulatorListener);
 	}
-	
+
 	/**
 	 * Remove a simulator listener.
 	 * @param simulatorListener
 	 */
-	public void removeSimulatorListener(ISimulatorListener simulatorListener) {
+	public void removeSimulatorListener(final ISimulatorListener simulatorListener) {
 		listeners.remove(simulatorListener);
 	}
-	
+
 
 	/**
 	 * Notify all registered listeners about a configuration.
 	 * @param configEvent
 	 */
-	public void notify(ConfigurationEvent configEvent) {
-		for (Iterator<ISimulatorListener> iterator = listeners.iterator(); iterator.hasNext();) {
-			ISimulatorListener simulatorListener = iterator.next();
+	public void notify(final ConfigurationEvent configEvent) {
+		for (final ISimulatorListener simulatorListener : listeners) {
 			simulatorListener.update(configEvent);
 		}
 	}
-	
+
 	/**
 	 * Dispose the simulator. Remove all registered listeners.
 	 */
@@ -67,27 +65,30 @@ public abstract class Simulator implements ISimulator {
 		listeners.clear();
 		listeners = null;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see vn.hus.fsm.ISimulator#accept(java.lang.String)
 	 */
-	public boolean accept(String input) {
+	@Override
+    public boolean accept(final String input) {
 		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see vn.hus.fsm.ISimulator#run(java.lang.String)
 	 */
-	public String run(String input) {
+	@Override
+    public String run(final String input) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see vn.hus.fsm.ISimulator#track(java.lang.String)
 	 */
-	public Configuration track(String input) {
+	@Override
+    public Configuration track(final String input) {
 		return null;
 	}
-	
+
 }

@@ -23,22 +23,22 @@ public class Configuration {
 
 	/**
 	 * Instantiates a new configuration.
-	 * 
+	 *
 	 * @param state
 	 *            the state the machine is currently in.
 	 * @param parent
 	 *            the parent configuration of the current state
 	 */
-	public Configuration(State state, Configuration parent) {
+	public Configuration(final State state, final Configuration parent) {
 		currentState = state;
 		this.parent = parent;
 	}
 
 	/**
 	 * Returns the state the machine is currently occupying.
-	 * 
+	 *
 	 * @return the state the machine is currently occupying.
-	 * 
+	 *
 	 */
 	public State getCurrentState() {
 		return currentState;
@@ -46,19 +46,19 @@ public class Configuration {
 
 	/**
 	 * Sets current state.
-	 * 
+	 *
 	 * @param state
 	 *            the state the machine is currently in.
-	 * 
+	 *
 	 */
-	public void setCurrentState(State state) {
+	public void setCurrentState(final State state) {
 		currentState = state;
 	}
 
 	/**
 	 * Returns a string representation of this object. The string returned is
 	 * the string representation of the current state.
-	 * 
+	 *
 	 * @return a string representation of this object
 	 */
 	@Override
@@ -69,10 +69,10 @@ public class Configuration {
 	/**
 	 * Returns the "parent" for this configuration, that is, the configuration
 	 * that led to this configuration.
-	 * 
+	 *
 	 * @return the <code>Configuration</code> that led to this configuration,
 	 *         or <code>null</code> if this is the initial configuration
-	 * 
+	 *
 	 */
 	public Configuration getParent() {
 		return parent;
@@ -84,15 +84,16 @@ public class Configuration {
 	 * same configuration" it is meant a comparison of the parents via the ==
 	 * operation rather than the <code>.equals()</code> operation, since the
 	 * latter would lead to rather lengthly traversions.
-	 * 
+	 *
 	 * @param configuration
 	 *            the configuration to test for equality
 	 */
 	@Override
-	public boolean equals(Object configuration) {
-		Configuration config = (Configuration) configuration;
-		if (parent != config.parent)
-			return false;
+	public boolean equals(final Object configuration) {
+		final Configuration config = (Configuration) configuration;
+		if (parent != config.parent) {
+            return false;
+        }
 		return config.currentState == currentState;
 	}
 
@@ -100,7 +101,7 @@ public class Configuration {
 	 * Returns the base hash code for a configuration. Subclasses should
 	 * override so as not to have all configurations with the same parent
 	 * configuration and state map to the same hash entry.
-	 * 
+	 *
 	 * @return a value for hashing
 	 */
 	@Override

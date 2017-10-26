@@ -11,7 +11,7 @@ package vn.hus.nlp.fsm;
  * <p>
  * Nov 5, 2007, 10:21:47 PM
  * <p>
- * Listener for simulator. Simulation keeps a chain of 
+ * Listener for simulator. Simulation keeps a chain of
  */
 public interface ISimulatorListener {
 	/**

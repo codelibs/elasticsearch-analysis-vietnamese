@@ -13,9 +13,9 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 /**
  * @author LE Hong Phuong
  *         <p>
- *         This class is used to export the results of tokenization using 
+ *         This class is used to export the results of tokenization using
  *         a formatter. If a formatter is not provided, the default plain formatter
- *         is used. 
+ *         is used.
  *         </p>
  *         @see {@link IOutputFormatter}
  */
@@ -36,30 +36,30 @@ public class Outputer {
 	public Outputer() {
 		// use plain outputer by default
 		this.formatter = new PlainFormatter();
-		listeners = new ArrayList<IOutputListener>();
+		listeners = new ArrayList<>();
 	}
-	
+
 	/**
 	 * This outputer uses a formatter to output the result.
 	 * @param formatter a formatter
 	 */
-	public Outputer(IOutputFormatter formatter) {
+	public Outputer(final IOutputFormatter formatter) {
 		this.formatter = formatter;
-		listeners = new ArrayList<IOutputListener>();
+		listeners = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * Output the list of tokens.
 	 * @param tokens a list of tokens to be outputed.
-	 * @return a string represents the list. 
+	 * @return a string represents the list.
 	 */
-	public String output(List<TaggedWord> tokens) {
+	public String output(final List<TaggedWord> tokens) {
 		String r = "";
-		Iterator<TaggedWord> it = tokens.iterator();
-		
+		final Iterator<TaggedWord> it = tokens.iterator();
+
 		while (it.hasNext()) {
-			TaggedWord token = it.next();
+			final TaggedWord token = it.next();
 			r += formatter.outputLexeme(token);
 			// notifies the outputed token to all listeners
 			notifyAllListeners(token);
@@ -78,7 +78,7 @@ public class Outputer {
 	 * Set the formatter to use.
 	 * @param formatter The formatter to set.
 	 */
-	public void setFormatter(IOutputFormatter formatter) {
+	public void setFormatter(final IOutputFormatter formatter) {
 		this.formatter = formatter;
 	}
 	/**
@@ -92,7 +92,7 @@ public class Outputer {
 	 * Add an output listener to the list of listeners.
 	 * @param listener an ouput listener to add.
 	 */
-	public void addOutputListener(IOutputListener listener) {
+	public void addOutputListener(final IOutputListener listener) {
 		if (listener != null) {
 			listeners.add(listener);
 		}
@@ -101,7 +101,7 @@ public class Outputer {
 	 * Remove a listener from the list of listener
 	 * @param listener an output listener.
 	 */
-	public void removeOutputListener(IOutputListener listener) {
+	public void removeOutputListener(final IOutputListener listener) {
 		listeners.remove(listener);
 	}
 	/**
@@ -117,8 +117,8 @@ public class Outputer {
 	 * of all register output listeners.
 	 * @param token an outputed token.
 	 */
-	private void notifyAllListeners(TaggedWord token) {
-		for (IOutputListener listener : listeners) {
+	private void notifyAllListeners(final TaggedWord token) {
+		for (final IOutputListener listener : listeners) {
 			listener.outputToken(token);
 		}
 	}

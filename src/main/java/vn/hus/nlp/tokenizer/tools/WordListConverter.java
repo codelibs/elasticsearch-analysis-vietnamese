@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package vn.hus.nlp.tokenizer.tools;
 
@@ -21,18 +21,19 @@ public class WordListConverter {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		String fileInp = "data/dictionaries/words_v4.txt";
-		String fileOut = "data/dictionaries/words_v4.xml";
-		
-		String[] words = UTF8FileUtility.getLines(fileInp);
-		Map<String, String> wordMap = new TreeMap<String, String>();
+	public static void main(final String[] args) {
+		final String fileInp = "data/dictionaries/words_v4.txt";
+		final String fileOut = "data/dictionaries/words_v4.xml";
+
+		final String[] words = UTF8FileUtility.getLines(fileInp);
+		final Map<String, String> wordMap = new TreeMap<>();
 		for (String word : words) {
 			word = word.trim();
-			if (word.length() > 0)
-				wordMap.put(word, "");
+			if (word.length() > 0) {
+                wordMap.put(word, "");
+            }
 		}
-		LexiconMarshaller marshaller = new LexiconMarshaller();
+		final LexiconMarshaller marshaller = new LexiconMarshaller();
 		marshaller.marshal(wordMap, fileOut);
 		System.out.println("Done");
 	}

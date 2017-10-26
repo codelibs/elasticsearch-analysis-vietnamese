@@ -8,8 +8,9 @@ import java.util.Comparator;
  */
 public class CoupleComparator implements Comparator<Couple> {
 
-		public int compare(Couple c1, Couple c2) {
+		@Override
+        public int compare(final Couple c1, final Couple c2) {
 			return (c1.getFirst()+c1.getSecond()).compareTo(c2.getFirst()+c2.getSecond());
 		}
-		
+
 	}

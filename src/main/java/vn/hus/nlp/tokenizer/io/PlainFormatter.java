@@ -12,15 +12,16 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *         This class is an implementaton of interface
  *         <code>IOuputFormatter</code>. Its purpose is to provide a plain
  *         segmentation output, each token is kept on a seperate line.
- * 
+ *
  */
 public class PlainFormatter implements IOutputFormatter {
 
 	/* (non-Javadoc)
 	 * @see vn.hus.tokenizer.io.IOutputFormatter#outputLexeme(vn.hus.tokenizer.tokens.LexerToken)
 	 */
-	public String outputLexeme(TaggedWord token) {
-		StringBuffer stBuf = new StringBuffer();
+	@Override
+    public String outputLexeme(final TaggedWord token) {
+		final StringBuffer stBuf = new StringBuffer();
 		// output only the text of the token
 		stBuf.append(token.getText());
 		// end of line

@@ -35,9 +35,9 @@ import vn.hus.nlp.lexicon.jaxb.W;
  *         This is the estimator for lambda values in the smoothed bigram model.
  *         The estimator calculates conditional probabilities of the bigram
  *         model and uses them to estimate lambda values. The lambda values and
- *         conditional probabilities will be used by a resolver to resolve 
+ *         conditional probabilities will be used by a resolver to resolve
  *         ambiguities of a segmentation.
- * 
+ *
  */
 public class Estimator {
 
@@ -66,77 +66,79 @@ public class Estimator {
 	private List<Couple> probabilities;
 
 	private LexiconUnmarshaller unmarshaller;
-	
+
 	private LexiconMarshaller marshaller;
-	
+
 	private Map<String, List<Couple>> tokenMap;
-	
-	
+
+
 	/**
 	 * Construct an estimator given data files.
-	 * 
+	 *
 	 * @param unigramDataFile
 	 * @param bigramDataFile
 	 */
-	public Estimator(String unigramDataFile, String bigramDataFile) {
+	public Estimator(final String unigramDataFile, final String bigramDataFile) {
 		init();
 		loadModels(unigramDataFile, bigramDataFile);
 	}
 
 	/**
 	 * Initialize the maps.
-	 * 
+	 *
 	 */
 	private void init() {
 		// init the collections
-		unigram = new HashMap<String, Integer>();
-		bigram = new HashMap<Couple, Integer>();
-		probabilities = new ArrayList<Couple>();
+		unigram = new HashMap<>();
+		bigram = new HashMap<>();
+		probabilities = new ArrayList<>();
 		// create the unmarshaller
 		unmarshaller = new LexiconUnmarshaller();
 		// create the marshaller
 		marshaller = new LexiconMarshaller();
-		
+
 		//
-		tokenMap = new HashMap<String, List<Couple>>();
+		tokenMap = new HashMap<>();
 	}
 
 	/**
 	 * Find all couples in the bigram model that has the first string is
 	 * <code>first</code>.
-	 * 
+	 *
 	 * @param first
 	 *            a string
 	 * @return
 	 */
-	private Couple[] findFirst(String first) {
-		List<Couple> couples = tokenMap.get(first);
-		if (couples != null)
-			return couples.toArray(new Couple[couples.size()]);
-		else return null;
+	private Couple[] findFirst(final String first) {
+		final List<Couple> couples = tokenMap.get(first);
+		if (couples != null) {
+            return couples.toArray(new Couple[couples.size()]);
+        } else {
+            return null;
+        }
 	}
 
 	/**
 	 * Estimate conditional probabilities P(s | f), for all f and s in the
 	 * model. This method is called once to estimate conditional probabilities.
 	 * The result is saved to a file by method <code>outputConditionalProbabilities</code>.
-	 * 
+	 *
 	 */
 	private void estimateConditionalProb() {
 		System.out.println("Estimating conditional probabilities...");
-		Iterator<String> firstIt = unigram.keySet().iterator();
+		final Iterator<String> firstIt = unigram.keySet().iterator();
 		while (firstIt.hasNext()) {
-			String first = firstIt.next();
+			final String first = firstIt.next();
 			// get the c(first)
-			int cFirst = unigram.get(first); // auto-unboxing
+			final int cFirst = unigram.get(first); // auto-unboxing
 			// find all couple(first, second) in the bigram given the first
-			Couple[] biCouples = findFirst(first);
+			final Couple[] biCouples = findFirst(first);
 			if (biCouples != null) {
 				// create probabilities P(s | f) and add them to the conditional
 				// probabilities list
-				for (int i = 0; i < biCouples.length; i++) {
-					Couple c = new Couple(biCouples[i].getSecond(), first);
-					double prob = (double) (biCouples[i].getFreq()) / cFirst;
+				for (final Couple biCouple : biCouples) {
+					final Couple c = new Couple(biCouple.getSecond(), first);
+					final double prob = (double) (biCouple.getFreq()) / cFirst;
 					c.setProb(prob);
 					probabilities.add(c);
 				}
@@ -156,34 +158,34 @@ public class Estimator {
 		// calculate conditional probabilities
 		estimateConditionalProb();
 		System.out.println("Estimating lambda values...");
-		
-		long beginTime = System.currentTimeMillis();
-		
+
+		final long beginTime = System.currentTimeMillis();
+
 		lambda1 = 0.5;
 		lambda2 = 0.5;
-		
+
 		double hatEpsilon = 0;
 		double hatLambda1 = 0;
 		double hatLambda2 = 0;
 		double c1 = 0;
 		double c2 = 0;
-		
+
 		// number of loops
 		int m = 0;
-		
+
 		do {
 			hatLambda1 = lambda1;
 			hatLambda2 = lambda2;
 			// calculate c1 and c2
 			c1 = 0;
 			c2 = 0;
-			Iterator<Couple> biTokens = bigram.keySet().iterator();
+			final Iterator<Couple> biTokens = bigram.keySet().iterator();
 			while (biTokens.hasNext()) {
-				Couple couple = biTokens.next();
-				String first = couple.getFirst(); // w_{i-1}
-				String second = couple.getSecond(); // w_i
+				final Couple couple = biTokens.next();
+				final String first = couple.getFirst(); // w_{i-1}
+				final String second = couple.getSecond(); // w_i
 				// calculate the denominator
-				double denominator = (lambda1 * getConditionalProbability(second, first) 
+				final double denominator = (lambda1 * getConditionalProbability(second, first)
 						+ lambda2 * getUnigramProbability(second));
 //				System.out.println("denominator = " + denominator);
 //				System.out.println("getConditionalProbability(second, first) = " + getConditionalProbability(second, first));
@@ -198,9 +200,9 @@ public class Estimator {
 			}
 			// re-estimate lamda1 and lambda2
 			lambda1 = c1 / (c1 + c2);
-			validateProbabilityValue(lambda1); 
+			validateProbabilityValue(lambda1);
 			lambda2 = 1 - lambda1;
-			hatEpsilon = Math.sqrt((lambda1 - hatLambda1) * (lambda1 - hatLambda1) + 
+			hatEpsilon = Math.sqrt((lambda1 - hatLambda1) * (lambda1 - hatLambda1) +
 					(lambda2 - hatLambda2) * (lambda2 - hatLambda2));
 			System.out.println("m = " + m);
 			System.out.println("lambda1 = " + lambda1);
@@ -208,26 +210,28 @@ public class Estimator {
 			System.out.println("hatEpsilon = " + hatEpsilon);
 			// inc number of loops
 			m++;
-			if (m > 10)
-				break;
+			if (m > 10) {
+                break;
+            }
 		} while (hatEpsilon > EPSILON);
-		long endTime = System.currentTimeMillis();
+		final long endTime = System.currentTimeMillis();
 		System.out.println("Executed time (ms) = " + (endTime - beginTime));
 		System.out.println("Loop terminated!");
 		System.out.println("m = " + m);
 		System.out.println("lambda1 = " + lambda1);
 		System.out.println("lambda2 = " + lambda2);
 		System.out.println("hatEpsilon = " + hatEpsilon);
-		
+
 	}
 
 	/**
 	 * Validate a probability value (between 0 and 1)
 	 * @param prob
 	 */
-	private void validateProbabilityValue(double prob) {
-		if ((prob < 0) || (prob > 1))
-			System.err.println("Error! Invalid probability!");
+	private void validateProbabilityValue(final double prob) {
+		if ((prob < 0) || (prob > 1)) {
+            System.err.println("Error! Invalid probability!");
+        }
 	}
 
 	/**
@@ -235,9 +239,10 @@ public class Estimator {
 	 * @param token
 	 * @return
 	 */
-	private double getUnigramProbability(String token) {
-		if (unigram.keySet().contains(token))
-			return (double) (unigram.get(token).intValue()) / getTokenCount();
+	private double getUnigramProbability(final String token) {
+		if (unigram.keySet().contains(token)) {
+            return (double) (unigram.get(token).intValue()) / getTokenCount();
+        }
 		// if the token is not in the bigram model
 		return 0;
 	}
@@ -248,16 +253,16 @@ public class Estimator {
 	 * @param second
 	 * @return
 	 */
-	private double getConditionalProbability(String first, String second) {
+	private double getConditionalProbability(final String first, final String second) {
 		return getConditionalProbability(new Couple(first, second));
 	}
-	
+
 	/**
-	 * Get the conditional probability of a couple 
+	 * Get the conditional probability of a couple
 	 * @param couple
 	 * @return
 	 */
-	private double getConditionalProbability(Couple couple) {
+	private double getConditionalProbability(final Couple couple) {
 		/*
 		Iterator<Couple> couples = probabilities.iterator();
 		while (couples.hasNext()) {
@@ -267,56 +272,54 @@ public class Estimator {
 		// there does not the couple in the probabilities
 		return 0;
 		*/
-		int index = Collections.binarySearch(probabilities, couple, new CoupleComparator());
+		final int index = Collections.binarySearch(probabilities, couple, new CoupleComparator());
 		if (index >= 0) {
 			return probabilities.get(index).getProb();
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Load data files and fill unigram and bigram models.
-	 * 
+	 *
 	 * @param unigramDataFile
 	 * @param bigramDataFile
 	 */
-	private void loadModels(String unigramDataFile, String bigramDataFile) {
+	private void loadModels(final String unigramDataFile, final String bigramDataFile) {
 		System.out.println("Loading models...");
 		// load unigram model
-		Corpus unigramCorpus =  unmarshaller.unmarshal(unigramDataFile);
+		final Corpus unigramCorpus =  unmarshaller.unmarshal(unigramDataFile);
 		List<W> ws = unigramCorpus.getBody().getW();
-		for (Iterator<W> iterator = ws.iterator(); iterator.hasNext();) {
-			W w = iterator.next();
-			String freq = w.getMsd();
-			String word = w.getContent();
+		for (final W w : ws) {
+			final String freq = w.getMsd();
+			final String word = w.getContent();
 			unigram.put(word, Integer.parseInt(freq));
 		}
 		// load bigram model
-		// and initialize the token map 
-		Corpus bigramCorpus =  unmarshaller.unmarshal(bigramDataFile);
+		// and initialize the token map
+		final Corpus bigramCorpus =  unmarshaller.unmarshal(bigramDataFile);
 		ws = bigramCorpus.getBody().getW();
-		for (Iterator<W> iterator = ws.iterator(); iterator.hasNext();) {
-			W w = iterator.next();
-			String freq = w.getMsd();
-			String words = w.getContent();
-			// split the word using a comma. 
+		for (final W w : ws) {
+			final String freq = w.getMsd();
+			final String words = w.getContent();
+			// split the word using a comma.
 			// In general, there are only 2 words, but if a word itself is a
 			// comma, we simply do not consider this case :-)
-			String[] two = words.split(",");
-			
+			final String[] two = words.split(",");
+
 			if (two.length == 2) {
 				// update the bigram model
-				String first = two[0];
-				String second = two[1];
+				final String first = two[0];
+				final String second = two[1];
 				// create a couple
-				Couple couple = new Couple(first, second);
+				final Couple couple = new Couple(first, second);
 				// put the couple to the bigram
 				bigram.put(couple, Integer.parseInt(freq));
 				// update the token map
 				//
-				List<Couple> secondTokens = tokenMap.get(first);  
+				List<Couple> secondTokens = tokenMap.get(first);
 				if (secondTokens == null) {
-					secondTokens = new ArrayList<Couple>();
+					secondTokens = new ArrayList<>();
 					secondTokens.add(couple);
 					tokenMap.put(first, secondTokens);
 				} else {
@@ -330,14 +333,14 @@ public class Estimator {
 	 * Get the number of tokens in the training corpus.
 	 * This value can be calculated using the unigram model.
 	 * It is then used to calculate probabilities P(w_i) and P(w_{i-1}, w_i).
-	 *  
+	 *
 	 * @return number of tokens in the training corpus.
 	 */
 	private int getTokenCount() {
 		int n = 0;
-		Iterator<String> token = unigram.keySet().iterator();
+		final Iterator<String> token = unigram.keySet().iterator();
 		while (token.hasNext()) {
-			String t = token.next();
+			final String t = token.next();
 			n += (unigram.get(t).intValue());
 		}
 		return n;
@@ -345,48 +348,47 @@ public class Estimator {
 	/**
 	 * Output conditional probabilities P(s | f) to an XML file.
 	 * This file will be used as data file for a resolver <code>Resolver</code>.
-	 * 
+	 *
 	 * @param filename
 	 *            a file
 	 */
-	private void marshalConditionalProbabilities(String filename) {
+	private void marshalConditionalProbabilities(final String filename) {
 		System.out.println("Marshalling conditional probabilities...");
 		// prepare a map for marshalling
-		Map<String, String> map = new HashMap<String, String>();
+		final Map<String, String> map = new HashMap<>();
 		System.out.println("probabilities's size = " + probabilities.size());
 		String key;
 		String value;
-		DecimalFormat decimalFormat = new DecimalFormat("#.000");
-		for (Iterator<Couple> it = probabilities.iterator(); it.hasNext(); ) {
-			Couple c = it.next();
+		final DecimalFormat decimalFormat = new DecimalFormat("#.000");
+		for (final Couple c : probabilities) {
 			key = c.getFirst() + "|" + c.getSecond();
 			value = decimalFormat.format(c.getProb());
 			map.put(key, value);
 		}
 		// marshal the map
 		marshaller.marshal(map, filename);
-		
+
 	}
 
 	/**
 	 * Output conditional probabilities P(s | f) to a plain text file.
 	 * This file will be used as data file for a resolver <code>Resolver</code>.
-	 * 
+	 *
 	 * @param filename
 	 *            a file
-	 * @deprecated     
+	 * @deprecated
 	 */
 	@Deprecated
-	void outputConditionalProbabilities(String filename) {
+	void outputConditionalProbabilities(final String filename) {
 		try {
-			FileOutputStream outputStream = new FileOutputStream(filename);
-			Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-			BufferedWriter bufWriter = new BufferedWriter(writer);
-			
+			final FileOutputStream outputStream = new FileOutputStream(filename);
+			final Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+			final BufferedWriter bufWriter = new BufferedWriter(writer);
+
 			// write the result
-			Iterator<Couple> couples = probabilities.iterator();
+			final Iterator<Couple> couples = probabilities.iterator();
 			while (couples.hasNext()) {
-				Couple c = couples.next();
+				final Couple c = couples.next();
 				bufWriter.write("(" + c.getFirst() + "|" + c.getSecond()
 						+ ")" + "\t" + c.getProb());
 				bufWriter.write("\n");
@@ -394,9 +396,9 @@ public class Estimator {
 			// flush and close the writer
 			bufWriter.flush();
 			bufWriter.close();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -408,13 +410,13 @@ public class Estimator {
 		estimateConditionalProb();
 //		estimator.outputConditionalProbabilities(IConstants.CONDITIONAL_PROBABILITIES);
 		marshalConditionalProbabilities(IConstants.CONDITIONAL_PROBABILITIES);
-		
+
 	}
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Estimator estimator = new Estimator(IConstants.UNIGRAM_MODEL,
+	public static void main(final String[] args) {
+		final Estimator estimator = new Estimator(IConstants.UNIGRAM_MODEL,
 				IConstants.BIGRAM_MODEL);
 //		estimator.buildConditionalProbabilities();
 		estimator.estimate();

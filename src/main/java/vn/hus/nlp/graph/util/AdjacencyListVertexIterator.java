@@ -14,24 +14,24 @@ import vn.hus.nlp.graph.Node;
  * An iterator that examines a list of vertices of a graph.
  */
 public class AdjacencyListVertexIterator implements VertexIterator {
-	
+
 	/**
 	 * The underlying graph that this iterator operates on.
 	 */
 	private final AdjacencyListGraph graph;
-	
+
 	private Node next = null;
-	
+
 	/**
 	 * Construct the iterator over vertices adjacent to vertex u.
 	 * @param g
 	 * @param u
 	 */
-	public AdjacencyListVertexIterator(AdjacencyListGraph g, int u) {
+	public AdjacencyListVertexIterator(final AdjacencyListGraph g, final int u) {
 		this.graph = g;
-		
+
 		// get the number of vertices of the graph
-		int n = graph.getNumberOfVertices();
+		final int n = graph.getNumberOfVertices();
 		// range checking
 		new AssertionError(u < 0 || u >= n);
 		next =  graph.getAdj()[u];
@@ -39,9 +39,10 @@ public class AdjacencyListVertexIterator implements VertexIterator {
 	/* (non-Javadoc)
 	 * @see vn.hus.graph.util.VertexIterator#next()
 	 */
-	public int next() {
+	@Override
+    public int next() {
 		// get the next vertex
-		int v = next.getV();
+		final int v = next.getV();
 		// update the next pointer
 		next = next.getNext();
 		return v;
@@ -50,7 +51,8 @@ public class AdjacencyListVertexIterator implements VertexIterator {
 	/* (non-Javadoc)
 	 * @see vn.hus.graph.util.VertexIterator#hasNext()
 	 */
-	public boolean hasNext() {
+	@Override
+    public boolean hasNext() {
 		return (next != null);
 	}
 }

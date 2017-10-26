@@ -19,22 +19,22 @@ public interface IConstants {
 	 * The model filename for French.
 	 */
 	public static final String MODEL_NAME_FRENCH = "models/sentDetection/FrenchSD.bin.gz";
-	
+
 	/**
 	 * Training data for French
 	 */
-	public static final String TRAINING_DATA_FRENCH = "data/lang/fr/training.xml"; 
-	
+	public static final String TRAINING_DATA_FRENCH = "data/lang/fr/training.xml";
+
 	/**
 	 * The Vietnamese language
 	 */
 	public static final String LANG_VIETNAMESE = "vietnamese";
-	
+
 	/**
-	 * The model filename for Vietnamese 
+	 * The model filename for Vietnamese
 	 */
 	static final String MODEL_NAME_VIETNAMESE = "/models/sentDetection/VietnameseSD.zip";
-	
+
 	/**
 	 * Training data for Vietnamese
 	 */

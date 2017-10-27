@@ -29,7 +29,8 @@ import org.elasticsearch.index.IndexSettings;
 public class VietnameseTokenizerFactory extends AbstractTokenizerFactory {
     private final me.duydo.vi.Tokenizer tokenizer;
 
-    public VietnameseTokenizerFactory(final IndexSettings indexSettings, final Environment environment, final String name, final Settings settings) {
+    public VietnameseTokenizerFactory(final IndexSettings indexSettings, final Environment environment, final String name,
+            final Settings settings) {
         super(indexSettings, name, settings);
         tokenizer = AccessController.doPrivileged((PrivilegedAction<me.duydo.vi.Tokenizer>) () -> new me.duydo.vi.Tokenizer());
     }

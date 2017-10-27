@@ -14,7 +14,6 @@ import vn.hus.nlp.tokenizer.segmenter.AbstractResolver;
 import vn.hus.nlp.tokenizer.segmenter.Segmenter;
 import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
 
-
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -57,7 +56,7 @@ public final class TokenizerProvider {
             // init the tokenizer
             tokenizer = new Tokenizer(properties, segmenter);
             // Do not resolve the ambiguity.
-//			tokenizer.setAmbiguitiesResolved(false);
+            //			tokenizer.setAmbiguitiesResolved(false);
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         } catch (final IOException e) {
@@ -77,14 +76,13 @@ public final class TokenizerProvider {
             // init the tokenizer
             tokenizer = new Tokenizer(properties, segmenter);
             // Do not resolve the ambiguity.
-//			tokenizer.setAmbiguitiesResolved(false);
+            //			tokenizer.setAmbiguitiesResolved(false);
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         } catch (final IOException e) {
             e.printStackTrace();
         }
     }
-
 
     private TokenizerProvider(final Properties properties) {
         // create a unigram resolver.
@@ -94,7 +92,7 @@ public final class TokenizerProvider {
         // init the tokenizer
         tokenizer = new Tokenizer(properties, segmenter);
         // Do not resolve the ambiguity.
-//		tokenizer.setAmbiguitiesResolved(false);
+        //		tokenizer.setAmbiguitiesResolved(false);
     }
 
     /**

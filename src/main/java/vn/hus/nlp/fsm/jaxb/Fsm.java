@@ -5,7 +5,6 @@
 // Generated on: 2007.11.06 at 11:10:38 PM GMT
 //
 
-
 package vn.hus.nlp.fsm.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,7 +16,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -41,10 +39,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "states",
-    "transitions"
-})
+@XmlType(name = "", propOrder = { "states", "transitions" })
 @XmlRootElement(name = "fsm")
 public class Fsm {
 

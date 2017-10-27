@@ -14,7 +14,6 @@
 
 package org.elasticsearch.plugin.analysis.vi;
 
-
 import java.util.Collections;
 import java.util.Map;
 
@@ -26,7 +25,6 @@ import org.elasticsearch.index.analysis.VietnameseTokenizerFactory;
 import org.elasticsearch.indices.analysis.AnalysisModule;
 import org.elasticsearch.plugins.AnalysisPlugin;
 import org.elasticsearch.plugins.Plugin;
-
 
 /**
  * @author duydo

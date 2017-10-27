@@ -23,116 +23,115 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  */
 public class WordExtractor {
 
-	/**
-	 * The extension of tagged data file of the VTB treebank.
-	 */
-	static String POS_FILE_EXTENSION = ".pos";
+    /**
+     * The extension of tagged data file of the VTB treebank.
+     */
+    static String POS_FILE_EXTENSION = ".pos";
 
-	static boolean PRUNE_NAME = true;
+    static boolean PRUNE_NAME = true;
 
-	/**
-	 * Gets the words of a tagged sentence. In the tagged sentence,
-	 * word/tag pairs are separated by space characters.
-	 * @param taggedSentence a tagged sentence.
-	 * @return a set of words.
-	 */
-	public static Set<String> getWords(final String taggedSentence) {
-		final Set<String> words = new HashSet<>();
-		final String[] pairs = taggedSentence.split("\\s+");
-		int slashIndex = -1;
-		for (final String pair : pairs) {
-			slashIndex = pair.indexOf('/');
-			if (slashIndex > 0) {
-				String word = pair.substring(0, slashIndex);
-				// replace all the _ with spaces
-				word = word.replaceAll("_", " ").trim();
-				if (PRUNE_NAME) {
-					if (!containsStopwords(word) && !isName(word)) {
-						// make the word lowercase
-						words.add(CaseConverter.toLower(word));
-					}
-				} else {
-					words.add(word);
-				}
-			}
-		}
-		return words;
-	}
+    /**
+     * Gets the words of a tagged sentence. In the tagged sentence,
+     * word/tag pairs are separated by space characters.
+     * @param taggedSentence a tagged sentence.
+     * @return a set of words.
+     */
+    public static Set<String> getWords(final String taggedSentence) {
+        final Set<String> words = new HashSet<>();
+        final String[] pairs = taggedSentence.split("\\s+");
+        int slashIndex = -1;
+        for (final String pair : pairs) {
+            slashIndex = pair.indexOf('/');
+            if (slashIndex > 0) {
+                String word = pair.substring(0, slashIndex);
+                // replace all the _ with spaces
+                word = word.replaceAll("_", " ").trim();
+                if (PRUNE_NAME) {
+                    if (!containsStopwords(word) && !isName(word)) {
+                        // make the word lowercase
+                        words.add(CaseConverter.toLower(word));
+                    }
+                } else {
+                    words.add(word);
+                }
+            }
+        }
+        return words;
+    }
 
-	private static boolean containsStopwords(final String word) {
-		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) == '.' || word.charAt(i) == ',' || word.charAt(i) == '-') {
+    private static boolean containsStopwords(final String word) {
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == '.' || word.charAt(i) == ',' || word.charAt(i) == '-') {
                 return true;
             }
-		}
-		return false;
-	}
+        }
+        return false;
+    }
 
-	/**
-	 * Checks if a word is a name or not
-	 * @param word
-	 * @return
-	 */
-	private static boolean isName(final String word) {
-		final String[] syllables = word.split("\\s+");
+    /**
+     * Checks if a word is a name or not
+     * @param word
+     * @return
+     */
+    private static boolean isName(final String word) {
+        final String[] syllables = word.split("\\s+");
 
-		if (syllables.length == 1) {
-			final String s = syllables[0];
-			if (s.length() > 0) {
-				final char c = s.charAt(0);
-				if ( (c >= 'A' && c <= 'Z') || CaseConverter.isValidUpper(c))  {
-					return true;
-				}
-			}
-		}
+        if (syllables.length == 1) {
+            final String s = syllables[0];
+            if (s.length() > 0) {
+                final char c = s.charAt(0);
+                if ((c >= 'A' && c <= 'Z') || CaseConverter.isValidUpper(c)) {
+                    return true;
+                }
+            }
+        }
 
-		for (final String s : syllables) {
-			if (s.length() > 0) {
-				final char c = s.charAt(0);
-				if ( (c >= 'a' && c <= 'z') || CaseConverter.isValidLower(c))  {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+        for (final String s : syllables) {
+            if (s.length() > 0) {
+                final char c = s.charAt(0);
+                if ((c >= 'a' && c <= 'z') || CaseConverter.isValidLower(c)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	/**
-	 * Extracts all words of tagged data file in a directory.
-	 * @param directoryName
-	 * @return a set of words
-	 */
-	public static Set<String> extract(final String directoryName) {
-		final Set<String> words = new TreeSet<>();
-		// create a file filter
-		final TextFileFilter filter = new TextFileFilter(POS_FILE_EXTENSION);
+    /**
+     * Extracts all words of tagged data file in a directory.
+     * @param directoryName
+     * @return a set of words
+     */
+    public static Set<String> extract(final String directoryName) {
+        final Set<String> words = new TreeSet<>();
+        // create a file filter
+        final TextFileFilter filter = new TextFileFilter(POS_FILE_EXTENSION);
 
-		final File directory = new File(directoryName);
+        final File directory = new File(directoryName);
 
-		final File[] files = FileIterator.listFiles(directory, filter);
-		System.err.println("# of files = " + files.length);
+        final File[] files = FileIterator.listFiles(directory, filter);
+        System.err.println("# of files = " + files.length);
 
-		for (final File file : files) {
-			// get sentences
-			final String[] sentences = UTF8FileUtility.getLines(file.getAbsolutePath());
-			for (final String s : sentences) {
-				words.addAll(getWords(s));
-			}
+        for (final File file : files) {
+            // get sentences
+            final String[] sentences = UTF8FileUtility.getLines(file.getAbsolutePath());
+            for (final String s : sentences) {
+                words.addAll(getWords(s));
+            }
 
-		}
+        }
 
-		return words;
-	}
+        return words;
+    }
 
-
-	public static void main(final String[] args) {
-		final String directoryName = "data/VTB-20090712";
-		final Set<String> words = WordExtractor.extract(directoryName);
-		// write out the result
-		final String fileOut = "data/dictionaries/extractedWords.aut.txt";
-		UTF8FileUtility.createWriter(fileOut);
-		UTF8FileUtility.write(words.toArray(new String[words.size()]));
-		UTF8FileUtility.closeWriter();
-		System.out.println("Done.");
-	}
+    public static void main(final String[] args) {
+        final String directoryName = "data/VTB-20090712";
+        final Set<String> words = WordExtractor.extract(directoryName);
+        // write out the result
+        final String fileOut = "data/dictionaries/extractedWords.aut.txt";
+        UTF8FileUtility.createWriter(fileOut);
+        UTF8FileUtility.write(words.toArray(new String[words.size()]));
+        UTF8FileUtility.closeWriter();
+        System.out.println("Done.");
+    }
 }

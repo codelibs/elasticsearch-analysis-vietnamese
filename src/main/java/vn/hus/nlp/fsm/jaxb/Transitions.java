@@ -5,7 +5,6 @@
 // Generated on: 2007.11.06 at 11:10:38 PM GMT
 //
 
-
 package vn.hus.nlp.fsm.jaxb;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -38,9 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "t"
-})
+@XmlType(name = "", propOrder = { "t" })
 @XmlRootElement(name = "transitions")
 public class Transitions {
 

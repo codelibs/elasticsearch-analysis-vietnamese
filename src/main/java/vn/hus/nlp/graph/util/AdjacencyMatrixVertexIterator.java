@@ -15,59 +15,59 @@ import vn.hus.nlp.graph.AdjacencyMatrixGraph;
  */
 public class AdjacencyMatrixVertexIterator implements VertexIterator {
 
-	private final AdjacencyMatrixGraph graph;
+    private final AdjacencyMatrixGraph graph;
 
-	private final int n;
+    private final int n;
 
-	private final int u;
+    private final int u;
 
-	private int v = -1;
+    private int v = -1;
 
-	private final boolean[][] adj;
+    private final boolean[][] adj;
 
-	/**
-	 * Constructor.
-	 * @param g
-	 * @param u
-	 */
-	public AdjacencyMatrixVertexIterator(final AdjacencyMatrixGraph g, final int u) {
-		this.graph = g;
-		this.u = u;
-		// get the number of vertices of the graph
-		n = graph.getNumberOfVertices();
-		// range checking
-		new AssertionError(u < 0 || u >= n);
-		adj = graph.getAdj();
-	}
+    /**
+     * Constructor.
+     * @param g
+     * @param u
+     */
+    public AdjacencyMatrixVertexIterator(final AdjacencyMatrixGraph g, final int u) {
+        this.graph = g;
+        this.u = u;
+        // get the number of vertices of the graph
+        n = graph.getNumberOfVertices();
+        // range checking
+        new AssertionError(u < 0 || u >= n);
+        adj = graph.getAdj();
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.graph.util.VertexIterator#hasNext()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.graph.util.VertexIterator#hasNext()
+     */
+    @Override
     public boolean hasNext() {
-		// increase the current vertex v.
-		v++;
-		for (int i = v; i < n; i++) {
+        // increase the current vertex v.
+        v++;
+        for (int i = v; i < n; i++) {
             if (adj[u][i]) {
                 return true;
             }
         }
-		return false;
-	}
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.graph.util.VertexIterator#next()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.graph.util.VertexIterator#next()
+     */
+    @Override
     public int next() {
-		while (v < n) {
-			if (adj[u][v]) {
+        while (v < n) {
+            if (adj[u][v]) {
                 return v;
             } else {
                 v++;
             }
-		}
-		return -1;
-	}
+        }
+        return -1;
+    }
 
 }

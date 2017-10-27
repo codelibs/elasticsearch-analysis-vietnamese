@@ -14,9 +14,9 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  * <p>
  */
 public interface ITokenizerListener {
-	/**
-	 * Process a token
-	 * @param token
-	 */
-	public void processToken(TaggedWord token);
+    /**
+     * Process a token
+     * @param token
+     */
+    public void processToken(TaggedWord token);
 }

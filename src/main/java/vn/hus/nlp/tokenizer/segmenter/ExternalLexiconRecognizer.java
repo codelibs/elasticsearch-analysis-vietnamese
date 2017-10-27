@@ -23,61 +23,59 @@ import vn.hus.nlp.lexicon.jaxb.W;
  */
 public class ExternalLexiconRecognizer extends AbstractLexiconRecognizer {
 
+    private Set<String> externalLexicon;
 
-	private Set<String> externalLexicon;
+    /**
+     * Default constructor.
+     */
+    public ExternalLexiconRecognizer() {
+        this(IConstants.EXTERNAL_LEXICON);
+    }
 
+    /**
+     * Creates an external lexicon recognizer given a lexicon.
+     * @param externalLexiconFilename a lexicon filename
+     */
+    public ExternalLexiconRecognizer(final String externalLexiconFilename) {
+        // load the prefix lexicon
+        //
+        final LexiconUnmarshaller lexiconUnmarshaller = new LexiconUnmarshaller();
+        final Corpus lexicon = lexiconUnmarshaller.unmarshal(externalLexiconFilename);
+        final List<W> ws = lexicon.getBody().getW();
+        externalLexicon = new HashSet<>();
+        // add all prefixes to the set after converting them to lowercase
+        for (final W w : ws) {
+            externalLexicon.add(w.getContent().toLowerCase());
+        }
+        System.out.println("External lexicon loaded.");
+    }
 
-	/**
-	 * Default constructor.
-	 */
-	public ExternalLexiconRecognizer() {
-		this(IConstants.EXTERNAL_LEXICON);
-	}
+    public ExternalLexiconRecognizer(final Properties properties) {
+        this(properties.getProperty("externalLexicon"));
+    }
 
-	/**
-	 * Creates an external lexicon recognizer given a lexicon.
-	 * @param externalLexiconFilename a lexicon filename
-	 */
-	public ExternalLexiconRecognizer(final String externalLexiconFilename) {
-		// load the prefix lexicon
-		//
-		final LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
-		final Corpus lexicon = lexiconUnmarshaller.unmarshal(externalLexiconFilename);
-		final List<W> ws = lexicon.getBody().getW();
-		externalLexicon = new HashSet<>();
-		// add all prefixes to the set after converting them to lowercase
-		for (final W w : ws) {
-			externalLexicon.add(w.getContent().toLowerCase());
-		}
-		System.out.println("External lexicon loaded.");
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.nlp.tokenizer.segmenter.AbstractLexiconRecognizer#accept(java.lang.String)
+     */
+    @Override
+    public boolean accept(final String token) {
+        return externalLexicon.contains(token);
+    }
 
-	public ExternalLexiconRecognizer(final Properties properties) {
-		this(properties.getProperty("externalLexicon"));
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.nlp.tokenizer.segmenter.AbstractLexiconRecognizer#dispose()
+     */
+    @Override
+    public void dispose() {
+        externalLexicon.clear();
+        externalLexicon = null;
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.nlp.tokenizer.segmenter.AbstractLexiconRecognizer#accept(java.lang.String)
-	 */
-	@Override
-	public boolean accept(final String token) {
-		return externalLexicon.contains(token);
-	}
-
-	/* (non-Javadoc)
-	 * @see vn.hus.nlp.tokenizer.segmenter.AbstractLexiconRecognizer#dispose()
-	 */
-	@Override
-	public void dispose() {
-		externalLexicon.clear();
-		externalLexicon = null;
-	}
-
-	/**
-	 * Gets the external lexicon.
-	 * @return the external lexicon.
-	 */
-	public Set<String> getExternalLexicon() {
-		return externalLexicon;
-	}
+    /**
+     * Gets the external lexicon.
+     * @return the external lexicon.
+     */
+    public Set<String> getExternalLexicon() {
+        return externalLexicon;
+    }
 }

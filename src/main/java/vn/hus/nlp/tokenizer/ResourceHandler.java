@@ -41,19 +41,18 @@ import java.util.ResourceBundle;
  */
 public final class ResourceHandler {
 
+    /**
+     * Get a resource value
+     * @param key a key of resource
+     * @return value of resource
+     */
+    public static String get(final String key) {
+        return resource.getString(key);
+    }
 
-	/**
-	 * Get a resource value
-	 * @param key a key of resource
-	 * @return value of resource
-	 */
-	public static String get(final String key) {
-		return resource.getString(key);
-	}
-
-	/**
-	 * The ressource bundle of the package
-	 */
-	static final ResourceBundle resource = ResourceBundle.getBundle("tokenizer");
+    /**
+     * The ressource bundle of the package
+     */
+    static final ResourceBundle resource = ResourceBundle.getBundle("tokenizer");
 
 }

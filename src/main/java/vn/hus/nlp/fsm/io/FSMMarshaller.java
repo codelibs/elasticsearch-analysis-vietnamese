@@ -36,121 +36,119 @@ import vn.hus.nlp.fsm.jaxb.Transitions;
  */
 public class FSMMarshaller {
 
-	private JAXBContext jaxbContext;
+    private JAXBContext jaxbContext;
 
-	private Marshaller marshaller;
+    private Marshaller marshaller;
 
-	/**
-	 * Default constructor.
-	 */
-	public FSMMarshaller() {
-		// create JAXB context
-		//
-		createContext();
-	}
+    /**
+     * Default constructor.
+     */
+    public FSMMarshaller() {
+        // create JAXB context
+        //
+        createContext();
+    }
 
-	private void createContext() {
-		jaxbContext = null;
-		try {
-			final ClassLoader cl = ObjectFactory.class.getClassLoader();
-			jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+    private void createContext() {
+        jaxbContext = null;
+        try {
+            final ClassLoader cl = ObjectFactory.class.getClassLoader();
+            jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Get the marshaller object.
+     * @return
+     */
+    private Marshaller getMarshaller() {
+        if (marshaller == null) {
+            try {
+                // create the marshaller
+                marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            } catch (final JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+        return marshaller;
+    }
 
-	/**
-	 * Get the marshaller object.
-	 * @return
-	 */
-	private Marshaller getMarshaller() {
-		if (marshaller == null) {
-			try {
-				// create the marshaller
-				marshaller = jaxbContext.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (final JAXBException e) {
-				e.printStackTrace();
-			}
-		}
-		return marshaller;
-	}
+    /**
+     * Create a FSM object from a state machine
+     * @param fsm a FSM
+     * @param name the name of FSM
+     * @return a Fsm object.
+     */
+    private Fsm createFsm(final FSM fsm, final String name) {
+        // create the marshaller
+        getMarshaller();
+        // build the machine object
+        final ObjectFactory of = new ObjectFactory();
+        final Fsm _fsm = of.createFsm();
+        _fsm.setName(name);
+        final States _states = of.createStates();
+        _fsm.setStates(_states);
+        final Transitions _transitions = of.createTransitions();
+        _fsm.setTransitions(_transitions);
+        final Map<Integer, State> states = fsm.getStates();
+        for (final Integer id : states.keySet()) {
+            final State state = states.get(id);
+            // create state objects
+            final S _s = of.createS();
+            _s.setId(id.intValue());
+            _s.setType(state.getType());
+            _states.getS().add(_s);
+            // create transition objects
+            final List<Transition> outTransitions = state.getOutTransitions();
+            for (final Transition t : outTransitions) {
+                final T _t = of.createT();
+                _t.setSrc(t.getSource());
+                _t.setTar(t.getTarget());
+                _t.setInp("" + t.getInput());
+                if (t.getOutput() != IConstants.EMPTY_STRING) {
+                    _t.setOut("" + t.getOutput());
+                }
+                _transitions.getT().add(_t);
+            }
+        }
+        return _fsm;
+    }
 
+    /**
+     * Marshal a fsm to a file.
+     * @param fsm a finite state machine.
+     * @param filename a file.
+     */
+    public void marshal(final FSM fsm, final String filename) {
+        final Fsm _fsm = createFsm(fsm, filename);
+        // marshal the object
+        try {
+            marshaller.marshal(_fsm, new FileOutputStream(new File(filename)));
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * Create a FSM object from a state machine
-	 * @param fsm a FSM
-	 * @param name the name of FSM
-	 * @return a Fsm object.
-	 */
-	private Fsm createFsm(final FSM fsm, final String name) {
-		// create the marshaller
-		getMarshaller();
-		// build the machine object
-		final ObjectFactory of = new ObjectFactory();
-		final Fsm _fsm = of.createFsm();
-		_fsm.setName(name);
-		final States _states= of.createStates();
-		_fsm.setStates(_states);
-		final Transitions _transitions = of.createTransitions();
-		_fsm.setTransitions(_transitions);
-		final Map<Integer, State> states = fsm.getStates();
-		for (final Integer id : states.keySet()) {
-			final State state = states.get(id);
-			// create state objects
-			final S _s = of.createS();
-			_s.setId(id.intValue());
-			_s.setType(state.getType());
-			_states.getS().add(_s);
-			// create transition objects
-			final List<Transition> outTransitions = state.getOutTransitions();
-			for (final Transition t : outTransitions) {
-				final T _t = of.createT();
-				_t.setSrc(t.getSource());
-				_t.setTar(t.getTarget());
-				_t.setInp("" + t.getInput());
-				if (t.getOutput() != IConstants.EMPTY_STRING) {
-					_t.setOut("" + t.getOutput());
-				}
-				_transitions.getT().add(_t);
-			}
-		}
-		return _fsm;
-	}
-
-	/**
-	 * Marshal a fsm to a file.
-	 * @param fsm a finite state machine.
-	 * @param filename a file.
-	 */
-	public void marshal(final FSM fsm, final String filename) {
-		final Fsm _fsm = createFsm(fsm, filename);
-		// marshal the object
-		try {
-			marshaller.marshal(_fsm, new FileOutputStream(new File(filename)));
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Marshal a fsm to an output stream. This method is used only to
-	 * test the created machine.
-	 * @param fsm
-	 * @param os
-	 */
-	public void marshal(final FSM fsm, final OutputStream os) {
-		final Fsm _fsm = createFsm(fsm, "sample_fsm");
-		// marshal the object
-		try {
-			marshaller.marshal(_fsm, os);
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Marshal a fsm to an output stream. This method is used only to
+     * test the created machine.
+     * @param fsm
+     * @param os
+     */
+    public void marshal(final FSM fsm, final OutputStream os) {
+        final Fsm _fsm = createFsm(fsm, "sample_fsm");
+        // marshal the object
+        try {
+            marshaller.marshal(_fsm, os);
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

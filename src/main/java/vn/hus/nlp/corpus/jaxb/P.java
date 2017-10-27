@@ -5,14 +5,12 @@
 // Generated on: 2009.07.13 at 02:13:11 PM CEST
 //
 
-
 package vn.hus.nlp.corpus.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -34,6 +32,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "")
 @XmlRootElement(name = "p")
 public class P {
-
 
 }

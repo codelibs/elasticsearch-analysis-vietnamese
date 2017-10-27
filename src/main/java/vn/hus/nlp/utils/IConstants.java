@@ -8,6 +8,6 @@ package vn.hus.nlp.utils;
  */
 public interface IConstants {
 
-	public boolean DEBUG_MODE = false;
+    public boolean DEBUG_MODE = false;
 
 }

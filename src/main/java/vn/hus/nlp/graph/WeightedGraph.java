@@ -15,24 +15,25 @@ import vn.hus.nlp.graph.util.EdgeIterator;
  */
 public abstract class WeightedGraph extends Graph implements IWeightedGraph {
 
-	/**
-	 * Default constructor.
-	 * @param n
-	 * @param directed
-	 */
-	public WeightedGraph(final int n, final boolean directed) {
-		super(n, directed);
-	}
-	/* (non-Javadoc)
-	 * @see vn.hus.graph.IWeightedGraph#edgeIterator(int)
-	 */
-	@Override
+    /**
+     * Default constructor.
+     * @param n
+     * @param directed
+     */
+    public WeightedGraph(final int n, final boolean directed) {
+        super(n, directed);
+    }
+
+    /* (non-Javadoc)
+     * @see vn.hus.graph.IWeightedGraph#edgeIterator(int)
+     */
+    @Override
     public abstract EdgeIterator edgeIterator(int u);
 
-	/* (non-Javadoc)
-	 * @see vn.hus.graph.IWeightedGraph#getEdge(int, int)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.graph.IWeightedGraph#getEdge(int, int)
+     */
+    @Override
     public abstract Edge getEdge(int u, int v);
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2009.07.13 at 02:13:11 PM CEST
 //
 
-
 package vn.hus.nlp.corpus.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -35,9 +33,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "content"
-})
+@XmlType(name = "", propOrder = { "content" })
 @XmlRootElement(name = "w")
 public class W {
 

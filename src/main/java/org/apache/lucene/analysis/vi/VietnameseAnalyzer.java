@@ -35,18 +35,14 @@ public class VietnameseAnalyzer extends StopwordAnalyzerBase {
     private final me.duydo.vi.Tokenizer tokenizer;
 
     static {
-        final List<String> stopWords = Arrays.asList(
-                "bị", "bởi", "cả", "các", "cái", "cần", "càng", "chỉ", "chiếc", "cho", "chứ", "chưa", "chuyện",
-                "có", "có thể", "cứ", "của", "cùng", "cũng", "đã", "đang", "đây", "để", "đến nỗi", "đều", "điều",
-                "do", "đó", "được", "dưới", "gì", "khi", "không", "là", "lại", "lên", "lúc", "mà", "mỗi", "một cách",
-                "này", "nên", "nếu", "ngay", "nhiều", "như", "nhưng", "những", "nơi", "nữa", "phải", "qua", "ra",
-                "rằng", "rằng", "rất", "rất", "rồi", "sau", "sẽ", "so", "sự", "tại", "theo", "thì", "trên", "trước",
-                "từ", "từng", "và", "vẫn", "vào", "vậy", "vì", "việc", "với", "vừa"
-        );
+        final List<String> stopWords = Arrays.asList("bị", "bởi", "cả", "các", "cái", "cần", "càng", "chỉ", "chiếc", "cho", "chứ", "chưa",
+                "chuyện", "có", "có thể", "cứ", "của", "cùng", "cũng", "đã", "đang", "đây", "để", "đến nỗi", "đều", "điều", "do", "đó",
+                "được", "dưới", "gì", "khi", "không", "là", "lại", "lên", "lúc", "mà", "mỗi", "một cách", "này", "nên", "nếu", "ngay",
+                "nhiều", "như", "nhưng", "những", "nơi", "nữa", "phải", "qua", "ra", "rằng", "rằng", "rất", "rất", "rồi", "sau", "sẽ", "so",
+                "sự", "tại", "theo", "thì", "trên", "trước", "từ", "từng", "và", "vẫn", "vào", "vậy", "vì", "việc", "với", "vừa");
         final CharArraySet stopSet = new CharArraySet(stopWords, false);
         VIETNAMESE_STOP_WORDS_SET = CharArraySet.unmodifiableSet(stopSet);
     }
-
 
     /**
      * Returns an unmodifiable instance of the default stop words set.

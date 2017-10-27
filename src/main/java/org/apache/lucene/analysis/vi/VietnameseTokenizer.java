@@ -28,7 +28,6 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 
-
 /**
  * Vietnamese Tokenizer.
  *

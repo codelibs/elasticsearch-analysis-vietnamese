@@ -29,58 +29,55 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public final class LexiconCounter {
-	/**
-	 * A lexicon filename
-	 */
-	String lexiconFile;
+    /**
+     * A lexicon filename
+     */
+    String lexiconFile;
 
-	public LexiconCounter(final String lexiconFile) {
-		this.lexiconFile = lexiconFile;
-	}
+    public LexiconCounter(final String lexiconFile) {
+        this.lexiconFile = lexiconFile;
+    }
 
-	public void count() {
-		// get all lines of the lexicon
-		final String[] lines = UTF8FileUtility.getLines(lexiconFile);
-		// count
-		final int[] counters = { 0, 0, 0, 0, 0};
-		for (final String line : lines) {
-			final String[] syllables = line.split("\\s+");
-			final int len = syllables.length;
-			if (0 < len) {
-				if (len <= 4) {
-					counters[syllables.length - 1]++;
-				} else {
-					counters[counters.length - 1]++;
-				}
-			}
-		}
-		System.out.println("# of lexicon = " + lines.length);
-		final Formatter formatter = new Formatter(System.out);
-		try
-		{
-			for (int i = 0; i < counters.length; i++) {
-				formatter.format(Locale.US, "%s %d = %d, %4.2f\n",
-						"# of length ", i+1, counters[i], (float) counters[i]
-								/ lines.length * 100);
-			}
+    public void count() {
+        // get all lines of the lexicon
+        final String[] lines = UTF8FileUtility.getLines(lexiconFile);
+        // count
+        final int[] counters = { 0, 0, 0, 0, 0 };
+        for (final String line : lines) {
+            final String[] syllables = line.split("\\s+");
+            final int len = syllables.length;
+            if (0 < len) {
+                if (len <= 4) {
+                    counters[syllables.length - 1]++;
+                } else {
+                    counters[counters.length - 1]++;
+                }
+            }
+        }
+        System.out.println("# of lexicon = " + lines.length);
+        final Formatter formatter = new Formatter(System.out);
+        try {
+            for (int i = 0; i < counters.length; i++) {
+                formatter.format(Locale.US, "%s %d = %d, %4.2f\n", "# of length ", i + 1, counters[i],
+                        (float) counters[i] / lines.length * 100);
+            }
 
-		} finally
-		{
-			formatter.close();
-		}
-		// verify the total number
-		int m = 0;
-		for (final int counter : counters) {
-			m += counter;
-		}
-		System.out.println("Total = " + m);
-	}
+        } finally {
+            formatter.close();
+        }
+        // verify the total number
+        int m = 0;
+        for (final int counter : counters) {
+            m += counter;
+        }
+        System.out.println("Total = " + m);
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		new LexiconCounter("dictionaries/words_v3_set.txt").count();
-	}
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        new LexiconCounter("dictionaries/words_v3_set.txt").count();
+    }
 
 }

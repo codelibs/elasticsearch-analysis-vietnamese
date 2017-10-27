@@ -18,31 +18,30 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  */
 public class WordListMerger {
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		final String file1 = "data/dictionaries/words_v3.txt";
-		final String file2 = "data/dictionaries/extractedWords.txt";
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        final String file1 = "data/dictionaries/words_v3.txt";
+        final String file2 = "data/dictionaries/extractedWords.txt";
 
+        final Set<String> words = new TreeSet<>();
+        final String[] a1 = UTF8FileUtility.getLines(file1);
+        final String[] a2 = UTF8FileUtility.getLines(file2);
 
-		final Set<String> words = new TreeSet<>();
-		final String[] a1 = UTF8FileUtility.getLines(file1);
-		final String[] a2 = UTF8FileUtility.getLines(file2);
+        for (final String word : a1) {
+            words.add(word);
+        }
 
-		for (final String word : a1) {
-			words.add(word);
-		}
+        for (final String word : a2) {
+            words.add(word);
+        }
 
-		for (final String word : a2) {
-			words.add(word);
-		}
+        final String fileOut = "data/dictionaries/words_v4.txt";
 
-		final String fileOut = "data/dictionaries/words_v4.txt";
-
-		UTF8FileUtility.createWriter(fileOut);
-		UTF8FileUtility.write(words.toArray(new String[words.size()]));
-		UTF8FileUtility.closeWriter();
-	}
+        UTF8FileUtility.createWriter(fileOut);
+        UTF8FileUtility.write(words.toArray(new String[words.size()]));
+        UTF8FileUtility.closeWriter();
+    }
 
 }

@@ -26,72 +26,67 @@ import org.apache.commons.io.IOUtils;
  */
 public final class StringNormalizer {
 
-	private static Map<String, String> map;
+    private static Map<String, String> map;
 
-	private StringNormalizer(final String mapFile) {
-		map = new HashMap<>();
-		init(mapFile);
-	}
+    private StringNormalizer(final String mapFile) {
+        map = new HashMap<>();
+        init(mapFile);
+    }
 
+    private void init(final String mapFile) {
 
-	private void init(final String mapFile) {
+        final InputStream stream = getClass().getResourceAsStream(mapFile);
+        List<String> rules;
+        try {
+            rules = IOUtils.readLines(stream, "UTF-8");
 
-		final InputStream stream = getClass().getResourceAsStream(mapFile);
-		List<String> rules;
-		try
-		{
-			rules = IOUtils.readLines(stream, "UTF-8");
+            for (int i = 0; i < rules.size(); i++) {
+                final String rule = rules.get(i);
 
-			for (int i = 0;i<rules.size();i++)
-			{
-				final String rule = rules.get(i);
+                final String[] s = rule.split("\\s+");
+                if (s.length == 2) {
+                    map.put(s[0], s[1]);
+                } else {
+                    System.err.println("Wrong syntax in the map file " + mapFile + " at line " + i);
+                }
+            }
 
-				final String[] s = rule.split("\\s+");
-				if (s.length == 2) {
-					map.put(s[0], s[1]);
-				} else {
-					System.err.println("Wrong syntax in the map file " + mapFile + " at line " + i);
-				}
-			}
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		} catch (final IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    }
 
-	}
+    /**
+     * @return an instance of the class.
+     */
+    public static StringNormalizer getInstance() {
+        return new StringNormalizer(IConstants.NORMALIZATION_RULES);
+    }
 
+    /**
+     * @param properties
+     * @return an instance of the class.
+     */
+    public static StringNormalizer getInstance(final Properties properties) {
+        return new StringNormalizer(properties.getProperty("normalizationRules"));
+    }
 
-	/**
-	 * @return an instance of the class.
-	 */
-	public static StringNormalizer getInstance() {
-		return new StringNormalizer(IConstants.NORMALIZATION_RULES);
-	}
-
-	/**
-	 * @param properties
-	 * @return an instance of the class.
-	 */
-	public static StringNormalizer getInstance(final Properties properties) {
-		return new StringNormalizer(properties.getProperty("normalizationRules"));
-	}
-
-	/**
-	 * Normalize a string.
-	 * @return a normalized string
-	 * @param s a string
-	 */
-	public String normalize(final String s) {
-		String result = new String(s);
-		for (final String from : map.keySet()) {
-			final String to = map.get(from);
-			if (result.indexOf(from) >= 0) {
-				result = result.replace(from, to);
-			}
-		}
-		return result;
-	}
+    /**
+     * Normalize a string.
+     * @return a normalized string
+     * @param s a string
+     */
+    public String normalize(final String s) {
+        String result = new String(s);
+        for (final String from : map.keySet()) {
+            final String to = map.get(from);
+            if (result.indexOf(from) >= 0) {
+                result = result.replace(from, to);
+            }
+        }
+        return result;
+    }
 
 }

@@ -18,77 +18,74 @@ import java.util.List;
  */
 public abstract class Simulator implements ISimulator {
 
+    /**
+     * List of simulator listeners
+     */
+    protected List<ISimulatorListener> listeners;
 
-	/**
-	 * List of simulator listeners
-	 */
-	protected List<ISimulatorListener> listeners;
+    /**
+     * Default constructor
+     */
+    public Simulator() {
+        listeners = new ArrayList<>();
+    }
 
-	/**
-	 * Default constructor
-	 */
-	public Simulator() {
-		listeners = new ArrayList<>();
-	}
+    /**
+     * Add a simulator listener.
+     * @param simulatorListener
+     */
+    public void addSimulatorListener(final ISimulatorListener simulatorListener) {
+        listeners.add(simulatorListener);
+    }
 
-	/**
-	 * Add a simulator listener.
-	 * @param simulatorListener
-	 */
-	public void addSimulatorListener(final ISimulatorListener simulatorListener) {
-		listeners.add(simulatorListener);
-	}
+    /**
+     * Remove a simulator listener.
+     * @param simulatorListener
+     */
+    public void removeSimulatorListener(final ISimulatorListener simulatorListener) {
+        listeners.remove(simulatorListener);
+    }
 
-	/**
-	 * Remove a simulator listener.
-	 * @param simulatorListener
-	 */
-	public void removeSimulatorListener(final ISimulatorListener simulatorListener) {
-		listeners.remove(simulatorListener);
-	}
+    /**
+     * Notify all registered listeners about a configuration.
+     * @param configEvent
+     */
+    public void notify(final ConfigurationEvent configEvent) {
+        for (final ISimulatorListener simulatorListener : listeners) {
+            simulatorListener.update(configEvent);
+        }
+    }
 
+    /**
+     * Dispose the simulator. Remove all registered listeners.
+     */
+    public void dispose() {
+        listeners.clear();
+        listeners = null;
+    }
 
-	/**
-	 * Notify all registered listeners about a configuration.
-	 * @param configEvent
-	 */
-	public void notify(final ConfigurationEvent configEvent) {
-		for (final ISimulatorListener simulatorListener : listeners) {
-			simulatorListener.update(configEvent);
-		}
-	}
-
-	/**
-	 * Dispose the simulator. Remove all registered listeners.
-	 */
-	public void dispose() {
-		listeners.clear();
-		listeners = null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.ISimulator#accept(java.lang.String)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.ISimulator#accept(java.lang.String)
+     */
+    @Override
     public boolean accept(final String input) {
-		return false;
-	}
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.ISimulator#run(java.lang.String)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.ISimulator#run(java.lang.String)
+     */
+    @Override
     public String run(final String input) {
-		return null;
-	}
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.ISimulator#track(java.lang.String)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.ISimulator#track(java.lang.String)
+     */
+    @Override
     public Configuration track(final String input) {
-		return null;
-	}
+        return null;
+    }
 
 }

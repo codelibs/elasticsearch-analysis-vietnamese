@@ -8,5 +8,5 @@ package vn.hus.nlp.corpus;
  * Some constants for use in the corpus.
  */
 public interface IConstants {
-	public static String PACKAGE_NAME = "vn.hus.nlp.corpus.jaxb";
+    public static String PACKAGE_NAME = "vn.hus.nlp.corpus.jaxb";
 }

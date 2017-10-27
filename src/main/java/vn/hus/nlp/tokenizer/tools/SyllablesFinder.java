@@ -20,58 +20,58 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public final class SyllablesFinder {
-	/**
-	 * Delimiters specified by a regular expression
-	 */
-	static final String DELIMITERS = "\\s\\d\\.,:;\\?\\^!~\\[\\]\\(\\)\\{\\}\\$&#'\"@\\|\\+-\\/";
+    /**
+     * Delimiters specified by a regular expression
+     */
+    static final String DELIMITERS = "\\s\\d\\.,:;\\?\\^!~\\[\\]\\(\\)\\{\\}\\$&#'\"@\\|\\+-\\/";
 
-	/**
-	 * A set of syllables;
-	 */
-	SortedSet<String> syllables;
+    /**
+     * A set of syllables;
+     */
+    SortedSet<String> syllables;
 
-	/**
-	 * Default constructor
-	 */
-	public SyllablesFinder() {
-		// init the syllable tree set with a comparator for Vietnamese
-		syllables = new TreeSet<>();
-	}
+    /**
+     * Default constructor
+     */
+    public SyllablesFinder() {
+        // init the syllable tree set with a comparator for Vietnamese
+        syllables = new TreeSet<>();
+    }
 
-	public void find(final String inputFile, final String outputFile) {
-		// get all words of the input file
-		final String[] words = UTF8FileUtility.getLines(inputFile);
-		// iterate through words and build the syllables set
-		for (final String word : words) {
-			final String[] syls = word.split("[" + DELIMITERS + "]+");
-			for (final String syl : syls) {
-				if (syl.trim().length() > 0 && !CaseConverter.containsUppercase(syl)) {
+    public void find(final String inputFile, final String outputFile) {
+        // get all words of the input file
+        final String[] words = UTF8FileUtility.getLines(inputFile);
+        // iterate through words and build the syllables set
+        for (final String word : words) {
+            final String[] syls = word.split("[" + DELIMITERS + "]+");
+            for (final String syl : syls) {
+                if (syl.trim().length() > 0 && !CaseConverter.containsUppercase(syl)) {
                     syllables.add(syl.trim());
                 }
-			}
-		}
-		// convert the syllables set to an array of syllables
-		final String[] lines = syllables.toArray(new String[syllables.size()]);
+            }
+        }
+        // convert the syllables set to an array of syllables
+        final String[] lines = syllables.toArray(new String[syllables.size()]);
 
-		// create a writer
-		UTF8FileUtility.createWriter(outputFile);
-		// save the results
-		UTF8FileUtility.write(lines);
-		// close the writer
-		UTF8FileUtility.closeWriter();
+        // create a writer
+        UTF8FileUtility.createWriter(outputFile);
+        // save the results
+        UTF8FileUtility.write(lines);
+        // close the writer
+        UTF8FileUtility.closeWriter();
 
-	}
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		if (args.length < 2) {
-			System.out.println("Please give two arguments: <inputFile> <outputFile>");
-			return;
-		}
-		new SyllablesFinder().find(args[0], args[1]);
-		System.out.println("Done");
-	}
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        if (args.length < 2) {
+            System.out.println("Please give two arguments: <inputFile> <outputFile>");
+            return;
+        }
+        new SyllablesFinder().find(args[0], args[1]);
+        System.out.println("Done");
+    }
 
 }

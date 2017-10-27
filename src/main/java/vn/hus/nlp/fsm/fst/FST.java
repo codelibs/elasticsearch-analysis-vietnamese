@@ -16,27 +16,27 @@ import vn.hus.nlp.fsm.Simulator;
  */
 public class FST extends FSM {
 
-	/**
-	 * Default constructor.
-	 */
-	public FST() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public FST() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.FSM#getSimulator()
-	 */
-	@Override
-	public ISimulator getSimulator() {
-		return new FSTSimulator(this);
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.FSM#getSimulator()
+     */
+    @Override
+    public ISimulator getSimulator() {
+        return new FSTSimulator(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.FSM#dispose()
-	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		((Simulator)getSimulator()).dispose();
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.FSM#dispose()
+     */
+    @Override
+    public void dispose() {
+        super.dispose();
+        ((Simulator) getSimulator()).dispose();
+    }
 }

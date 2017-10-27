@@ -14,10 +14,10 @@ package vn.hus.nlp.utils;
  * For example, with a text file, it reports what line has been read.
  */
 public interface FileListener {
-	/**
-	 * Report the read line.
-	 * @param line the line
-	 * @param lineNumber the line number
-	 */
-	public void processed(String line, int lineNumber);
+    /**
+     * Report the read line.
+     * @param line the line
+     * @param lineNumber the line number
+     */
+    public void processed(String line, int lineNumber);
 }

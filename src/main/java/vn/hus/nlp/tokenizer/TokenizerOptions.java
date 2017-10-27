@@ -11,23 +11,23 @@ package vn.hus.nlp.tokenizer;
  * Some options of the tokenizer.
  */
 public class TokenizerOptions {
-	/**
-	 * Use a sentence detector before tokenizing text or not.
-	 */
-	public static boolean USE_SENTENCE_DETECTOR = false;
+    /**
+     * Use a sentence detector before tokenizing text or not.
+     */
+    public static boolean USE_SENTENCE_DETECTOR = false;
 
-	/**
-	 * Use underscores for separating syllbles of words or not.
-	 */
-	public static boolean USE_UNDERSCORE = true;
+    /**
+     * Use underscores for separating syllbles of words or not.
+     */
+    public static boolean USE_UNDERSCORE = true;
 
-	/**
-	 * Export results as XML format or not.
-	 */
-	public static boolean XML_OUTPUT = false;
+    /**
+     * Export results as XML format or not.
+     */
+    public static boolean XML_OUTPUT = false;
 
-	/**
-	 * Default file extension for tokenization.
-	 */
-	public static String TEXT_FILE_EXTENSION = ".txt";
+    /**
+     * Default file extension for tokenization.
+     */
+    public static String TEXT_FILE_EXTENSION = ".txt";
 }

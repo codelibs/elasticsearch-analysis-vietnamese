@@ -15,10 +15,10 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  */
 
 public interface IOutputFormatter {
-	/**
-	 * Output a token
-	 * @param token
-	 * @return a string representing the output of the token.
-	 */
-	public String outputLexeme(TaggedWord token);
+    /**
+     * Output a token
+     * @param token
+     * @return a string representing the output of the token.
+     */
+    public String outputLexeme(TaggedWord token);
 }

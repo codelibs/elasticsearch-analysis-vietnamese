@@ -52,7 +52,6 @@ public class Tokenizer {
 
     }
 
-
     private void loadLexerRules(final String lexersFilename) {
         final LexiconUnmarshaller unmarshaller = new LexiconUnmarshaller();
         final Corpus corpus = unmarshaller.unmarshal(lexersFilename);

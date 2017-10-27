@@ -16,55 +16,54 @@ import vn.hus.nlp.corpus.jaxb.ObjectFactory;
  */
 public class CorpusMarshaller {
 
-	private JAXBContext jaxbContext;
+    private JAXBContext jaxbContext;
 
-	private Marshaller marshaller;
+    private Marshaller marshaller;
 
-	static ObjectFactory factory = new ObjectFactory();
+    static ObjectFactory factory = new ObjectFactory();
 
-	/**
-	 * Default constructor.
-	 */
-	public CorpusMarshaller() {
-		// create JAXB context
-		//
-		createContext();
-	}
+    /**
+     * Default constructor.
+     */
+    public CorpusMarshaller() {
+        // create JAXB context
+        //
+        createContext();
+    }
 
-	private void createContext() {
-		jaxbContext = null;
-		try {
-			final ClassLoader cl = ObjectFactory.class.getClassLoader();
-			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+    private void createContext() {
+        jaxbContext = null;
+        try {
+            final ClassLoader cl = ObjectFactory.class.getClassLoader();
+            jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Get the marshaller object.
+     * @return the marshaller object
+     */
+    public Marshaller getMarshaller() {
+        if (marshaller == null) {
+            try {
+                // create the marshaller
+                marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            } catch (final JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+        return marshaller;
+    }
 
-	/**
-	 * Get the marshaller object.
-	 * @return the marshaller object
-	 */
-	public Marshaller getMarshaller() {
-		if (marshaller == null) {
-			try {
-				// create the marshaller
-				marshaller = jaxbContext.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (final JAXBException e) {
-				e.printStackTrace();
-			}
-		}
-		return marshaller;
-	}
-
-	/**
-	 * Gets the factory.
-	 * @return the corpus factory.
-	 */
-	public static ObjectFactory getFactory() {
-		return factory;
-	}
+    /**
+     * Gets the factory.
+     * @return the corpus factory.
+     */
+    public static ObjectFactory getFactory() {
+        return factory;
+    }
 }

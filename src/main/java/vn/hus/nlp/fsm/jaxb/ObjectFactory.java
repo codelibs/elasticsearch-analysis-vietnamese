@@ -5,11 +5,9 @@
 // Generated on: 2007.11.06 at 11:10:38 PM GMT
 //
 
-
 package vn.hus.nlp.fsm.jaxb;
 
 import javax.xml.bind.annotation.XmlRegistry;
-
 
 /**
  * This object contains factory methods for each
@@ -27,7 +25,6 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
-
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: vn.hus.fsm.jaxb

@@ -15,77 +15,76 @@ package vn.hus.nlp.fsm;
  */
 public final class ConfigurationEvent {
 
-	/**
-	 * The parent configuration
-	 */
-	Configuration parentConf;
+    /**
+     * The parent configuration
+     */
+    Configuration parentConf;
 
-	/**
-	 * The current configuration
-	 */
-	Configuration conf;
+    /**
+     * The current configuration
+     */
+    Configuration conf;
 
-	/**
-	 * The involved input that take a simulator from parent configuration to the current
-	 * configuration.
-	 */
-	char input;
+    /**
+     * The involved input that take a simulator from parent configuration to the current
+     * configuration.
+     */
+    char input;
 
-	/**
-	 * The involved output.
-	 */
-	String output;
+    /**
+     * The involved output.
+     */
+    String output;
 
-	/**
-	 * Constructor.
-	 * @param parentConf the parent configuration
-	 * @param conf current configuration
-	 * @param input current input
-	 */
-	public ConfigurationEvent(final Configuration parentConf, final Configuration conf, final char input) {
-		this.parentConf = parentConf;
-		this.conf = conf;
-		this.input = input;
-		this.output = IConstants.EMPTY_STRING;
-	}
-	/**
-	 * Constructor.
-	 * @param parentConf the parent configuration
-	 * @param conf configuration
-	 * @param input current input
-	 * @param output current output
-	 */
-	public ConfigurationEvent(final Configuration parentConf, final Configuration conf, final char input, final String output) {
-		this(parentConf, conf, input);
-		this.output = output;
-	}
+    /**
+     * Constructor.
+     * @param parentConf the parent configuration
+     * @param conf current configuration
+     * @param input current input
+     */
+    public ConfigurationEvent(final Configuration parentConf, final Configuration conf, final char input) {
+        this.parentConf = parentConf;
+        this.conf = conf;
+        this.input = input;
+        this.output = IConstants.EMPTY_STRING;
+    }
 
+    /**
+     * Constructor.
+     * @param parentConf the parent configuration
+     * @param conf configuration
+     * @param input current input
+     * @param output current output
+     */
+    public ConfigurationEvent(final Configuration parentConf, final Configuration conf, final char input, final String output) {
+        this(parentConf, conf, input);
+        this.output = output;
+    }
 
-	public Configuration getParentConfiguration() {
-		return parentConf;
-	}
+    public Configuration getParentConfiguration() {
+        return parentConf;
+    }
 
-	public Configuration getConfiguration() {
-		return conf;
-	}
+    public Configuration getConfiguration() {
+        return conf;
+    }
 
-	/**
-	 * @return the input
-	 */
-	public char getInput() {
-		return input;
-	}
+    /**
+     * @return the input
+     */
+    public char getInput() {
+        return input;
+    }
 
-	/**
-	 * @return the output
-	 */
-	public String getOutput() {
-		return output;
-	}
+    /**
+     * @return the output
+     */
+    public String getOutput() {
+        return output;
+    }
 
-	@Override
-	public String toString() {
-		return "[" + parentConf.getCurrentState().getId() + "," +
-			input + ":" + output + "," + conf.getCurrentState().getId() + "]";
-	}
+    @Override
+    public String toString() {
+        return "[" + parentConf.getCurrentState().getId() + "," + input + ":" + output + "," + conf.getCurrentState().getId() + "]";
+    }
 }

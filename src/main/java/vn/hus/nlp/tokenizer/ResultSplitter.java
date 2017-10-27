@@ -24,68 +24,68 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  */
 public class ResultSplitter {
 
-	/**
-	 * Set of predefined prefixes.
-	 */
-	private final Set<String> prefix;
+    /**
+     * Set of predefined prefixes.
+     */
+    private final Set<String> prefix;
 
-	/**
-	 * Default constructor.
-	 */
-	public ResultSplitter() {
-		this(IConstants.NAMED_ENTITY_PREFIX);
-	}
+    /**
+     * Default constructor.
+     */
+    public ResultSplitter() {
+        this(IConstants.NAMED_ENTITY_PREFIX);
+    }
 
-	/**
-	 * Creates a result splitter from a named entity prefix filename.
-	 * @param namedEntityPrefixFilename
-	 */
-	public ResultSplitter(final String namedEntityPrefixFilename) {
-		// load the prefix lexicon
-		//
-		final LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
-		final Corpus lexicon = lexiconUnmarshaller.unmarshal(namedEntityPrefixFilename);
-		final List<W> ws = lexicon.getBody().getW();
-		prefix = new HashSet<>();
-		// add all prefixes to the set after converting them to lowercase
-		for (final W w : ws) {
-			prefix.add(w.getContent().toLowerCase());
-		}
-	}
+    /**
+     * Creates a result splitter from a named entity prefix filename.
+     * @param namedEntityPrefixFilename
+     */
+    public ResultSplitter(final String namedEntityPrefixFilename) {
+        // load the prefix lexicon
+        //
+        final LexiconUnmarshaller lexiconUnmarshaller = new LexiconUnmarshaller();
+        final Corpus lexicon = lexiconUnmarshaller.unmarshal(namedEntityPrefixFilename);
+        final List<W> ws = lexicon.getBody().getW();
+        prefix = new HashSet<>();
+        // add all prefixes to the set after converting them to lowercase
+        for (final W w : ws) {
+            prefix.add(w.getContent().toLowerCase());
+        }
+    }
 
-	/**
-	 * Creates a result splitter from a properties filename.
-	 * @param properties a properties file.
-	 */
-	public ResultSplitter(final Properties properties) {
-		this(properties.getProperty("namedEntityPrefix"));
-	}
+    /**
+     * Creates a result splitter from a properties filename.
+     * @param properties a properties file.
+     */
+    public ResultSplitter(final Properties properties) {
+        this(properties.getProperty("namedEntityPrefix"));
+    }
 
-	private boolean isPrefix(final String syllable) {
-		return prefix.contains(syllable.toLowerCase());
-	}
+    private boolean isPrefix(final String syllable) {
+        return prefix.contains(syllable.toLowerCase());
+    }
 
-	/**
-	 * Splits a named entity token into two tokens.
-	 * @param token
-	 * @return two tagged tokens
-	 */
-	public TaggedWord[] split(final TaggedWord token) {
-		// split the token basing on spaces or underscore
-		final String[] syllables = token.getText().split("\\s+");
-		if (syllables.length > 1) {
-			// extract the first syllable of token
-			if (isPrefix(syllables[0])) {
-//				System.err.println("Split " + token.getText());
-				final int position = syllables[0].length() + 1;
-				// it is sure that postion > 0
-				final String suffix = token.getText().substring(position);
-				final TaggedWord[] result = new TaggedWord[2];
-				result[0] = new TaggedWord(new LexerRule("name:prefix"), syllables[0]);
-				result[1] = new TaggedWord(new LexerRule("name"), suffix.trim());
-				return result;
-			}
-		}
-		return null;
-	}
+    /**
+     * Splits a named entity token into two tokens.
+     * @param token
+     * @return two tagged tokens
+     */
+    public TaggedWord[] split(final TaggedWord token) {
+        // split the token basing on spaces or underscore
+        final String[] syllables = token.getText().split("\\s+");
+        if (syllables.length > 1) {
+            // extract the first syllable of token
+            if (isPrefix(syllables[0])) {
+                //				System.err.println("Split " + token.getText());
+                final int position = syllables[0].length() + 1;
+                // it is sure that postion > 0
+                final String suffix = token.getText().substring(position);
+                final TaggedWord[] result = new TaggedWord[2];
+                result[0] = new TaggedWord(new LexerRule("name:prefix"), syllables[0]);
+                result[1] = new TaggedWord(new LexerRule("name"), suffix.trim());
+                return result;
+            }
+        }
+        return null;
+    }
 }

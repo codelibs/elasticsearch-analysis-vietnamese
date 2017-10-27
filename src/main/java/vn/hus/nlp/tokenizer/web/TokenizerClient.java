@@ -15,118 +15,110 @@ import java.net.Socket;
  * <p>
  */
 public class TokenizerClient {
-	String host;
-	int port;
+    String host;
+    int port;
 
-	private BufferedReader in;
-	private BufferedWriter out;
-	private Socket sock;
+    private BufferedReader in;
+    private BufferedWriter out;
+    private Socket sock;
 
-	/**
-	 * Creates a tokenizer client
-	 * @param host
-	 * @param port
-	 */
-	public TokenizerClient(final String host, final int port){
-		this.host = host;
-		this.port = port;
-	}
+    /**
+     * Creates a tokenizer client
+     * @param host
+     * @param port
+     */
+    public TokenizerClient(final String host, final int port) {
+        this.host = host;
+        this.port = port;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean connect(){
-		try {
-			sock = new Socket(host, port);
-			in = new BufferedReader(new InputStreamReader(
-					sock.getInputStream(), "UTF-8"));
-			out = new BufferedWriter(new OutputStreamWriter(
-					sock.getOutputStream(), "UTF-8"));
-			return true;
-		}
-		catch (final Exception e){
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
+    /**
+     * @return
+     */
+    public boolean connect() {
+        try {
+            sock = new Socket(host, port);
+            in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
+            out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
+            return true;
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
-	/**
-	 * @param data
-	 * @return
-	 */
-	public String process(final String data){
-		try {
-			out.write(data);
-			out.write((char)0);
-			out.flush();
+    /**
+     * @param data
+     * @return
+     */
+    public String process(final String data) {
+        try {
+            out.write(data);
+            out.write((char) 0);
+            out.flush();
 
-			//Get data from server
-			String result = "";
-			while (true){
-				final int ch = in.read();
+            //Get data from server
+            String result = "";
+            while (true) {
+                final int ch = in.read();
 
-				if (ch == 0) {
+                if (ch == 0) {
                     break;
                 }
-				result += (char) ch;
-			}
-			return result;
-		}
-		catch (final Exception e){
-			System.out.println(e.getMessage());
-			return "";
-		}
+                result += (char) ch;
+            }
+            return result;
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+            return "";
+        }
 
-	}
+    }
 
-	/**
-	 * Closes the socket.
-	 */
-	public void close(){
-		try {
-			this.sock.close();
-		}
-		catch (final Exception e){
-			System.out.println(e.getMessage());
-		}
-	}
+    /**
+     * Closes the socket.
+     */
+    public void close() {
+        try {
+            this.sock.close();
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	public static void main(final String [] args){
-		if (args.length != 2){
-			System.out.println("TokenizerClient [inputfile] [outputfile]");
-			return;
-		}
+    public static void main(final String[] args) {
+        if (args.length != 2) {
+            System.out.println("TokenizerClient [inputfile] [outputfile]");
+            return;
+        }
 
-		try {
-			// Create a tagging client, open connection
-			final TokenizerClient client = new TokenizerClient("localhost", 2929);
+        try {
+            // Create a tagging client, open connection
+            final TokenizerClient client = new TokenizerClient("localhost", 2929);
 
-			// read data from file
-			// process data, save into another file
-			final BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(args[0]), "UTF-8"));
-			final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(args[1]), "UTF-8"));
+            // read data from file
+            // process data, save into another file
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
+            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8"));
 
-			client.connect();
-			String line;
-			String input = "";
-			while ((line = reader.readLine()) != null){
-				input += line + "\n";
-			}
+            client.connect();
+            String line;
+            String input = "";
+            while ((line = reader.readLine()) != null) {
+                input += line + "\n";
+            }
 
-			final String result = client.process(input);
-			writer.write(result + "\n");
+            final String result = client.process(input);
+            writer.write(result + "\n");
 
-			client.close();
-			reader.close();
-			writer.close();
+            client.close();
+            reader.close();
+            writer.close();
 
-		}
-		catch (final Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }

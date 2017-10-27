@@ -5,7 +5,6 @@
 // Generated on: 2007.11.06 at 11:10:38 PM GMT
 //
 
-
 package vn.hus.nlp.fsm.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.

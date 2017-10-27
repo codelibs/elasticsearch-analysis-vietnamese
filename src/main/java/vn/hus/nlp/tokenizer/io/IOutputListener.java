@@ -15,9 +15,9 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  * An outputer listener.
  */
 public interface IOutputListener {
-	/**
-	 * Notifies a token to be outputed.
-	 * @param token a lexer token.
-	 */
-	public void outputToken(TaggedWord token);
+    /**
+     * Notifies a token to be outputed.
+     * @param token a lexer token.
+     */
+    public void outputToken(TaggedWord token);
 }

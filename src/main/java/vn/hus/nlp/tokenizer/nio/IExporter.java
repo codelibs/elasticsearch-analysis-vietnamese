@@ -12,10 +12,10 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *         The exporter which is used to export result of tokenization.
  */
 public interface IExporter {
-	/**
-	 * Creates a string representation of an array of lists of tokens.
-	 * @param list
-	 * @return a string
-	 */
-	public String export(List<List<TaggedWord>> list);
+    /**
+     * Creates a string representation of an array of lists of tokens.
+     * @param list
+     * @return a string
+     */
+    public String export(List<List<TaggedWord>> list);
 }

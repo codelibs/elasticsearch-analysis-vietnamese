@@ -11,18 +11,18 @@ package vn.hus.nlp.graph.util;
  *         An iterator that examines a list of vertices of a graph.
  */
 public interface VertexIterator {
-	/**
-	 * Get the next vertex of the iteration. Note that this method must be
-	 * called after checking with {@link #hasNext()}.
-	 *
-	 * @return <code>-1</code> or the next vertex index.
-	 */
-	public int next();
+    /**
+     * Get the next vertex of the iteration. Note that this method must be
+     * called after checking with {@link #hasNext()}.
+     *
+     * @return <code>-1</code> or the next vertex index.
+     */
+    public int next();
 
-	/**
-	 * Returns <tt>true</tt> if the iteration has more vertices.
-	 *
-	 * @return <code>true/false</code>
-	 */
-	public boolean hasNext();
+    /**
+     * Returns <tt>true</tt> if the iteration has more vertices.
+     *
+     * @return <code>true/false</code>
+     */
+    public boolean hasNext();
 }

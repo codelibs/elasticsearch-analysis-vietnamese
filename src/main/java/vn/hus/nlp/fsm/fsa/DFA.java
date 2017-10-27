@@ -19,29 +19,29 @@ import vn.hus.nlp.fsm.Simulator;
  */
 public class DFA extends FSM {
 
-	/**
-	 * Default constructor of the DFA.
-	 */
-	public DFA() {
-		// init the state machine
-		super();
-	}
+    /**
+     * Default constructor of the DFA.
+     */
+    public DFA() {
+        // init the state machine
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.FSM#getSimulator()
-	 */
-	@Override
-	public ISimulator getSimulator() {
-		return new DFASimulator(this);
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.FSM#getSimulator()
+     */
+    @Override
+    public ISimulator getSimulator() {
+        return new DFASimulator(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see vn.hus.fsm.FSM#dispose()
-	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		((Simulator)getSimulator()).dispose();
-	}
+    /* (non-Javadoc)
+     * @see vn.hus.fsm.FSM#dispose()
+     */
+    @Override
+    public void dispose() {
+        super.dispose();
+        ((Simulator) getSimulator()).dispose();
+    }
 
 }

@@ -29,33 +29,33 @@ import vn.hus.nlp.tokenizer.IConstants;
  */
 public class DFALexiconBuilder {
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		// load the lexicon
-		final LexiconUnmarshaller  lexiconUnmarshaller = new LexiconUnmarshaller();
-		final Corpus lexicon = lexiconUnmarshaller.unmarshal(IConstants.LEXICON);
-		final List<W> ws = lexicon.getBody().getW();
-		final List<String> words = new ArrayList<>();
-		for (final W w : ws) {
-			words.add(w.getContent());
-		}
-		// create an FSM builder of type DFA.
-		//
-		final FSMBuilder  builder = new MinimalFSMBuilder(vn.hus.nlp.fsm.IConstants.FSM_DFA);
-		System.out.println("Updating the lexicon automaton...");
-		final long startTime = System.currentTimeMillis();
-		builder.create(words);
-		final long endTime = System.currentTimeMillis();
-		System.err.println("Duration = " + (endTime - startTime) + " (ms)");
-		// encode the result
-		builder.encode(IConstants.LEXICON_DFA);
-		// print some statistic of the DFA:
-		FSMUtilities.statistic(builder.getMachine());
-		// dispose the builder to save memory
-		builder.dispose();
-		System.out.println("Lexicon automaton updated.");
-	}
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        // load the lexicon
+        final LexiconUnmarshaller lexiconUnmarshaller = new LexiconUnmarshaller();
+        final Corpus lexicon = lexiconUnmarshaller.unmarshal(IConstants.LEXICON);
+        final List<W> ws = lexicon.getBody().getW();
+        final List<String> words = new ArrayList<>();
+        for (final W w : ws) {
+            words.add(w.getContent());
+        }
+        // create an FSM builder of type DFA.
+        //
+        final FSMBuilder builder = new MinimalFSMBuilder(vn.hus.nlp.fsm.IConstants.FSM_DFA);
+        System.out.println("Updating the lexicon automaton...");
+        final long startTime = System.currentTimeMillis();
+        builder.create(words);
+        final long endTime = System.currentTimeMillis();
+        System.err.println("Duration = " + (endTime - startTime) + " (ms)");
+        // encode the result
+        builder.encode(IConstants.LEXICON_DFA);
+        // print some statistic of the DFA:
+        FSMUtilities.statistic(builder.getMachine());
+        // dispose the builder to save memory
+        builder.dispose();
+        System.out.println("Lexicon automaton updated.");
+    }
 
 }

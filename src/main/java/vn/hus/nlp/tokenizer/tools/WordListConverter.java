@@ -18,24 +18,24 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  */
 public class WordListConverter {
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		final String fileInp = "data/dictionaries/words_v4.txt";
-		final String fileOut = "data/dictionaries/words_v4.xml";
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        final String fileInp = "data/dictionaries/words_v4.txt";
+        final String fileOut = "data/dictionaries/words_v4.xml";
 
-		final String[] words = UTF8FileUtility.getLines(fileInp);
-		final Map<String, String> wordMap = new TreeMap<>();
-		for (String word : words) {
-			word = word.trim();
-			if (word.length() > 0) {
+        final String[] words = UTF8FileUtility.getLines(fileInp);
+        final Map<String, String> wordMap = new TreeMap<>();
+        for (String word : words) {
+            word = word.trim();
+            if (word.length() > 0) {
                 wordMap.put(word, "");
             }
-		}
-		final LexiconMarshaller marshaller = new LexiconMarshaller();
-		marshaller.marshal(wordMap, fileOut);
-		System.out.println("Done");
-	}
+        }
+        final LexiconMarshaller marshaller = new LexiconMarshaller();
+        marshaller.marshal(wordMap, fileOut);
+        System.out.println("Done");
+    }
 
 }

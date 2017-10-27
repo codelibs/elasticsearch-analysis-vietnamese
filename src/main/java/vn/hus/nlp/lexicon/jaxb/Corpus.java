@@ -5,7 +5,6 @@
 // Generated on: 2007.11.05 at 04:14:32 PM GMT
 //
 
-
 package vn.hus.nlp.lexicon.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,7 +16,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -40,9 +38,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "body"
-})
+@XmlType(name = "", propOrder = { "body" })
 @XmlRootElement(name = "corpus")
 public class Corpus {
 

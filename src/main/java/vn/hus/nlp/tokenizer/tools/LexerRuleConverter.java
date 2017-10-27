@@ -24,69 +24,68 @@ import vn.hus.nlp.lexicon.LexiconMarshaller;
  *         contains a rule.
  */
 public class LexerRuleConverter {
-	/**
-	 * Regex for parsing the specification file
-	 */
-	static private final String lxRuleString = "^\\s*(\\S+)\\s+(\\S+)\\s*$";
+    /**
+     * Regex for parsing the specification file
+     */
+    static private final String lxRuleString = "^\\s*(\\S+)\\s+(\\S+)\\s*$";
 
-	private final Map<String, String> lexerMap = new TreeMap<>();
+    private final Map<String, String> lexerMap = new TreeMap<>();
 
-	/**
-	 * Load lexer specification file. This text file contains lexical rules to
-	 * tokenize a text
-	 *
-	 * @param lexersText
-	 *            the lexer text filename
-	 * @return a map
-	 */
-	private Map<String, String> load(final String lexersText) {
-		try {
-			// Read the specification text file line by line
-			final FileInputStream fis = new FileInputStream(lexersText);
-			final InputStreamReader isr = new InputStreamReader(fis);
-			final LineNumberReader lnr = new LineNumberReader(isr);
+    /**
+     * Load lexer specification file. This text file contains lexical rules to
+     * tokenize a text
+     *
+     * @param lexersText
+     *            the lexer text filename
+     * @return a map
+     */
+    private Map<String, String> load(final String lexersText) {
+        try {
+            // Read the specification text file line by line
+            final FileInputStream fis = new FileInputStream(lexersText);
+            final InputStreamReader isr = new InputStreamReader(fis);
+            final LineNumberReader lnr = new LineNumberReader(isr);
 
-			// Pattern for parsing each line of specification file
-			final Pattern lxRule = Pattern.compile(lxRuleString);
-			while (true) {
-				final String line = lnr.readLine();
-				// read until file is exhausted
-				if (line == null) {
+            // Pattern for parsing each line of specification file
+            final Pattern lxRule = Pattern.compile(lxRuleString);
+            while (true) {
+                final String line = lnr.readLine();
+                // read until file is exhausted
+                if (line == null) {
                     break;
                 }
-				final Matcher matcher = lxRule.matcher(line);
-				if (matcher.matches()) {
-					// add rules to the list of rules
-					final String name = matcher.group(1);
-					final String regex = matcher.group(2);
-					lexerMap.put(regex,name);
-				} else {
-					System.err.println("Syntax error in " + lexersText
-							+ " at line " + lnr.getLineNumber());
-					System.exit(1);
-				}
-			}
-			// close the file
-			fis.close();
-		} catch (final IOException ioe) {
-			System.err.println("IOException!");
-		}
-		return lexerMap;
-	}
+                final Matcher matcher = lxRule.matcher(line);
+                if (matcher.matches()) {
+                    // add rules to the list of rules
+                    final String name = matcher.group(1);
+                    final String regex = matcher.group(2);
+                    lexerMap.put(regex, name);
+                } else {
+                    System.err.println("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
+                    System.exit(1);
+                }
+            }
+            // close the file
+            fis.close();
+        } catch (final IOException ioe) {
+            System.err.println("IOException!");
+        }
+        return lexerMap;
+    }
 
-	/**
-	 * Convert the lexers text to lexer xml.
-	 *
-	 * @param lexersXML
-	 */
-	private void convert(final String lexersXML) {
-		new LexiconMarshaller().marshal(lexerMap, lexersXML);
-	}
+    /**
+     * Convert the lexers text to lexer xml.
+     *
+     * @param lexersXML
+     */
+    private void convert(final String lexersXML) {
+        new LexiconMarshaller().marshal(lexerMap, lexersXML);
+    }
 
-	public static void main(final String[] args) {
-		final LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
-		lexerRuleConverter.load("resources/lexers/lexers.txt");
-		lexerRuleConverter.convert("resources/lexers/lexers.xml");
-		System.out.println("Done!");
-	}
+    public static void main(final String[] args) {
+        final LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
+        lexerRuleConverter.load("resources/lexers/lexers.txt");
+        lexerRuleConverter.convert("resources/lexers/lexers.xml");
+        System.out.println("Done!");
+    }
 }

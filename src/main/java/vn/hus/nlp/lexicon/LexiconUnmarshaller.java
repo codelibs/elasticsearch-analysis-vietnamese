@@ -19,68 +19,65 @@ import vn.hus.nlp.lexicon.jaxb.ObjectFactory;
  */
 public class LexiconUnmarshaller {
 
+    JAXBContext jaxbContext;
 
-	JAXBContext jaxbContext;
+    Unmarshaller unmarshaller;
 
-	Unmarshaller unmarshaller;
+    /**
+     * Default constructor.
+     */
+    public LexiconUnmarshaller() {
+        // create JAXB context
+        //
+        createContext();
+    }
 
-	/**
-	 * Default constructor.
-	 */
-	public LexiconUnmarshaller() {
-		// create JAXB context
-		//
-		createContext();
-	}
+    private void createContext() {
+        jaxbContext = null;
+        try {
+            final ClassLoader cl = ObjectFactory.class.getClassLoader();
+            jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void createContext() {
-		jaxbContext = null;
-		try {
-			final ClassLoader cl = ObjectFactory.class.getClassLoader();
-			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Get the marshaller object.
+     * @return the marshaller object
+     */
+    protected Unmarshaller getUnmarshaller() {
+        if (unmarshaller == null) {
+            try {
+                // create the unmarshaller
+                unmarshaller = jaxbContext.createUnmarshaller();
+            } catch (final JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+        return unmarshaller;
+    }
 
+    /**
+     * Unmarshal a lexicon.
+     * @param filename a lexicon file
+     * @return a Corpus object.
+     */
+    public Corpus unmarshal(final String filename) {
+        try {
+            final InputStream stream = getClass().getResourceAsStream(filename);
 
-	/**
-	 * Get the marshaller object.
-	 * @return the marshaller object
-	 */
-	protected Unmarshaller getUnmarshaller() {
-		if (unmarshaller == null) {
-			try {
-				// create the unmarshaller
-				unmarshaller = jaxbContext.createUnmarshaller();
-			} catch (final JAXBException e) {
-				e.printStackTrace();
-			}
-		}
-		return unmarshaller;
-	}
-
-	/**
-	 * Unmarshal a lexicon.
-	 * @param filename a lexicon file
-	 * @return a Corpus object.
-	 */
-	public Corpus unmarshal(final String filename) {
-		try {
-			final InputStream stream = getClass().getResourceAsStream(filename);
-
-			if (stream!=null)
-			{
-				final Object object = getUnmarshaller().unmarshal(stream);
-				if (object instanceof Corpus) {
-					final Corpus corpus = (Corpus) object;
-					return corpus;
-				}
-			}
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+            if (stream != null) {
+                final Object object = getUnmarshaller().unmarshal(stream);
+                if (object instanceof Corpus) {
+                    final Corpus corpus = (Corpus) object;
+                    return corpus;
+                }
+            }
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

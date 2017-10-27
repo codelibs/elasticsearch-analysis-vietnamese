@@ -5,7 +5,6 @@
 // Generated on: 2009.07.13 at 02:13:11 PM CEST
 //
 
-
 package vn.hus.nlp.corpus.jaxb;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -42,16 +40,11 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "pOrS"
-})
+@XmlType(name = "", propOrder = { "pOrS" })
 @XmlRootElement(name = "body")
 public class Body {
 
-    @XmlElements({
-        @XmlElement(name = "p", type = P.class),
-        @XmlElement(name = "s", type = S.class)
-    })
+    @XmlElements({ @XmlElement(name = "p", type = P.class), @XmlElement(name = "s", type = S.class) })
     protected List<Object> pOrS;
 
     /**

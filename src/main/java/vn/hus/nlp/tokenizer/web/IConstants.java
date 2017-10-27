@@ -9,6 +9,6 @@ package vn.hus.nlp.tokenizer.web;
  *
  */
 public interface IConstants {
-	public static final int MAX_NUMBER_SESSIONS = 5;
+    public static final int MAX_NUMBER_SESSIONS = 5;
 
 }

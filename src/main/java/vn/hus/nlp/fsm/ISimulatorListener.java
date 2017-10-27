@@ -14,9 +14,9 @@ package vn.hus.nlp.fsm;
  * Listener for simulator. Simulation keeps a chain of
  */
 public interface ISimulatorListener {
-	/**
-	 * Performs some operation based on a configuration event.
-	 * @param configurationEvent
-	 */
-	public void update(ConfigurationEvent configurationEvent);
+    /**
+     * Performs some operation based on a configuration event.
+     * @param configurationEvent
+     */
+    public void update(ConfigurationEvent configurationEvent);
 }

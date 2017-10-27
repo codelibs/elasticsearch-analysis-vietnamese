@@ -56,94 +56,93 @@ import vn.hus.nlp.tokenizer.ResourceHandler;
 @Deprecated
 public final class StringSorter {
 
-	static final String ENCODING = "UTF-8";
+    static final String ENCODING = "UTF-8";
 
-	List<String> strings = null;
+    List<String> strings = null;
 
-	public StringSorter() {
-		strings = new ArrayList<>();
-	}
+    public StringSorter() {
+        strings = new ArrayList<>();
+    }
 
-	public StringSorter(final String dataFile) {
-		strings = new ArrayList<>();
-		loadDataFile(dataFile);
-	}
+    public StringSorter(final String dataFile) {
+        strings = new ArrayList<>();
+        loadDataFile(dataFile);
+    }
 
-	/**
-	 * @param dataFile
-	 */
-	private void loadDataFile(final String dataFile) {
-		// TODO Auto-generated method stub
-		System.out.println("Loading the data file... Please wait....");
-		try {
-			// create a buffered reader to read the data file, line by line
-			final FileInputStream fis = new FileInputStream(dataFile);
-			final InputStreamReader isr = new InputStreamReader(fis,
-					StringSorter.ENCODING);
-			final BufferedReader br = new BufferedReader(isr);
-			// now begin processing all lines of the data file
-			String input = "";
-			while ((input = br.readLine()) != null) {
-				input = input.trim();
-				if (input.length() > 0) {
-					addInput(input);
-					// System.out.println(input); // DEBUG
-				}
-			}
-			br.close();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
+    /**
+     * @param dataFile
+     */
+    private void loadDataFile(final String dataFile) {
+        // TODO Auto-generated method stub
+        System.out.println("Loading the data file... Please wait....");
+        try {
+            // create a buffered reader to read the data file, line by line
+            final FileInputStream fis = new FileInputStream(dataFile);
+            final InputStreamReader isr = new InputStreamReader(fis, StringSorter.ENCODING);
+            final BufferedReader br = new BufferedReader(isr);
+            // now begin processing all lines of the data file
+            String input = "";
+            while ((input = br.readLine()) != null) {
+                input = input.trim();
+                if (input.length() > 0) {
+                    addInput(input);
+                    // System.out.println(input); // DEBUG
+                }
+            }
+            br.close();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	/**
-	 * @param input
-	 */
-	private void addInput(final String input) {
-		// TODO Auto-generated method stub
-		strings.add(input);
-	}
+    /**
+     * @param input
+     */
+    private void addInput(final String input) {
+        // TODO Auto-generated method stub
+        strings.add(input);
+    }
 
-	/**
-	 * Sort the list
-	 *
-	 */
-	public void sort() {
-		Collections.sort(strings);
-	}
-	/**
-	 * Write out the result to a file
-	 * @param filename file name
-	 */
-	public void writeResult(final String filename) {
-		System.out.println("Writing result... Please wait...");
-		try {
-			final FileOutputStream fos = new FileOutputStream(filename);
-			final OutputStreamWriter writer = new OutputStreamWriter(fos,
-					StringSorter.ENCODING);
-			final BufferedWriter bwriter = new BufferedWriter(writer);
-			for (final String s : strings) {
-				bwriter.write(s);
-				bwriter.write("\n");
-			}
-			bwriter.close();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("Done!");
-	}
+    /**
+     * Sort the list
+     *
+     */
+    public void sort() {
+        Collections.sort(strings);
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		// TODO Auto-generated method stub
-		final String syllableFilename = ResourceHandler.get("wordDictionary");
-		final StringSorter sorter = new StringSorter(syllableFilename);
-		sorter.sort();
-		final String syllableFilename2 = ResourceHandler.get("wordDictionary2");
-		sorter.writeResult(syllableFilename2);
-	}
+    /**
+     * Write out the result to a file
+     * @param filename file name
+     */
+    public void writeResult(final String filename) {
+        System.out.println("Writing result... Please wait...");
+        try {
+            final FileOutputStream fos = new FileOutputStream(filename);
+            final OutputStreamWriter writer = new OutputStreamWriter(fos, StringSorter.ENCODING);
+            final BufferedWriter bwriter = new BufferedWriter(writer);
+            for (final String s : strings) {
+                bwriter.write(s);
+                bwriter.write("\n");
+            }
+            bwriter.close();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Done!");
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+        // TODO Auto-generated method stub
+        final String syllableFilename = ResourceHandler.get("wordDictionary");
+        final StringSorter sorter = new StringSorter(syllableFilename);
+        sorter.sort();
+        final String syllableFilename2 = ResourceHandler.get("wordDictionary2");
+        sorter.writeResult(syllableFilename2);
+    }
 
 }

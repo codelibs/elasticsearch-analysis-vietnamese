@@ -3,7 +3,6 @@
  */
 package vn.hus.nlp.graph.util;
 
-
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -13,14 +12,15 @@ package vn.hus.nlp.graph.util;
  */
 public class IndexException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public IndexException() {
-		super();
-	}
-	 @Override
-	public void printStackTrace() {
-		super.printStackTrace();
-		System.err.println("The vertex index is not valid!");
-	}
+    public IndexException() {
+        super();
+    }
+
+    @Override
+    public void printStackTrace() {
+        super.printStackTrace();
+        System.err.println("The vertex index is not valid!");
+    }
 }

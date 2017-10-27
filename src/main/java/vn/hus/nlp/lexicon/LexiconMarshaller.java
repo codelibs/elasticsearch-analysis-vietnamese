@@ -24,81 +24,80 @@ import vn.hus.nlp.lexicon.jaxb.W;
  */
 public class LexiconMarshaller {
 
-	JAXBContext jaxbContext;
+    JAXBContext jaxbContext;
 
-	Marshaller marshaller;
+    Marshaller marshaller;
 
-	/**
-	 * Default constructor.
-	 */
-	public LexiconMarshaller() {
-		// create JAXB context
-		//
-		createContext();
-	}
+    /**
+     * Default constructor.
+     */
+    public LexiconMarshaller() {
+        // create JAXB context
+        //
+        createContext();
+    }
 
-	private void createContext() {
-		jaxbContext = null;
-		try {
-			final ClassLoader cl = ObjectFactory.class.getClassLoader();
-			jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+    private void createContext() {
+        jaxbContext = null;
+        try {
+            final ClassLoader cl = ObjectFactory.class.getClassLoader();
+            jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Get the marshaller object.
+     * @return the marshaller object
+     */
+    protected Marshaller getMarshaller() {
+        if (marshaller == null) {
+            try {
+                // create the marshaller
+                marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            } catch (final JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+        return marshaller;
+    }
 
-	/**
-	 * Get the marshaller object.
-	 * @return the marshaller object
-	 */
-	protected Marshaller getMarshaller() {
-		if (marshaller == null) {
-			try {
-				// create the marshaller
-				marshaller = jaxbContext.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			} catch (final JAXBException e) {
-				e.printStackTrace();
-			}
-		}
-		return marshaller;
-	}
+    /**
+     * Marshal a map of objects to a file.
+     * @param filename the filename of the corpus. This file usually has extension .xml.
+     */
+    public void marshal(final Map<?, ?> map, final String filename) {
+        // create the corpus object from the map
+        //
+        final ObjectFactory factory = new ObjectFactory();
+        final Corpus corpus = factory.createCorpus();
+        corpus.setId(filename);
 
-	/**
-	 * Marshal a map of objects to a file.
-	 * @param filename the filename of the corpus. This file usually has extension .xml.
-	 */
-	public void marshal(final Map<?, ?> map, final String filename) {
-		// create the corpus object from the map
-		//
-		final ObjectFactory factory = new ObjectFactory();
-		final Corpus corpus = factory.createCorpus();
-		corpus.setId(filename);
+        final Body body = factory.createBody();
+        corpus.setBody(body);
 
-		final Body body = factory.createBody();
-		corpus.setBody(body);
+        for (final Object key : map.keySet()) {
+            final Object value = map.get(key);
+            final W w = factory.createW();
+            w.setContent(key.toString());
+            w.setMsd(value.toString());
+            body.getW().add(w);
+        }
+        // marshal the corpus
+        //
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(filename);
+            getMarshaller().marshal(corpus, os);
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (final JAXBException e) {
+            e.printStackTrace();
+        }
 
-		for (final Object key : map.keySet()) {
-			final Object value = map.get(key);
-			final W w = factory.createW();
-			w.setContent(key.toString());
-			w.setMsd(value.toString());
-			body.getW().add(w);
-		}
-		// marshal the corpus
-		//
-		OutputStream os = null;
-		try {
-			os = new FileOutputStream(filename);
-			getMarshaller().marshal(corpus, os);
-		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (final JAXBException e) {
-			e.printStackTrace();
-		}
-
-	}
+    }
 
 }

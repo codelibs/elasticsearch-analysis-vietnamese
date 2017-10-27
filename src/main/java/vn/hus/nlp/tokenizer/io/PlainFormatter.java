@@ -16,17 +16,17 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  */
 public class PlainFormatter implements IOutputFormatter {
 
-	/* (non-Javadoc)
-	 * @see vn.hus.tokenizer.io.IOutputFormatter#outputLexeme(vn.hus.tokenizer.tokens.LexerToken)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see vn.hus.tokenizer.io.IOutputFormatter#outputLexeme(vn.hus.tokenizer.tokens.LexerToken)
+     */
+    @Override
     public String outputLexeme(final TaggedWord token) {
-		final StringBuffer stBuf = new StringBuffer();
-		// output only the text of the token
-		stBuf.append(token.getText());
-		// end of line
-		stBuf.append("\n");
-		return stBuf.toString();
-	}
+        final StringBuffer stBuf = new StringBuffer();
+        // output only the text of the token
+        stBuf.append(token.getText());
+        // end of line
+        stBuf.append("\n");
+        return stBuf.toString();
+    }
 
 }

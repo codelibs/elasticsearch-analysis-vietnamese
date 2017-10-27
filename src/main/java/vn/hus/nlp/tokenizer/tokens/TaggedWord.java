@@ -7,205 +7,204 @@ package vn.hus.nlp.tokenizer.tokens;
  *         a LexerRule.
  */
 public class TaggedWord implements Comparable<TaggedWord> {
-	/**
-	 * A lexer rule
-	 */
-	private final LexerRule rule;
-	/**
-	 * The text
-	 */
-	private final String text;
+    /**
+     * A lexer rule
+     */
+    private final LexerRule rule;
+    /**
+     * The text
+     */
+    private final String text;
 
-	/**
-	 * The line location of the text in the file
-	 */
-	private int line;
+    /**
+     * The line location of the text in the file
+     */
+    private int line;
 
-	/**
-	 * The column location of the text in the file
-	 */
-	private int column;
+    /**
+     * The column location of the text in the file
+     */
+    private int column;
 
+    /**
+     * Create a LexerToken
+     *
+     * @param rule
+     *            a rule
+     * @param text
+     *            the text
+     * @param line
+     *            the line location of the text in a file
+     * @param column
+     *            the column location of the text in a file
+     */
+    public TaggedWord(final LexerRule rule, final String text, final int line, final int column) {
+        this.rule = rule;
+        this.text = text;
+        this.line = line;
+        this.column = column;
+    }
 
-	/**
-	 * Create a LexerToken
-	 *
-	 * @param rule
-	 *            a rule
-	 * @param text
-	 *            the text
-	 * @param line
-	 *            the line location of the text in a file
-	 * @param column
-	 *            the column location of the text in a file
-	 */
-	public TaggedWord(final LexerRule rule, final String text, final int line, final int column) {
-		this.rule = rule;
-		this.text = text;
-		this.line = line;
-		this.column = column;
-	}
+    /**
+     * Create a lexer token from a text
+     *
+     * @param text
+     *            a text
+     */
+    public TaggedWord(final String text) {
+        this.rule = null;
+        this.text = text;
+        this.line = -1;
+        this.column = -1;
+    }
 
-	/**
-	 * Create a lexer token from a text
-	 *
-	 * @param text
-	 *            a text
-	 */
-	public TaggedWord(final String text) {
-		this.rule = null;
-		this.text = text;
-		this.line = -1;
-		this.column = -1;
-	}
+    /**
+     * Create a lexer token from a lexer rule and a text.
+     * @param rule
+     * @param text
+     */
+    public TaggedWord(final LexerRule rule, final String text) {
+        this.rule = rule;
+        this.text = text;
+        this.line = -1;
+        this.column = -1;
+    }
 
+    /**
+     * Return the rule that matched this token
+     *
+     * @return the rule that match this token
+     */
+    public LexerRule getRule() {
+        return rule;
+    }
 
-	/**
-	 * Create a lexer token from a lexer rule and a text.
-	 * @param rule
-	 * @param text
-	 */
-	public TaggedWord(final LexerRule rule, final String text) {
-		this.rule = rule;
-		this.text = text;
-		this.line = -1;
-		this.column = -1;
-	}
+    /**
+     * Return the text that matched by this token
+     *
+     * @return the text matched by this token
+     */
+    public String getText() {
+        return text.trim();
+    }
 
-	/**
-	 * Return the rule that matched this token
-	 *
-	 * @return the rule that match this token
-	 */
-	public LexerRule getRule() {
-		return rule;
-	}
+    /**
+     * Test if this rule is a phrase rule. A phrase is processed
+     * by a lexical segmenter.
+     *
+     * @return true/false
+     */
+    public boolean isPhrase() {
+        return rule.getName().equals("phrase");
+    }
 
-	/**
-	 * Return the text that matched by this token
-	 *
-	 * @return the text matched by this token
-	 */
-	public String getText() {
-		return text.trim();
-	}
+    /**
+     * Test if this rule is a named entity rule.
+     *
+     * @return true/false
+     */
+    public boolean isNamedEntity() {
+        return rule.getName().startsWith("name");
+    }
 
-	/**
-	 * Test if this rule is a phrase rule. A phrase is processed
-	 * by a lexical segmenter.
-	 *
-	 * @return true/false
-	 */
-	public boolean isPhrase() {
-		return rule.getName().equals("phrase");
-	}
+    /**
+     * @return true/false
+     */
+    public boolean isDate() {
+        return rule.getName().startsWith("date");
+    }
 
-	/**
-	 * Test if this rule is a named entity rule.
-	 *
-	 * @return true/false
-	 */
-	public boolean isNamedEntity() {
-		return rule.getName().startsWith("name");
-	}
+    /**
+     * @return true/false
+     */
+    public boolean isDateDay() {
+        return rule.getName().contains("day");
+    }
 
-	/**
-	 * @return true/false
-	 */
-	public boolean isDate() {
-		return rule.getName().startsWith("date");
-	}
+    /**
+     * @return true/false
+     */
+    public boolean isDateMonth() {
+        return rule.getName().contains("month");
+    }
 
-	/**
-	 * @return true/false
-	 */
-	public boolean isDateDay() {
-		return rule.getName().contains("day");
-	}
+    public boolean isDateYear() {
+        return rule.getName().contains("year");
+    }
 
-	/**
-	 * @return true/false
-	 */
-	public boolean isDateMonth() {
-		return rule.getName().contains("month");
-	}
+    public boolean isNumber() {
+        return rule.getName().startsWith("number");
+    }
 
-	public boolean isDateYear() {
-		return rule.getName().contains("year");
-	}
+    /**
+     * @return Returns the column.
+     */
+    public int getColumn() {
+        return column;
+    }
 
-	public boolean isNumber() {
-		return rule.getName().startsWith("number");
-	}
-	/**
-	 * @return Returns the column.
-	 */
-	public int getColumn() {
-		return column;
-	}
+    /**
+     * @param column
+     *            The column to set.
+     */
+    public void setColumn(final int column) {
+        this.column = column;
+    }
 
-	/**
-	 * @param column
-	 *            The column to set.
-	 */
-	public void setColumn(final int column) {
-		this.column = column;
-	}
+    /**
+     * @return Returns the line.
+     */
+    public int getLine() {
+        return line;
+    }
 
-	/**
-	 * @return Returns the line.
-	 */
-	public int getLine() {
-		return line;
-	}
+    /**
+     * @param line
+     *            The line to set.
+     */
+    public void setLine(final int line) {
+        this.line = line;
+    }
 
-	/**
-	 * @param line
-	 *            The line to set.
-	 */
-	public void setLine(final int line) {
-		this.line = line;
-	}
+    /**
+     * Return a string representation of the token
+     */
+    @Override
+    public String toString() {
+        // return "[\"" + text + "\"" + " at (" + line + "," + column + ")]";
+        // return rule.getName() + ": " + text;
+        return text.trim();
+    }
 
-	/**
-	 * Return a string representation of the token
-	 */
-	@Override
-	public String toString() {
-		// return "[\"" + text + "\"" + " at (" + line + "," + column + ")]";
-		// return rule.getName() + ": " + text;
-		return text.trim();
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return getText().hashCode();
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return getText().hashCode();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj == null) {
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
             return false;
         }
-		if (!(obj instanceof TaggedWord)) {
-			return false;
-		}
-		// two lexer is considered equal if their text are equal.
-		//
-		return ((TaggedWord)obj).getText().equals(getText());
-	}
+        if (!(obj instanceof TaggedWord)) {
+            return false;
+        }
+        // two lexer is considered equal if their text are equal.
+        //
+        return ((TaggedWord) obj).getText().equals(getText());
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
     public int compareTo(final TaggedWord o) {
-		return getText().compareTo(o.getText());
-	}
+        return getText().compareTo(o.getText());
+    }
 }

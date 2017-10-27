@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -33,6 +36,8 @@ import java.util.List;
  *
  */
 public final class UTF8FileUtility {
+    private static final Logger logger = LogManager.getLogger(UTF8FileUtility.class);
+
 	/**
 	 * A buffered writer
 	 */
@@ -93,7 +98,7 @@ public final class UTF8FileUtility {
 		try {
 			createReader(new FileInputStream(filename));
 		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
+		    logger.warn(filename+" is not found.",e);
 		}
 	}
 

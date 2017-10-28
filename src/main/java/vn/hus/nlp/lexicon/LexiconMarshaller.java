@@ -17,12 +17,17 @@ import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.ObjectFactory;
 import vn.hus.nlp.lexicon.jaxb.W;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
  * Unmarshaller of a lexicon.
  */
 public class LexiconMarshaller {
+
+    private static final Logger logger = LogManager.getLogger(LexiconMarshaller.class);
 
     JAXBContext jaxbContext;
 
@@ -43,7 +48,7 @@ public class LexiconMarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -59,7 +64,7 @@ public class LexiconMarshaller {
                 marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return marshaller;
@@ -93,9 +98,9 @@ public class LexiconMarshaller {
             os = new FileOutputStream(filename);
             getMarshaller().marshal(corpus, os);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
     }

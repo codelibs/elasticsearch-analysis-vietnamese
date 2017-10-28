@@ -400,9 +400,9 @@ public class Estimator {
             bufWriter.flush();
             bufWriter.close();
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

@@ -13,6 +13,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author LE Hong Phuong
@@ -22,6 +25,8 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class Echo extends DefaultHandler {
+
+    private static final Logger logger = LogManager.getLogger(Echo.class);
 
     StringBuffer textBuffer;
 
@@ -140,7 +145,7 @@ public class Echo extends DefaultHandler {
             out.close();
         } catch (final Throwable e) {
             // TODO: handle exception
-            e.printStackTrace();
+            logger.warn(e);
         }
         System.exit(0);
     }

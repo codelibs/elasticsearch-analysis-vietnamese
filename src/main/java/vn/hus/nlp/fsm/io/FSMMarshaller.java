@@ -26,6 +26,9 @@ import vn.hus.nlp.fsm.jaxb.States;
 import vn.hus.nlp.fsm.jaxb.T;
 import vn.hus.nlp.fsm.jaxb.Transitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -35,6 +38,8 @@ import vn.hus.nlp.fsm.jaxb.Transitions;
  * <p>
  */
 public class FSMMarshaller {
+
+    private static final Logger logger = LogManager.getLogger(FSMMarshaller.class);
 
     private JAXBContext jaxbContext;
 
@@ -55,7 +60,7 @@ public class FSMMarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -71,7 +76,7 @@ public class FSMMarshaller {
                 marshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return marshaller;
@@ -129,9 +134,9 @@ public class FSMMarshaller {
         try {
             marshaller.marshal(_fsm, new FileOutputStream(new File(filename)));
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -147,7 +152,7 @@ public class FSMMarshaller {
         try {
             marshaller.marshal(_fsm, os);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

@@ -97,7 +97,7 @@ public class Unigram {
                 try {
                     loadCorpus(corpus);
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    logger.warn(e);
                 }
             }
         }

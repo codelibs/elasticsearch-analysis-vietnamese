@@ -12,12 +12,17 @@ import javax.xml.bind.Unmarshaller;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.ObjectFactory;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
  * A unmarshaller for lexicon.
  */
 public class LexiconUnmarshaller {
+
+    private static final Logger logger = LogManager.getLogger(LexiconUnmarshaller.class);
 
     JAXBContext jaxbContext;
 
@@ -38,7 +43,7 @@ public class LexiconUnmarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -52,7 +57,7 @@ public class LexiconUnmarshaller {
                 // create the unmarshaller
                 unmarshaller = jaxbContext.createUnmarshaller();
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return unmarshaller;
@@ -75,7 +80,7 @@ public class LexiconUnmarshaller {
                 }
             }
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }

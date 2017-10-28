@@ -85,7 +85,7 @@ public class Session extends Thread {
                 logger.info("The connection is interrupted");
             } catch (final Exception e) {
                 logger.info(e);
-                e.printStackTrace();
+                logger.warn(e);
             }
 
             //update pool

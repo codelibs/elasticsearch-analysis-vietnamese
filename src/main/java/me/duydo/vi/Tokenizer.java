@@ -52,7 +52,7 @@ public class Tokenizer {
             resultSplitter = new ResultSplitter(properties);
             segmenter = new Segmenter(properties, new UnigramResolver(properties.getProperty("unigramModel")));
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
     }

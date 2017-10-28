@@ -96,7 +96,7 @@ public final class StringSorter {
             }
             br.close();
         } catch (final Exception e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
     }
@@ -133,7 +133,7 @@ public final class StringSorter {
             }
             bwriter.close();
         } catch (final Exception e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         logger.info("Done!");
     }

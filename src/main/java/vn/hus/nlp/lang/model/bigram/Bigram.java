@@ -67,7 +67,7 @@ public class Bigram {
                 try {
                     loadCorpus(corpus);
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    logger.warn(e);
                 }
             }
         }
@@ -132,7 +132,7 @@ public class Bigram {
             writer.close();
             logger.info("# of couples = " + bigram.size());
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

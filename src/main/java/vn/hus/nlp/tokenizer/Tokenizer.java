@@ -164,9 +164,9 @@ public class Tokenizer {
             try {
                 logger.addHandler(new FileHandler("tokenizer.log"));
             } catch (final SecurityException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "Security Exception" + e.getMessage());
             } catch (final IOException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "IO Exception" + e.getMessage());
             }
             logger.setLevel(Level.FINEST);
         }
@@ -294,7 +294,7 @@ public class Tokenizer {
         try {
             tokenize(UTF8FileUtility.reader);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "IO Exception" + e.getMessage());
         }
         UTF8FileUtility.closeReader();
     }
@@ -413,7 +413,7 @@ public class Tokenizer {
             bw.flush();
             bw.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "IO Exception" + e.getMessage());
         }
         logger.info("OK.");
     }

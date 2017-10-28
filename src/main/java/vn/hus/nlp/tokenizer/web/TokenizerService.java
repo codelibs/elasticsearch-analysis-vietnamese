@@ -49,7 +49,7 @@ public class TokenizerService extends Thread {
             }
         } catch (final Exception e) {
             logger.info("Error while initializing service:" + e.getMessage());
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -86,7 +86,7 @@ public class TokenizerService extends Thread {
                 }
             } catch (final IOException e) {
                 logger.info(e);
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
     }

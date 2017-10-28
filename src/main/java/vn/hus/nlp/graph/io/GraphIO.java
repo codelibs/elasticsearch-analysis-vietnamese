@@ -74,7 +74,7 @@ public final class GraphIO {
             // close the isr
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -98,7 +98,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyList(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -150,7 +150,7 @@ public final class GraphIO {
             }
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -173,7 +173,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyMatrix(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -292,7 +292,7 @@ public final class GraphIO {
             }
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -316,7 +316,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyListWeighted(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }

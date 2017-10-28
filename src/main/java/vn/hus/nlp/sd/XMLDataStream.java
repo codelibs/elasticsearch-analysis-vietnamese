@@ -80,11 +80,11 @@ public class XMLDataStream implements DataStream {
             parser = parserFactory.newSAXParser();
             parser.parse(new File(dataFile), new XMLFileHandler());
         } catch (final ParserConfigurationException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final SAXException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         // init the iterator
         dataStreamIterator = dataStream.iterator();

@@ -123,7 +123,7 @@ public class TokenizerClient {
 
         } catch (final Exception e) {
             logger.info(e.getMessage());
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

@@ -42,7 +42,7 @@ public class SentenceDetectorFactory {
             return new SentenceDetector(stream);
         } catch (final IOException e) {
             logger.error("Error when constructing the sentence detector.");
-            e.printStackTrace();
+            logger.warn(e);
         }
         // return null in case of error
         return null;
@@ -56,7 +56,7 @@ public class SentenceDetectorFactory {
         try {
             return new SentenceDetector(properties);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }
@@ -71,7 +71,7 @@ public class SentenceDetectorFactory {
             properties.load(propertiesInputStream);
             return new SentenceDetector(properties);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }

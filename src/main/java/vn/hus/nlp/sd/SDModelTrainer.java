@@ -120,7 +120,7 @@ public class SDModelTrainer {
             }
 
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

@@ -91,9 +91,9 @@ public final class VietTokenizer {
             properties.load(new FileInputStream(propertiesFilename));
             createSentenceDetector(properties);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -129,7 +129,7 @@ public final class VietTokenizer {
             nTokens += list.size();
             //
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return result.toString().trim();
     }
@@ -158,7 +158,7 @@ public final class VietTokenizer {
                     //					result.add("\n\n");
                 }
             } catch (final IOException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         } else {
             // process all the text without detecting sentences
@@ -217,7 +217,7 @@ public final class VietTokenizer {
                 try {
                     tokenizer.tokenize(new StringReader(p));
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    logger.warn(e);
                 }
                 // make a copy of the result of tokenization
                 final List<TaggedWord> result = new ArrayList<>(tokenizer.getResult());

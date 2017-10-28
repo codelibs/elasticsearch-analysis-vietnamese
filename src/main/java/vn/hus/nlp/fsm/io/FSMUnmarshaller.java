@@ -57,7 +57,7 @@ public class FSMUnmarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -71,7 +71,7 @@ public class FSMUnmarshaller {
                 // create the marshaller
                 unmarshaller = jaxbContext.createUnmarshaller();
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return unmarshaller;
@@ -122,7 +122,7 @@ public class FSMUnmarshaller {
             }
         } catch (final JAXBException e) {
             logger.info("Error when unmarshalling the machine.");
-            e.printStackTrace();
+            logger.warn(e);
         }
         return fsm;
     }

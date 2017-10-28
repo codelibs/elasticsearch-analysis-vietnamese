@@ -14,6 +14,9 @@ import vn.hus.nlp.tokenizer.segmenter.AbstractResolver;
 import vn.hus.nlp.tokenizer.segmenter.Segmenter;
 import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -22,6 +25,8 @@ import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
  *         A provider of tokenizer. It creates a tokenizer for Vietnamese.
  */
 public final class TokenizerProvider {
+
+    private static final Logger logger = LogManager.getLogger(TokenizerProvider.class);
 
     /**
      * A lexical segmenter
@@ -58,9 +63,9 @@ public final class TokenizerProvider {
             // Do not resolve the ambiguity.
             //			tokenizer.setAmbiguitiesResolved(false);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -78,9 +83,9 @@ public final class TokenizerProvider {
             // Do not resolve the ambiguity.
             //			tokenizer.setAmbiguitiesResolved(false);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

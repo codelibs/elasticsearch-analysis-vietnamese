@@ -53,7 +53,7 @@ public class DFALexiconBuilder {
         final long startTime = System.currentTimeMillis();
         builder.create(words);
         final long endTime = System.currentTimeMillis();
-        System.err.println("Duration = " + (endTime - startTime) + " (ms)");
+        logger.error("Duration = " + (endTime - startTime) + " (ms)");
         // encode the result
         builder.encode(IConstants.LEXICON_DFA);
         // print some statistic of the DFA:

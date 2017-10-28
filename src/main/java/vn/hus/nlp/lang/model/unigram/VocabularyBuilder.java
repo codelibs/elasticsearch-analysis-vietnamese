@@ -11,6 +11,9 @@ import java.util.Map;
 
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -20,6 +23,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *         unique words which is sorted alphabetically.
  */
 public final class VocabularyBuilder {
+
+    private static final Logger logger = LogManager.getLogger(VocabularyBuilder.class);
 
     private final List<String> vocabulary = new ArrayList<>(100);
 
@@ -67,7 +72,7 @@ public final class VocabularyBuilder {
         UTF8FileUtility.write(sBuffer.toString());
         // close the writer
         UTF8FileUtility.closeWriter();
-        System.err.println("# of  words = " + vocabulary.size());
+        logger.error("# of  words = " + vocabulary.size());
 
     }
 }

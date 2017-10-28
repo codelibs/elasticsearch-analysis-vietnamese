@@ -166,7 +166,7 @@ public final class MinimalFSMBuilder extends FSMBuilder {
             }
         }
         if (maxId == s.getId()) {
-            System.err.println("Error: infinite loop!!! Id = " + maxId);
+            logger.error("Error: infinite loop!!! Id = " + maxId);
             printMachine();
             System.exit(1);
         }

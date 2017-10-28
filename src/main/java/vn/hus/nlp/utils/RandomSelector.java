@@ -39,8 +39,7 @@ public class RandomSelector<T> {
 
     private void select(final List<T> elements, final int n) {
         if (n > elements.size()) {
-            System.err.println("Error. The size of dataset is less than " + n);
-            System.err.println();
+            logger.error("Error. The size of dataset is less than " + n + "\n");
             return;
         }
 

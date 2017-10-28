@@ -55,7 +55,7 @@ public final class GraphIO {
                 // create a graph with n vertices
                 graph = new AdjacencyListGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must be positive.");
+                logger.error("The number of vertices of the graph must be positive.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -63,7 +63,7 @@ public final class GraphIO {
             while ((line = br.readLine()) != null && line.trim().length() > 0) {
                 final String[] uv = line.split("\\s+");
                 if (uv.length != 2) {
-                    System.err.println("Bad format for data input stream!");
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 final int u = Integer.parseInt(uv[0]);
@@ -121,7 +121,7 @@ public final class GraphIO {
                 // create a graph with n vertices
                 graph = new AdjacencyMatrixGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must be positive.");
+                logger.error("The number of vertices of the graph must be positive.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -130,13 +130,13 @@ public final class GraphIO {
             while (u < n) {
                 line = br.readLine();
                 if (line == null || line.trim().length() == 0) {
-                    System.err.println("The data is incomplete!");
+                    logger.error("The data is incomplete!");
                     System.exit(1);
                 }
                 final String[] vArr = line.split("\\s+");
                 if (vArr.length != n) {
                     logger.info(vArr.length);
-                    System.err.println("Bad format for data input stream!");
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 for (int v = 0; v < vArr.length; v++) {
@@ -273,7 +273,7 @@ public final class GraphIO {
                 // create a graph with n vertices
                 graph = new AdjacencyListWeightedGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must > 0.");
+                logger.error("The number of vertices of the graph must > 0.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -281,7 +281,7 @@ public final class GraphIO {
             while ((line = br.readLine()) != null && line.trim().length() > 0) {
                 final String[] uvw = line.split("\\s+");
                 if (uvw.length != 3) {
-                    System.err.println("Bad format for data input stream!");
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 final int u = Integer.parseInt(uvw[0]);

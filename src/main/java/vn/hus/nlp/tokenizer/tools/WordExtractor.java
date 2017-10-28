@@ -115,7 +115,7 @@ public class WordExtractor {
         final File directory = new File(directoryName);
 
         final File[] files = FileIterator.listFiles(directory, filter);
-        System.err.println("# of files = " + files.length);
+        logger.error("# of files = " + files.length);
 
         for (final File file : files) {
             // get sentences

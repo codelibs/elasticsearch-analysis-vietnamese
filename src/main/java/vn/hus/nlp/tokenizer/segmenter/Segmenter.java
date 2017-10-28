@@ -243,7 +243,7 @@ public class Segmenter {
         final int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
         // info for debug
         if (DEBUG) {
-            System.err.println("The graph for the phrase is: ");
+            logger.error("The graph for the phrase is: ");
             GraphIO.print(graph);
             logger.info("Isolated vertices: ");
             for (final int i : isolatedVertices) {

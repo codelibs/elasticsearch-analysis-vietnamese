@@ -20,6 +20,9 @@ import vn.hus.nlp.lang.model.IConstants;
 import vn.hus.nlp.lexicon.LexiconMarshaller;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -29,6 +32,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *         Vietnamese tokens.
  */
 public class Unigram {
+
+    private static final Logger logger = LogManager.getLogger(Unigram.class);
 
     /**
      * A map that stores strings and their corresponding frequencies.
@@ -96,7 +101,7 @@ public class Unigram {
                 }
             }
         }
-        System.err.println("Total " + corpora.length + " files loaded.");
+        logger.error("Total " + corpora.length + " files loaded.");
     }
 
     private static void processLoadedCorpus(final List<String> lines) {
@@ -160,8 +165,8 @@ public class Unigram {
         UTF8FileUtility.write(sBuffer.toString());
         // close the writer
         UTF8FileUtility.closeWriter();
-        System.err.println("# of   tokens = " + numTokens);
-        System.err.println("# of unigrams = " + UNIGRAM.size());
+        logger.error("# of   tokens = " + numTokens);
+        logger.error("# of unigrams = " + UNIGRAM.size());
     }
 
     /**

@@ -333,7 +333,8 @@ public class Tokenizer {
             }
             // an empty line corresponds to an empty tagged word
             if (line.trim().length() == 0) {
-                System.err.println("Create an empty line tagged word...");
+
+                logger.log(Level.WARNING, "Create an empty line tagged word...");
                 //return new TaggedWord(new LexerRule("return", "(\\^\\$)"), "\n");
                 return new TaggedWord(new LexerRule("return"), "\n");
             }

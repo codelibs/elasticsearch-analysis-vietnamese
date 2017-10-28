@@ -10,6 +10,9 @@ import vn.hus.nlp.graph.Edge;
 import vn.hus.nlp.graph.IGraph;
 import vn.hus.nlp.graph.IWeightedGraph;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -19,6 +22,8 @@ import vn.hus.nlp.graph.IWeightedGraph;
  *         common access to graphs, for example, edges extraction.
  */
 public class GraphUtilities {
+
+    private static final Logger logger = LogManager.getLogger(GraphUtilities.class);
 
     /**
      * Extract edges of a graph.
@@ -146,7 +151,7 @@ public class GraphUtilities {
             final int v = e.getV();
             for (int k = Math.min(u, v); k < Math.max(u, v); k++) {
                 if (!tcg.edge(u, k)) {
-                    System.err.println("(u,k,v) = (" + u + "," + k + "," + v + ")");
+                    logger.error("(u,k,v) = (" + u + "," + k + "," + v + ")");
                     return false;
                 }
             }

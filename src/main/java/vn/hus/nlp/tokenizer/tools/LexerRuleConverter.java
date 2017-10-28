@@ -67,14 +67,14 @@ public class LexerRuleConverter {
                     final String regex = matcher.group(2);
                     lexerMap.put(regex, name);
                 } else {
-                    System.err.println("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
+                    logger.error("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
                     System.exit(1);
                 }
             }
             // close the file
             fis.close();
         } catch (final IOException ioe) {
-            System.err.println("IOException!");
+            logger.error("IOException!");
         }
         return lexerMap;
     }

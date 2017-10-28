@@ -232,7 +232,7 @@ public class Estimator {
      */
     private void validateProbabilityValue(final double prob) {
         if ((prob < 0) || (prob > 1)) {
-            System.err.println("Error! Invalid probability!");
+            logger.error("Error! Invalid probability!");
         }
     }
 

@@ -3,6 +3,9 @@ package vn.hus.nlp.sd.test;
 import vn.hus.nlp.sd.SentenceDetector;
 import vn.hus.nlp.sd.SentenceDetectorFactory;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author Le Hong Phuong, phuonglh@gmail.com
@@ -10,6 +13,8 @@ import vn.hus.nlp.sd.SentenceDetectorFactory;
  * Test the sentence detector.
  */
 public class SentenceDetectorTester {
+
+	private static final Logger logger = LogManager.getLogger(SentenceDetectorTester.class);
 
 	/**
 	 * @param args
@@ -22,7 +27,7 @@ public class SentenceDetectorTester {
 		final String outputFile = "src/test/resources/samples/test0.sd.txt";
 
 		sDetector.detectSentences(inputFile, outputFile);
-		System.out.println("Done");
+		logger.info("Done");
 	}
 
 }

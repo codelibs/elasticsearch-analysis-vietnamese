@@ -6,6 +6,9 @@ package vn.hus.nlp.graph.util;
 
 import vn.hus.nlp.graph.IGraph;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -16,6 +19,8 @@ import vn.hus.nlp.graph.IGraph;
  *         in the constructor. We use a vertex-indexed array to do the trick.
  */
 public final class GraphDegree {
+    private static final Logger logger = LogManager.getLogger(GraphDegree.class);
+
     private final IGraph graph;
     private final int[] deg;
 
@@ -56,7 +61,7 @@ public final class GraphDegree {
         for (int u = 0; u < n; u++) {
             final int d = degree(u);
             // for testing only:
-            System.out.println("deg(" + u + ") = " + d);
+            logger.info("deg(" + u + ") = " + d);
         }
 
     }

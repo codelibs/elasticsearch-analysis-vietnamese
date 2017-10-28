@@ -22,6 +22,9 @@ import opennlp.tools.util.ObjectStream;
 import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -34,6 +37,8 @@ import opennlp.tools.util.TrainingParameters;
  *         sentence is surrounded by a couple of tags <s> and </s>.
  */
 public class SDModelTrainer {
+
+    private static final Logger logger = LogManager.getLogger(SDModelTrainer.class);
 
     // public static SentenceModel train(EventStream es, int iterations, int
     // cut)
@@ -136,7 +141,7 @@ public class SDModelTrainer {
             // create Vietnamese SD model
             SDModelTrainer.createModel(IConstants.LANG_VIETNAMESE, output);
 
-            System.out.println("Done.");
+            logger.info("Done.");
         } else {
             System.err.println("Must specify output directory.");
         }

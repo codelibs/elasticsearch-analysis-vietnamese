@@ -18,6 +18,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import opennlp.maxent.DataStream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -28,6 +31,8 @@ import opennlp.maxent.DataStream;
  *         to parse sentences.
  */
 public class XMLDataStream implements DataStream {
+
+    private static final Logger logger = LogManager.getLogger(XMLDataStream.class);
 
     List<String> dataStream;
 
@@ -57,7 +62,7 @@ public class XMLDataStream implements DataStream {
 
         @Override
         public void skippedEntity(final String name) throws SAXException {
-            System.out.println(name);
+            logger.info(name);
         }
     }
 

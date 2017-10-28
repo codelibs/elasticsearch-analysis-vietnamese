@@ -10,6 +10,9 @@ import vn.hus.nlp.fsm.FSM;
 import vn.hus.nlp.fsm.State;
 import vn.hus.nlp.fsm.Transition;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -20,6 +23,8 @@ import vn.hus.nlp.fsm.Transition;
  * Some utilities for querying information of a FSM.
  */
 public final class FSMUtilities {
+
+    private static final Logger logger = LogManager.getLogger(FSMUtilities.class);
 
     /**
      * Get an array of intransitions to a state of a machine.
@@ -42,7 +47,7 @@ public final class FSMUtilities {
      * @param fsm
      */
     public static void statistic(final FSM fsm) {
-        System.out.println("Some statistics about the machine: ");
+        logger.info("Some statistics about the machine: ");
         int maxOutTransitions = 0;
         //		int maxInTransitions = 0;
         int nFinalStates = 0;
@@ -58,11 +63,11 @@ public final class FSMUtilities {
                 //				maxInTransitions = intransition.length;
             }
         }
-        System.out.println("\tNumber of states: " + fsm.getStates().size());
-        System.out.println("\tNumber of final states: " + nFinalStates);
-        System.out.println("\tNumber of transitions: " + fsm.getNTransitions());
-        System.out.println("\tMaximum number of outtransitions = " + maxOutTransitions);
-        //		System.out.println("\tMaximum number of intransitions = " + maxInTransitions);
+        logger.info("\tNumber of states: " + fsm.getStates().size());
+        logger.info("\tNumber of final states: " + nFinalStates);
+        logger.info("\tNumber of transitions: " + fsm.getNTransitions());
+        logger.info("\tMaximum number of outtransitions = " + maxOutTransitions);
+        //		logger.info("\tMaximum number of intransitions = " + maxInTransitions);
     }
 
 }

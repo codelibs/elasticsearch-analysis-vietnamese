@@ -22,6 +22,9 @@ import vn.hus.nlp.utils.FileIterator;
 import vn.hus.nlp.utils.TextFileFilter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  * <p>
@@ -30,6 +33,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * The main class of vnTokenizer.
  */
 public final class VietTokenizer {
+
+    private static final Logger logger = LogManager.getLogger(VietTokenizer.class);
 
     private static Tokenizer tokenizer = null;
 
@@ -239,14 +244,14 @@ public final class VietTokenizer {
         final String outputDirPath = currentDir + File.separator + outputDir;
 
         if (DEBUG) {
-            System.out.println("currentDir = " + currentDir);
-            System.out.println("inputDirPath = " + inputDirPath);
-            System.out.println("outputDirPath = " + outputDirPath);
+            logger.info("currentDir = " + currentDir);
+            logger.info("inputDirPath = " + inputDirPath);
+            logger.info("outputDirPath = " + outputDirPath);
         }
 
         // get all input files
         final File[] inputFiles = FileIterator.listFiles(inputDirFile, fileFilter);
-        System.out.println("Tokenizing all files in the directory, please wait...");
+        logger.info("Tokenizing all files in the directory, please wait...");
         final long startTime = System.currentTimeMillis();
         for (final File aFile : inputFiles) {
             // get the simple name of the file
@@ -258,7 +263,7 @@ public final class VietTokenizer {
         }
         final long endTime = System.currentTimeMillis();
         final float duration = (float) (endTime - startTime) / 1000;
-        System.out.println("Tokenized " + nTokens + " words of " + inputFiles.length + " files in " + duration + " (s).\n");
+        logger.info("Tokenized " + nTokens + " words of " + inputFiles.length + " files in " + duration + " (s).\n");
     }
 
     /**

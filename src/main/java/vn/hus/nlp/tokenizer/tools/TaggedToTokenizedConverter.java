@@ -9,6 +9,9 @@ import vn.hus.nlp.utils.FileIterator;
 import vn.hus.nlp.utils.TextFileFilter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <br>
@@ -17,6 +20,9 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * This utility is used to convert a tagged corpus to tokenized corpus.
  */
 public class TaggedToTokenizedConverter {
+
+    private static final Logger logger = LogManager.getLogger(TaggedToTokenizedConverter.class);
+
     private static String TAGGED_FILE_EXTENSION = ".pos";
     private static String TOKENIZED_FILE_EXTENSION = ".txt";
 
@@ -70,7 +76,7 @@ public class TaggedToTokenizedConverter {
                     : filename + TOKENIZED_FILE_EXTENSION;
             convertFile(file.getAbsolutePath(), fileOut);
         }
-        System.out.println("Converted " + taggedFiles.length + " files.");
+        logger.info("Converted " + taggedFiles.length + " files.");
     }
 
     public static void main(final String[] args) {

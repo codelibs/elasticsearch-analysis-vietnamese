@@ -19,6 +19,9 @@ import vn.hus.nlp.lang.model.IConstants;
 import vn.hus.nlp.lexicon.LexiconMarshaller;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  * <p>
@@ -29,6 +32,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public class Bigram {
+
+    private static final Logger logger = LogManager.getLogger(Bigram.class);
 
     /**
      * A map of couples. We use a map to speed up the search of a couple.
@@ -66,7 +71,7 @@ public class Bigram {
                 }
             }
         }
-        System.out.println("Total " + corpora.length + " files loaded.");
+        logger.info("Total " + corpora.length + " files loaded.");
     }
 
     private boolean isDirectory(final String filename) {
@@ -125,7 +130,7 @@ public class Bigram {
             }
             bufWriter.flush();
             writer.close();
-            System.out.println("# of couples = " + bigram.size());
+            logger.info("# of couples = " + bigram.size());
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -152,7 +157,7 @@ public class Bigram {
     public static void main(final String[] args) {
         final Bigram counter = new Bigram(false);
         counter.marshal(IConstants.BIGRAM_MODEL);
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 
 }

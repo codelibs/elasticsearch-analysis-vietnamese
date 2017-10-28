@@ -12,6 +12,9 @@ import vn.hus.nlp.lexicon.LexiconUnmarshaller;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.W;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -22,6 +25,8 @@ import vn.hus.nlp.lexicon.jaxb.W;
  * lexicon of the tokenizer).
  */
 public class ExternalLexiconRecognizer extends AbstractLexiconRecognizer {
+
+    private static final Logger logger = LogManager.getLogger(ExternalLexiconRecognizer.class);
 
     private Set<String> externalLexicon;
 
@@ -47,7 +52,7 @@ public class ExternalLexiconRecognizer extends AbstractLexiconRecognizer {
         for (final W w : ws) {
             externalLexicon.add(w.getContent().toLowerCase());
         }
-        System.out.println("External lexicon loaded.");
+        logger.info("External lexicon loaded.");
     }
 
     public ExternalLexiconRecognizer(final Properties properties) {

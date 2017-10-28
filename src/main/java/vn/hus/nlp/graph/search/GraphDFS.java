@@ -8,6 +8,9 @@ import vn.hus.nlp.graph.Edge;
 import vn.hus.nlp.graph.IGraph;
 import vn.hus.nlp.graph.util.VertexIterator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -16,6 +19,8 @@ import vn.hus.nlp.graph.util.VertexIterator;
  *         Search the graph using the depth first search algorithm.
  */
 public class GraphDFS {
+    private static final Logger logger = LogManager.getLogger(GraphDFS.class);
+
     private IGraph graph;
     private int count;
     private int[] order;
@@ -167,7 +172,7 @@ public class GraphDFS {
     public void printOrder() {
         for (int u = 0; u < graph.getNumberOfVertices(); u++) {
             final int o = order[u];
-            System.out.println(u + ": " + o);
+            logger.info(u + ": " + o);
         }
     }
 
@@ -189,7 +194,7 @@ public class GraphDFS {
         }
         // print the component id array
         // for (int u = 0; u < graph.getNumberOfVertices(); u++) {
-        // System.out.println("componentId[" + u + "] = " + componentId[u]);
+        // logger.info("componentId[" + u + "] = " + componentId[u]);
         // }
         return comp;
     }

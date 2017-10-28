@@ -10,6 +10,9 @@ import java.util.Locale;
 
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -29,6 +32,9 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public final class LexiconCounter {
+
+    private static final Logger logger = LogManager.getLogger(LexiconCounter.class);
+
     /**
      * A lexicon filename
      */
@@ -54,7 +60,7 @@ public final class LexiconCounter {
                 }
             }
         }
-        System.out.println("# of lexicon = " + lines.length);
+        logger.info("# of lexicon = " + lines.length);
         final Formatter formatter = new Formatter(System.out);
         try {
             for (int i = 0; i < counters.length; i++) {
@@ -70,7 +76,7 @@ public final class LexiconCounter {
         for (final int counter : counters) {
             m += counter;
         }
-        System.out.println("Total = " + m);
+        logger.info("Total = " + m);
     }
 
     /**

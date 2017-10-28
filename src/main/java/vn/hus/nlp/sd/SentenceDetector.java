@@ -55,7 +55,6 @@ public class SentenceDetector extends SentenceDetectorME {
      */
     public SentenceDetector(final Properties properties) throws IOException {
         this(properties.getProperty("sentDetectionModel"));
-        //		System.out.println("Sentence detection model = " + properties.getProperty("sentDetectionModel"));
     }
 
     /**

@@ -41,6 +41,9 @@ import java.util.List;
 
 import vn.hus.nlp.tokenizer.ResourceHandler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  * <p> This class load Vietnamese syllables into an array of
@@ -55,6 +58,8 @@ import vn.hus.nlp.tokenizer.ResourceHandler;
  */
 @Deprecated
 public final class StringSorter {
+
+    private static final Logger logger = LogManager.getLogger(StringSorter.class);
 
     static final String ENCODING = "UTF-8";
 
@@ -74,7 +79,7 @@ public final class StringSorter {
      */
     private void loadDataFile(final String dataFile) {
         // TODO Auto-generated method stub
-        System.out.println("Loading the data file... Please wait....");
+        logger.info("Loading the data file... Please wait....");
         try {
             // create a buffered reader to read the data file, line by line
             final FileInputStream fis = new FileInputStream(dataFile);
@@ -86,7 +91,7 @@ public final class StringSorter {
                 input = input.trim();
                 if (input.length() > 0) {
                     addInput(input);
-                    // System.out.println(input); // DEBUG
+                    // logger.info(input); // DEBUG
                 }
             }
             br.close();
@@ -117,7 +122,7 @@ public final class StringSorter {
      * @param filename file name
      */
     public void writeResult(final String filename) {
-        System.out.println("Writing result... Please wait...");
+        logger.info("Writing result... Please wait...");
         try {
             final FileOutputStream fos = new FileOutputStream(filename);
             final OutputStreamWriter writer = new OutputStreamWriter(fos, StringSorter.ENCODING);
@@ -130,7 +135,7 @@ public final class StringSorter {
         } catch (final Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 
     /**

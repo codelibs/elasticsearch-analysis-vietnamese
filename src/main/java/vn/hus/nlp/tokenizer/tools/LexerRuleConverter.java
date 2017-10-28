@@ -14,6 +14,9 @@ import java.util.regex.Pattern;
 
 import vn.hus.nlp.lexicon.LexiconMarshaller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -24,6 +27,9 @@ import vn.hus.nlp.lexicon.LexiconMarshaller;
  *         contains a rule.
  */
 public class LexerRuleConverter {
+
+    private static final Logger logger = LogManager.getLogger(LexerRuleConverter.class);
+
     /**
      * Regex for parsing the specification file
      */
@@ -86,6 +92,6 @@ public class LexerRuleConverter {
         final LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
         lexerRuleConverter.load("resources/lexers/lexers.txt");
         lexerRuleConverter.convert("resources/lexers/lexers.xml");
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 }

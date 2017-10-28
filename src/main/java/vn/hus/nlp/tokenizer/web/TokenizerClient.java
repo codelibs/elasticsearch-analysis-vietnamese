@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -15,6 +18,9 @@ import java.net.Socket;
  * <p>
  */
 public class TokenizerClient {
+
+    private static final Logger logger = LogManager.getLogger(TokenizerClient.class);
+
     String host;
     int port;
 
@@ -42,7 +48,7 @@ public class TokenizerClient {
             out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
             return true;
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             return false;
         }
     }
@@ -69,7 +75,7 @@ public class TokenizerClient {
             }
             return result;
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             return "";
         }
 
@@ -82,13 +88,13 @@ public class TokenizerClient {
         try {
             this.sock.close();
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
     public static void main(final String[] args) {
         if (args.length != 2) {
-            System.out.println("TokenizerClient [inputfile] [outputfile]");
+            logger.info("TokenizerClient [inputfile] [outputfile]");
             return;
         }
 
@@ -116,7 +122,7 @@ public class TokenizerClient {
             writer.close();
 
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             e.printStackTrace();
         }
     }

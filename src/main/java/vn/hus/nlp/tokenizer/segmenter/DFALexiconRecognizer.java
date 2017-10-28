@@ -9,6 +9,9 @@ import vn.hus.nlp.fsm.fsa.DFA;
 import vn.hus.nlp.fsm.fsa.DFASimulator;
 import vn.hus.nlp.fsm.io.FSMUnmarshaller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -19,6 +22,8 @@ import vn.hus.nlp.fsm.io.FSMUnmarshaller;
  * A recognizer for Vietnamese lexicon that uses an internal DFA representation.
  */
 public final class DFALexiconRecognizer extends AbstractLexiconRecognizer {
+
+    private static final Logger logger = LogManager.getLogger(DFALexiconRecognizer.class);
 
     private static DFA lexiconDFA = null;
 
@@ -33,9 +38,9 @@ public final class DFALexiconRecognizer extends AbstractLexiconRecognizer {
     private DFALexiconRecognizer(final String dfaLexiconFilename) {
         if (lexiconDFA == null) {
             // build the lexicon DFA
-            System.out.print("Load the lexicon automaton... ");
+            logger.info("Load the lexicon automaton... ");
             lexiconDFA = (DFA) new FSMUnmarshaller().unmarshal(dfaLexiconFilename, IConstants.FSM_DFA);
-            System.out.println("OK.");
+            logger.info("OK.");
         }
     }
 

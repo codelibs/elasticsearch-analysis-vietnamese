@@ -9,6 +9,9 @@ import vn.hus.nlp.fsm.builder.FSMBuilder;
 import vn.hus.nlp.fsm.builder.MinimalFSMBuilder;
 import vn.hus.nlp.fsm.util.FSMUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -19,6 +22,8 @@ import vn.hus.nlp.fsm.util.FSMUtilities;
  * Test minimal DFA builder.
  */
 public class MinimalDFAClient {
+
+    private static final Logger logger = LogManager.getLogger(MinimalDFAClient.class);
 
     public static String ENGLISH_LEXICON_TXT = "samples/dicts/en/en.txt";
     public static String ENGLISH_LEXICON_XML = "samples/dicts/en/en.xml";
@@ -47,17 +52,17 @@ public class MinimalDFAClient {
     }
 
     public static void createMinimalEnglishDFA() {
-        System.out.println("Encode English lexicon...");
+        logger.info("Encode English lexicon...");
         createMinimalDFA(ENGLISH_LEXICON_TXT, ENGLISH_LEXICON_XML);
     }
 
     public static void createMinimalFrenchDFA() {
-        System.out.println("Encode French lexicon...");
+        logger.info("Encode French lexicon...");
         createMinimalDFA(FRENCH_LEXICON_TXT, FRENCH_LEXICON_XML);
     }
 
     public static void createMinimalVietnameseDFA() {
-        System.out.println("Encode Vietnamese lexicon...");
+        logger.info("Encode Vietnamese lexicon...");
         createMinimalDFA(VIETNAMESE_LEXICON_TXT, VIETNAMESE_LEXICON_XML);
     }
 

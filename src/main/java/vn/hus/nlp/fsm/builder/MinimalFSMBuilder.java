@@ -15,6 +15,9 @@ import vn.hus.nlp.fsm.Transition;
 import vn.hus.nlp.fsm.fsa.DFAConfiguration;
 import vn.hus.nlp.fsm.fst.FSTConfiguration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -24,6 +27,8 @@ import vn.hus.nlp.fsm.fst.FSTConfiguration;
  *         minimal acyclic finite-state machine.
  */
 public final class MinimalFSMBuilder extends FSMBuilder {
+
+    private static final Logger logger = LogManager.getLogger(MinimalFSMBuilder.class);
 
     /**
      * A register of states. All states in the register are states of the
@@ -137,9 +142,7 @@ public final class MinimalFSMBuilder extends FSMBuilder {
         final List<Transition> transitions = intransitionMap.get(oldState.getId());
         for (Transition t : transitions) {
             if (t.getTarget() == oldState.getId()) {
-                //				 System.out.print(t + " -> "); // DEBUG
                 t.setTarget(newState.getId());
-                //				 System.out.println(t);  // DEBUG
             }
         }
     }
@@ -245,7 +248,6 @@ public final class MinimalFSMBuilder extends FSMBuilder {
                 test = true;
                 // redirect all intransitions to child to transitions to q,
                 redirectTransitions(child, q);
-                //				System.out.println(child.getId() + " is equivalent to " + q.getId()); // DEBUG
                 // remove child
                 // this will also remove all transitions of the state.
                 machine.removeState(child);
@@ -309,14 +311,14 @@ public final class MinimalFSMBuilder extends FSMBuilder {
      */
     @Override
     public void create(final String[] inputs, final String[][] outputs) {
-        System.out.println("Building the minimal machine...");
+        logger.info("Building the minimal machine...");
         synchronized (machine) {
             final long beginTime = System.currentTimeMillis();
             // build the minimal automaton
             for (int i = 0; i < inputs.length; i++) {
                 addItem(inputs[i], outputs[i]);
                 if (i % 1000 == 0) {
-                    System.out.println(" i = " + i);
+                    logger.info(" i = " + i);
                 }
             }
             // IMPORTANT: call the last step of the minimization process:
@@ -324,7 +326,7 @@ public final class MinimalFSMBuilder extends FSMBuilder {
             finalize();
             final long endTime = System.currentTimeMillis();
             final long time = (endTime - beginTime);
-            System.out.println("Time to build the minimal machine = " + time + " (ms)");
+            logger.info("Time to build the minimal machine = " + time + " (ms)");
         }
     }
 

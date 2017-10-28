@@ -7,9 +7,6 @@ package vn.hus.nlp.tokenizer.segmenter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import vn.hus.nlp.graph.AdjacencyListWeightedGraph;
 import vn.hus.nlp.graph.Edge;
@@ -20,6 +17,9 @@ import vn.hus.nlp.graph.io.GraphIO;
 import vn.hus.nlp.graph.search.ShortestPathFinder;
 import vn.hus.nlp.graph.util.GraphConnectivity;
 import vn.hus.nlp.utils.CaseConverter;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
@@ -43,7 +43,7 @@ public class Segmenter {
 
     private static StringNormalizer normalizer;
 
-    private Logger logger;
+    private static final Logger logger = LogManager.getLogger(Segmenter.class);
 
     /**
      * The DFA representing Vietnamese lexicon (the internal lexicon).
@@ -75,7 +75,6 @@ public class Segmenter {
      */
     public Segmenter() {
         result = new ArrayList<>();
-        createLogger();
         // create DFA lexicon recognizer
         getDFALexiconRecognizer();
         // create external lexicon recognizer
@@ -100,7 +99,6 @@ public class Segmenter {
      */
     public Segmenter(final Properties properties, final AbstractResolver resolver) {
         result = new ArrayList<>();
-        createLogger();
         // create DFA lexicon recognizer
         getDFALexiconRecognizer(properties);
         // create external lexicon recognizer
@@ -108,15 +106,6 @@ public class Segmenter {
         // create a string normalizer
         normalizer = StringNormalizer.getInstance(properties);
         this.resolver = resolver;
-    }
-
-    private void createLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger(Segmenter.class.getName());
-            // use a console handler to trace the log
-            logger.addHandler(new ConsoleHandler());
-            logger.setLevel(Level.FINEST);
-        }
     }
 
     /**
@@ -256,9 +245,9 @@ public class Segmenter {
         if (DEBUG) {
             System.err.println("The graph for the phrase is: ");
             GraphIO.print(graph);
-            System.out.println("Isolated vertices: ");
+            logger.info("Isolated vertices: ");
             for (final int i : isolatedVertices) {
-                System.out.println(i);
+                logger.info(i);
             }
         }
 
@@ -295,7 +284,7 @@ public class Segmenter {
         }
         // make sure that the graph is now connected:
         if (GraphConnectivity.countComponents(graph) != 1) {
-            logger.log(Level.INFO, "Hmm, fail to connect the graph!");
+            logger.info("Hmm, fail to connect the graph!");
         }
     }
 
@@ -368,7 +357,6 @@ public class Segmenter {
         // get all shortest paths from vertex 0 to the end vertex
         final ShortestPathFinder pathFinder = new ShortestPathFinder(graph);
         final Node[] allShortestPaths = pathFinder.getAllShortestPaths(nV - 1);
-        //		System.out.println("There are " + allShortestPaths.length + " segmentation(s) for the phrase."); // DEBUG
         // build segmentations corresponding to the shortest paths
         for (final Node path : allShortestPaths) {
             final int[] a = path.toArray();
@@ -385,18 +373,6 @@ public class Segmenter {
      */
     public String[] resolveAmbiguity(final List<String[]> segmentations) {
         return resolver.resolve(segmentations);
-    }
-
-    /**
-     * Print the result of the segmentation.
-     */
-    public void printResult() {
-        for (final String[] segmentation : result) {
-            for (final String element : segmentation) {
-                System.out.print("[" + element + "] ");
-            }
-            System.out.println();
-        }
     }
 
     /**

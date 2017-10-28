@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -18,6 +21,8 @@ import java.util.List;
  * are recursively browsed.
  */
 public class FileIterator {
+
+    private static final Logger logger = LogManager.getLogger(FileIterator.class);
 
     private FileIterator() {
     }
@@ -55,7 +60,7 @@ public class FileIterator {
         final File directory = new File("samples");
         final File[] files = FileIterator.listFiles(directory, textFileFilter);
         for (final File file : files) {
-            System.out.println(file.getAbsolutePath());
+            logger.info(file.getAbsolutePath());
         }
     }
 

@@ -15,6 +15,9 @@ import vn.hus.nlp.graph.util.GraphConnectivity;
 import vn.hus.nlp.graph.util.GraphDegree;
 import vn.hus.nlp.graph.util.GraphUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -23,6 +26,8 @@ import vn.hus.nlp.graph.util.GraphUtilities;
  *         A client code to test the package.
  */
 public class GraphClient {
+
+	private static final Logger logger = LogManager.getLogger(GraphClient.class);
 
 	public static void testAdjacencyListGraph() {
 		// create an adjacency list graph from a data file
@@ -67,13 +72,13 @@ public class GraphClient {
 	public static void testComponents() {
 		// create an adjacency list graph from a data file
 		final IGraph graph = GraphIO.scanAdjacencyList("samples/list2.txt");
-		System.out.println("# of connected components = " + GraphConnectivity.countComponents(graph));
+		logger.info("# of connected components = " + GraphConnectivity.countComponents(graph));
 		int n = graph.getNumberOfVertices();
 		n--; // the end vertex
 		if (GraphConnectivity.isConnected(graph, 0, n)) {
-			System.out.println("There is a path from vertex 0 to vertex " + n + ".");
+			logger.info("There is a path from vertex 0 to vertex " + n + ".");
 		} else {
-			System.out.println("Vertex 0 and vertex " + n + " is not connected.");
+			logger.info("Vertex 0 and vertex " + n + " is not connected.");
 		}
 	}
 	/**
@@ -85,11 +90,11 @@ public class GraphClient {
 		final IGraph graph = GraphIO.scanAdjacencyList("samples/list3.txt");
 		// search the graph from the vertex u
 		final GraphBFS graphBFS = new GraphBFS(graph, u);
-		System.out.println("Order: ");
+		logger.info("Order: ");
 		graphBFS.printOrder();
-		System.out.println("Spanning tree: ");
+		logger.info("Spanning tree: ");
 		graphBFS.printSpanningTree();
-		System.out.println("A shortest path from the start vertex to the end vertex:");
+		logger.info("A shortest path from the start vertex to the end vertex:");
 		graphBFS.shortestPath(0, graph.getNumberOfVertices() - 1);
 	}
 
@@ -112,9 +117,9 @@ public class GraphClient {
 		// create an adjacency list graph from a data file
 		final IGraph graph = GraphIO.scanAdjacencyList("samples/list6.txt");
 		final int[] isolatedVertices = GraphConnectivity.getIsolatedVertices(graph);
-		System.out.println("All isolated vertices:");
+		logger.info("All isolated vertices:");
 		for (final int isolatedVertice : isolatedVertices) {
-			System.out.println(isolatedVertice);
+			logger.info(isolatedVertice);
 		}
 	}
 
@@ -133,7 +138,7 @@ public class GraphClient {
 		sb.append("8 7\n");
 		Reader reader = new StringReader(sb.toString());
 		IGraph graph = GraphIO.scanAdjacencyList(reader);
-		System.out.println("Is this graph projective? " + GraphUtilities.isProjective(graph));
+		logger.info("Is this graph projective? " + GraphUtilities.isProjective(graph));
 		//
 		sb = new StringBuffer();
 		sb.append(9);
@@ -148,7 +153,7 @@ public class GraphClient {
 		sb.append("6 7\n");
 		reader = new StringReader(sb.toString());
 		graph = GraphIO.scanAdjacencyList(reader);
-		System.out.println("Is this graph projective? " + GraphUtilities.isProjective(graph));
+		logger.info("Is this graph projective? " + GraphUtilities.isProjective(graph));
 	}
 
 	/**

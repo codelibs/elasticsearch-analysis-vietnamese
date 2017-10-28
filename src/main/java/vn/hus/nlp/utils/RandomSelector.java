@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -18,6 +21,8 @@ import java.util.Set;
  * is useful for constructing training and test sets from a corpus.
  */
 public class RandomSelector<T> {
+
+    private static final Logger logger = LogManager.getLogger(RandomSelector.class);
 
     private final List<T> selectedElements = new ArrayList<>();
     private List<T> unselectedElements;;
@@ -91,10 +96,10 @@ public class RandomSelector<T> {
             elements.add(i);
         }
         final RandomSelector<Integer> randomSelector = new RandomSelector<>(elements, 5);
-        System.out.println("Selected elements = ");
-        System.out.println(randomSelector.getSelectedElements());
-        System.out.println("Unselected elements = ");
-        System.out.println(randomSelector.getUnselectedElements());
+        logger.info("Selected elements = ");
+        logger.info(randomSelector.getSelectedElements());
+        logger.info("Unselected elements = ");
+        logger.info(randomSelector.getUnselectedElements());
     }
 
 }

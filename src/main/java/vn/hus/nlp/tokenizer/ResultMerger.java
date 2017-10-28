@@ -93,7 +93,6 @@ public class ResultMerger {
             final TaggedWord mergedToken = mergeDate(token, nextToken);
             // if they are merged
             if (mergedToken != null) {
-                //				System.out.println(mergedToken.getText()); // DEBUG
                 result.remove(result.size() - 1);
                 result.add(mergedToken);
             } else { // if they aren't merge

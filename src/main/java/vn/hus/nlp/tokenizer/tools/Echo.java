@@ -131,18 +131,16 @@ public class Echo extends DefaultHandler {
      */
     public static void main(final String[] args) {
         // TODO Auto-generated method stub
-        try {
-            // create a default handler
-            final DefaultHandler handler = new Echo();
+        // create a default handler
+        final DefaultHandler handler = new Echo();
+
+        try (final FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
+             final OutputStreamWriter out = new OutputStreamWriter(fout, "UTF-8")) {
             // create a SAX parser
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final SAXParser parser = factory.newSAXParser();
-            // setup the output stream using UTF-8 encoding
-            final FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
-            out = new OutputStreamWriter(fout, "UTF-8");
             // parser the sample file
             parser.parse(new File(Echo.FILENAME_INP), handler);
-            out.close();
         } catch (final Throwable e) {
             // TODO: handle exception
             logger.warn(e);

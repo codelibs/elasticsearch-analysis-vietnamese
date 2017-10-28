@@ -384,10 +384,9 @@ public class Estimator {
      */
     @Deprecated
     void outputConditionalProbabilities(final String filename) {
-        try {
-            final FileOutputStream outputStream = new FileOutputStream(filename);
-            final Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-            final BufferedWriter bufWriter = new BufferedWriter(writer);
+        try (final FileOutputStream outputStream = new FileOutputStream(filename);
+             final Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+             final BufferedWriter bufWriter = new BufferedWriter(writer)) {
 
             // write the result
             final Iterator<Couple> couples = probabilities.iterator();
@@ -396,9 +395,8 @@ public class Estimator {
                 bufWriter.write("(" + c.getFirst() + "|" + c.getSecond() + ")" + "\t" + c.getProb());
                 bufWriter.write("\n");
             }
-            // flush and close the writer
+            // flush the writer
             bufWriter.flush();
-            bufWriter.close();
         } catch (final FileNotFoundException e) {
             logger.warn(e);
         } catch (final IOException e) {

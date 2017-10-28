@@ -120,16 +120,14 @@ public class Bigram {
      * @see {@link #marshalResults(String)}.
      */
     public void print(final String filename) {
-        try {
-            final Writer writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
-            final BufferedWriter bufWriter = new BufferedWriter(writer);
+        try (final Writer writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+             final BufferedWriter bufWriter = new BufferedWriter(writer);) {
             final Iterator<Couple> couples = bigram.keySet().iterator();
             while (couples.hasNext()) {
                 final Couple couple = couples.next();
                 bufWriter.write(couple + "\n");
             }
             bufWriter.flush();
-            writer.close();
             logger.info("# of couples = " + bigram.size());
         } catch (final IOException e) {
             logger.warn(e);

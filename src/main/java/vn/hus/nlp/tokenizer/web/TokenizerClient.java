@@ -98,15 +98,9 @@ public class TokenizerClient {
             return;
         }
 
-        try {
-            // Create a tagging client, open connection
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
+             final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8"))) {
             final TokenizerClient client = new TokenizerClient("localhost", 2929);
-
-            // read data from file
-            // process data, save into another file
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8"));
-
             client.connect();
             String line;
             String input = "";
@@ -116,11 +110,7 @@ public class TokenizerClient {
 
             final String result = client.process(input);
             writer.write(result + "\n");
-
             client.close();
-            reader.close();
-            writer.close();
-
         } catch (final Exception e) {
             logger.info(e.getMessage());
             logger.warn(e);

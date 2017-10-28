@@ -80,11 +80,9 @@ public final class StringSorter {
     private void loadDataFile(final String dataFile) {
         // TODO Auto-generated method stub
         logger.info("Loading the data file... Please wait....");
-        try {
-            // create a buffered reader to read the data file, line by line
-            final FileInputStream fis = new FileInputStream(dataFile);
-            final InputStreamReader isr = new InputStreamReader(fis, StringSorter.ENCODING);
-            final BufferedReader br = new BufferedReader(isr);
+        try (final FileInputStream fis = new FileInputStream(dataFile);
+             final InputStreamReader isr = new InputStreamReader(fis, StringSorter.ENCODING);
+             final BufferedReader br = new BufferedReader(isr)) {
             // now begin processing all lines of the data file
             String input = "";
             while ((input = br.readLine()) != null) {
@@ -94,7 +92,6 @@ public final class StringSorter {
                     // logger.info(input); // DEBUG
                 }
             }
-            br.close();
         } catch (final Exception e) {
             logger.warn(e);
         }
@@ -123,15 +120,13 @@ public final class StringSorter {
      */
     public void writeResult(final String filename) {
         logger.info("Writing result... Please wait...");
-        try {
-            final FileOutputStream fos = new FileOutputStream(filename);
-            final OutputStreamWriter writer = new OutputStreamWriter(fos, StringSorter.ENCODING);
-            final BufferedWriter bwriter = new BufferedWriter(writer);
+        try (final FileOutputStream fos = new FileOutputStream(filename);
+             final OutputStreamWriter writer = new OutputStreamWriter(fos, StringSorter.ENCODING);
+             final BufferedWriter bwriter = new BufferedWriter(writer)) {
             for (final String s : strings) {
                 bwriter.write(s);
                 bwriter.write("\n");
             }
-            bwriter.close();
         } catch (final Exception e) {
             logger.warn(e);
         }

@@ -405,13 +405,11 @@ public class Tokenizer {
      */
     public void exportResult(final String filename, final Outputer outputer) {
         logger.info("Exporting result of tokenization...");
-        try {
-            final FileOutputStream fos = new FileOutputStream(filename);
-            final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-            final BufferedWriter bw = new BufferedWriter(osw);
+        try (final FileOutputStream fos = new FileOutputStream(filename);
+             final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+             final BufferedWriter bw = new BufferedWriter(osw)) {
             bw.write(outputer.output(result));
             bw.flush();
-            bw.close();
         } catch (final IOException e) {
             logger.log(Level.WARNING, "IO Exception" + e.getMessage());
         }

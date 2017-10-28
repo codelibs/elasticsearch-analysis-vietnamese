@@ -153,21 +153,21 @@ public class CaseConverter {
      * @throws IOException
      */
     public void convert(final String filename) throws IOException {
-        final FileOutputStream fos = new FileOutputStream(filename);
-        final OutputStreamWriter writer = new OutputStreamWriter(fos, "UTF-8");
-        final BufferedWriter bw = new BufferedWriter(writer);
-        final Iterator<Character> it = lower2UpperMap.keySet().iterator();
-        while (it.hasNext()) {
-            final Character key = it.next();
-            final Character value = lower2UpperMap.get(key);
-            // bw.write(Integer.toHexString((int)key.charValue()));
-            bw.write(key.toString());
-            bw.write("\t");
-            // bw.write(Integer.toHexString((int)value.charValue()));
-            bw.write(value.toString());
-            bw.write("\n");
+        try (final FileOutputStream fos = new FileOutputStream(filename);
+             final OutputStreamWriter writer = new OutputStreamWriter(fos, "UTF-8");
+             final BufferedWriter bw = new BufferedWriter(writer)) {
+            final Iterator<Character> it = lower2UpperMap.keySet().iterator();
+            while (it.hasNext()) {
+                final Character key = it.next();
+                final Character value = lower2UpperMap.get(key);
+                // bw.write(Integer.toHexString((int)key.charValue()));
+                bw.write(key.toString());
+                bw.write("\t");
+                // bw.write(Integer.toHexString((int)value.charValue()));
+                bw.write(value.toString());
+                bw.write("\n");
+            }
         }
-        bw.close();
     }
 
     /**

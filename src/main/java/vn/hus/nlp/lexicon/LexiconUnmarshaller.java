@@ -69,19 +69,20 @@ public class LexiconUnmarshaller {
      * @return a Corpus object.
      */
     public Corpus unmarshal(final String filename) {
-        try {
-            final InputStream stream = getClass().getResourceAsStream(filename);
+        final InputStream stream = getClass().getResourceAsStream(filename);
 
-            if (stream != null) {
+        if (stream != null) {
+            try {
                 final Object object = getUnmarshaller().unmarshal(stream);
                 if (object instanceof Corpus) {
                     final Corpus corpus = (Corpus) object;
                     return corpus;
                 }
+            } catch (final JAXBException e) {
+                logger.warn(e);
             }
-        } catch (final JAXBException e) {
-            logger.warn(e);
         }
+
         return null;
     }
 

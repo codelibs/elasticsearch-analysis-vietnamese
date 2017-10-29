@@ -9,6 +9,9 @@ import vn.hus.nlp.utils.FileIterator;
 import vn.hus.nlp.utils.TextFileFilter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <br>
@@ -17,6 +20,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * This utility is to used to convert a tokenized corpus to a raw corpus.
  */
 public class TokenizedToRawConverter {
+
+    private static final Logger logger = LogManager.getLogger(TokenizedToRawConverter.class);
 
     private TokenizedToRawConverter() {
     }
@@ -88,7 +93,7 @@ public class TokenizedToRawConverter {
         for (final File file : taggedFiles) {
             convertFile(file.getAbsolutePath(), dirOut + File.separator + file.getName());
         }
-        System.out.println("Converted " + taggedFiles.length + " files.");
+        logger.info("Converted " + taggedFiles.length + " files.");
     }
 
     public static void main(final String[] args) {

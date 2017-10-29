@@ -22,7 +22,12 @@ import vn.hus.nlp.tokenizer.segmenter.UnigramResolver;
 import vn.hus.nlp.tokenizer.tokens.LexerRule;
 import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Tokenizer {
+
+    private static final Logger logger = LogManager.getLogger(Tokenizer.class);
 
     private Segmenter segmenter;
 
@@ -47,7 +52,7 @@ public class Tokenizer {
             resultSplitter = new ResultSplitter(properties);
             segmenter = new Segmenter(properties, new UnigramResolver(properties.getProperty("unigramModel")));
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
     }
@@ -180,7 +185,7 @@ public class Tokenizer {
         final Tokenizer t = new Tokenizer();
         final List<TaggedWord> tokens = t.tokenize(new StringReader("tôi đi học rất sớm. công nghệ thông tin Việt Nam"));
         for (final TaggedWord token : tokens) {
-            System.out.println(token);
+            logger.info(token);
         }
     }
 

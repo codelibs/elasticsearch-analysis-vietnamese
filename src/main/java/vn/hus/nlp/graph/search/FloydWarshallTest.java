@@ -7,6 +7,9 @@ import vn.hus.nlp.graph.IGraph;
 import vn.hus.nlp.graph.IWeightedGraph;
 import vn.hus.nlp.graph.io.GraphIO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -15,6 +18,8 @@ import vn.hus.nlp.graph.io.GraphIO;
  *         Test class of the {@link FloydWarshall} class.
  */
 public class FloydWarshallTest {
+
+    private static final Logger logger = LogManager.getLogger(FloydWarshallTest.class);
 
     /**
      * A sample GRAPH.TXT file
@@ -44,12 +49,12 @@ public class FloydWarshallTest {
             // print out the cost matrix
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    System.out.print(cost[i][j] + "\t");
+                    logger.info(cost[i][j] + "\t");
                 }
-                System.out.println();
+                logger.info("\n");
             }
         } else {
-            System.out.println("You don't provide me a weighted graph!");
+            logger.info("You don't provide me a weighted graph!");
         }
 
     }

@@ -288,10 +288,8 @@ public class ShortestPathFinder {
     private Node getPath(final int[] a, final int m) {
         Node list = new Node();
         for (int i = 0; i < m; i++) {
-            // System.out.println("a[" + i + "] = " + a[i]); // DEBUG
             list = new Node(a[i], list);
         }
-        // System.out.println(list); // DEBUG
         return list;
     }
 

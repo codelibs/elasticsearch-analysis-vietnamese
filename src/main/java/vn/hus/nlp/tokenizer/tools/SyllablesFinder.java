@@ -9,6 +9,9 @@ import java.util.TreeSet;
 import vn.hus.nlp.utils.CaseConverter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -20,6 +23,9 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public final class SyllablesFinder {
+
+    private static final Logger logger = LogManager.getLogger(SyllablesFinder.class);
+
     /**
      * Delimiters specified by a regular expression
      */
@@ -67,11 +73,11 @@ public final class SyllablesFinder {
      */
     public static void main(final String[] args) {
         if (args.length < 2) {
-            System.out.println("Please give two arguments: <inputFile> <outputFile>");
+            logger.info("Please give two arguments: <inputFile> <outputFile>");
             return;
         }
         new SyllablesFinder().find(args[0], args[1]);
-        System.out.println("Done");
+        logger.info("Done");
     }
 
 }

@@ -18,6 +18,9 @@ import vn.hus.nlp.graph.IGraph;
 import vn.hus.nlp.graph.IWeightedGraph;
 import vn.hus.nlp.graph.util.GraphUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -26,6 +29,8 @@ import vn.hus.nlp.graph.util.GraphUtilities;
  *         The single class that provides methods for graph I/O.
  */
 public final class GraphIO {
+
+    private static final Logger logger = LogManager.getLogger(GraphIO.class);
 
     /**
      * The graph is directed or not.
@@ -45,12 +50,12 @@ public final class GraphIO {
             // read the number of vertices of the graph
             // that is specified on the first line.
             final int n = Integer.parseInt(br.readLine());
-            // System.out.println(n);
+            // logger.info(n);
             if (n > 0) {
                 // create a graph with n vertices
                 graph = new AdjacencyListGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must be positive.");
+                logger.error("The number of vertices of the graph must be positive.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -58,7 +63,7 @@ public final class GraphIO {
             while ((line = br.readLine()) != null && line.trim().length() > 0) {
                 final String[] uv = line.split("\\s+");
                 if (uv.length != 2) {
-                    System.err.println("Bad format for data input stream!");
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 final int u = Integer.parseInt(uv[0]);
@@ -69,7 +74,7 @@ public final class GraphIO {
             // close the isr
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -93,7 +98,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyList(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -111,12 +116,12 @@ public final class GraphIO {
             // read the number of vertices of the graph
             // that is specified on the first line.
             final int n = Integer.parseInt(br.readLine());
-            // System.out.println(n);
+            // logger.info(n);
             if (n > 0) {
                 // create a graph with n vertices
                 graph = new AdjacencyMatrixGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must be positive.");
+                logger.error("The number of vertices of the graph must be positive.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -125,13 +130,13 @@ public final class GraphIO {
             while (u < n) {
                 line = br.readLine();
                 if (line == null || line.trim().length() == 0) {
-                    System.err.println("The data is incomplete!");
+                    logger.error("The data is incomplete!");
                     System.exit(1);
                 }
                 final String[] vArr = line.split("\\s+");
                 if (vArr.length != n) {
-                    System.out.println(vArr.length);
-                    System.err.println("Bad format for data input stream!");
+                    logger.info(vArr.length);
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 for (int v = 0; v < vArr.length; v++) {
@@ -145,7 +150,7 @@ public final class GraphIO {
             }
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -168,7 +173,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyMatrix(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -187,9 +192,9 @@ public final class GraphIO {
         }
         for (final Edge e : edges) {
             final double w = e.getWeight();
-            System.out.println(e.getU() + " - " + e.getV() + " (" + w + ")");
+            logger.info(e.getU() + " - " + e.getV() + " (" + w + ")");
         }
-        // System.out.println("There are " + edges.length + " edges.");
+        // logger.info("There are " + edges.length + " edges.");
     }
 
     /**
@@ -209,23 +214,23 @@ public final class GraphIO {
      */
     private static void printDenseGraph(final IGraph graph) {
         final int n = graph.getNumberOfVertices();
-        System.out.print("\t");
+        logger.info("\t");
         for (int u = 0; u < n; u++) {
-            System.out.print("\t" + u);
+            logger.info("\t" + u);
         }
-        System.out.println();
-        System.out.print("\t");
+        logger.info("\n");
+        logger.info("\t");
         for (int u = 0; u < n; u++) {
-            System.out.print("\t-");
+            logger.info("\t-");
         }
-        System.out.println();
+        logger.info("\n");
         for (int u = 0; u < n; u++) {
-            System.out.print(u + "\t" + "|");
+            logger.info(u + "\t" + "|");
             for (int v = 0; v < n; v++) {
                 final int b = (graph.edge(u, v) ? 1 : 0);
-                System.out.print("\t" + b);
+                logger.info("\t" + b);
             }
-            System.out.println();
+            logger.info("\n");
         }
     }
 
@@ -237,7 +242,7 @@ public final class GraphIO {
     public static void print(final IGraph graph) {
         final int vC = graph.getNumberOfVertices();
         final int eC = graph.getNumberOfEdges();
-        System.out.println("There are " + vC + " vertices and " + eC + " edges.\n");
+        logger.info("There are " + vC + " vertices and " + eC + " edges.\n");
         if (graph instanceof AdjacencyListGraph || graph instanceof AdjacencyListWeightedGraph) {
             printSparseGraph(graph);
         } else {
@@ -246,7 +251,7 @@ public final class GraphIO {
             }
         }
 
-        System.out.println();
+        logger.info("\n");
     }
 
     /**
@@ -263,12 +268,12 @@ public final class GraphIO {
             // read the number of vertices of the graph
             // that is specified on the first line.
             final int n = Integer.parseInt(br.readLine());
-            // System.out.println(n);
+            // logger.info(n);
             if (n > 0) {
                 // create a graph with n vertices
                 graph = new AdjacencyListWeightedGraph(n, DIRECTED);
             } else {
-                System.err.println("The number of vertices of the graph must > 0.");
+                logger.error("The number of vertices of the graph must > 0.");
                 System.exit(1);
             }
             // read edges of the graph
@@ -276,7 +281,7 @@ public final class GraphIO {
             while ((line = br.readLine()) != null && line.trim().length() > 0) {
                 final String[] uvw = line.split("\\s+");
                 if (uvw.length != 3) {
-                    System.err.println("Bad format for data input stream!");
+                    logger.error("Bad format for data input stream!");
                     System.exit(1);
                 }
                 final int u = Integer.parseInt(uvw[0]);
@@ -287,7 +292,7 @@ public final class GraphIO {
             }
             br.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }
@@ -311,7 +316,7 @@ public final class GraphIO {
             final InputStreamReader isr = new FileReader(filename);
             graph = scanAdjacencyListWeighted(isr);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return graph;
     }

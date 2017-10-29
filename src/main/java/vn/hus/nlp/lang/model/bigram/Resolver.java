@@ -16,6 +16,9 @@ import vn.hus.nlp.lexicon.LexiconUnmarshaller;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.W;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  * <p>
@@ -27,6 +30,9 @@ import vn.hus.nlp.lexicon.jaxb.W;
  * of a bigram model.
  */
 public class Resolver {
+
+    private static final Logger logger = LogManager.getLogger(Resolver.class);
+
     /**
      * Conditional probabilities P(w_i | w_{i-1}) = P(s | f).
      * We use a map instead of a list to hold these probabilities to accelerate
@@ -76,7 +82,7 @@ public class Resolver {
      * @param unigramFilename
      */
     private void loadUnigram(final String unigramFilename) {
-        System.out.println("Loading unigram model...");
+        logger.info("Loading unigram model...");
         // load unigram model
         final Corpus unigramCorpus = unmarshaller.unmarshal(unigramFilename);
         final List<W> ws = unigramCorpus.getBody().getW();
@@ -102,7 +108,7 @@ public class Resolver {
      * @param probFilename
      */
     private void loadProbabilities(final String probFilename) {
-        System.out.println("Load conditional probabilities model...");
+        logger.info("Load conditional probabilities model...");
         // load conditional prob model
         final Corpus probCorpus = unmarshaller.unmarshal(probFilename);
         final List<W> ws = probCorpus.getBody().getW();
@@ -204,7 +210,7 @@ public class Resolver {
         final Iterator<Couple> couples = probabilities.keySet().iterator();
         while (couples.hasNext()) {
             final Couple c = couples.next();
-            System.out.println(c);
+            logger.info(c);
         }
     }
 
@@ -216,7 +222,7 @@ public class Resolver {
         final Iterator<String> tokens = unigram.keySet().iterator();
         while (tokens.hasNext()) {
             final String token = tokens.next();
-            System.out.println(token + "\t" + unigram.get(token));
+            logger.info(token + "\t" + unigram.get(token));
         }
     }
 

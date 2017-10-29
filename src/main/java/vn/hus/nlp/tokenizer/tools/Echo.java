@@ -13,6 +13,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author LE Hong Phuong
@@ -22,6 +25,8 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class Echo extends DefaultHandler {
+
+    private static final Logger logger = LogManager.getLogger(Echo.class);
 
     StringBuffer textBuffer;
 
@@ -126,21 +131,19 @@ public class Echo extends DefaultHandler {
      */
     public static void main(final String[] args) {
         // TODO Auto-generated method stub
-        try {
-            // create a default handler
-            final DefaultHandler handler = new Echo();
+        // create a default handler
+        final DefaultHandler handler = new Echo();
+
+        try (final FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
+             final OutputStreamWriter out = new OutputStreamWriter(fout, "UTF-8")) {
             // create a SAX parser
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final SAXParser parser = factory.newSAXParser();
-            // setup the output stream using UTF-8 encoding
-            final FileOutputStream fout = new FileOutputStream(Echo.FILENAME_OUT);
-            out = new OutputStreamWriter(fout, "UTF-8");
             // parser the sample file
             parser.parse(new File(Echo.FILENAME_INP), handler);
-            out.close();
         } catch (final Throwable e) {
             // TODO: handle exception
-            e.printStackTrace();
+            logger.warn(e);
         }
         System.exit(0);
     }

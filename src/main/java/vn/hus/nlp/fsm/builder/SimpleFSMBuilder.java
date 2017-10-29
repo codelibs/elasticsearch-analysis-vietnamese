@@ -9,6 +9,9 @@ import vn.hus.nlp.fsm.Transition;
 import vn.hus.nlp.fsm.fsa.DFAConfiguration;
 import vn.hus.nlp.fsm.fst.FSTConfiguration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -18,6 +21,8 @@ import vn.hus.nlp.fsm.fst.FSTConfiguration;
  * @see {@link MinimalFSMBuilder}
  */
 public class SimpleFSMBuilder extends FSMBuilder {
+
+    private static final Logger logger = LogManager.getLogger(SimpleFSMBuilder.class);
 
     /**
      * Constructor.
@@ -67,7 +72,7 @@ public class SimpleFSMBuilder extends FSMBuilder {
                 }
             } else {
                 if (output.length != input.length()) {
-                    System.err.println("Error! The output must have the same length with its input.");
+                    logger.error("Error! The output must have the same length with its input.");
                     System.exit(-1);
                 }
                 // have output, we build FST

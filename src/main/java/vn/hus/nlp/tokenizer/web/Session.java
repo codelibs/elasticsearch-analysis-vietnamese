@@ -10,6 +10,9 @@ import java.util.Vector;
 
 import vn.hus.nlp.tokenizer.VietTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -18,6 +21,8 @@ import vn.hus.nlp.tokenizer.VietTokenizer;
  * A tokenizer session.
  */
 public class Session extends Thread {
+
+    private static final Logger logger = LogManager.getLogger(Session.class);
 
     private final VietTokenizer tokenizer;
     private Socket incoming;
@@ -48,7 +53,7 @@ public class Session extends Thread {
                     wait();
                 }
 
-                System.out.println("Socket opening ...");
+                logger.info("Socket opening ...");
                 final BufferedReader in = new BufferedReader(new InputStreamReader(incoming.getInputStream(), "UTF-8"));
                 //PrintStream out = (PrintStream) incoming.getOutputStream();
                 final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(incoming.getOutputStream(), "UTF-8"));
@@ -77,10 +82,10 @@ public class Session extends Thread {
                 out.write((char) 0);
                 out.flush();
             } catch (final InterruptedIOException e) {
-                System.out.println("The connection is interrupted");
+                logger.info("The connection is interrupted");
             } catch (final Exception e) {
-                System.out.println(e);
-                e.printStackTrace();
+                logger.info(e);
+                logger.warn(e);
             }
 
             //update pool

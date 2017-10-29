@@ -19,6 +19,9 @@ import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -29,6 +32,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *         to be encoded in UTF-8 encoding.
  */
 public class SentenceDetector extends SentenceDetectorME {
+
+    private static final Logger logger = LogManager.getLogger(SentenceDetector.class);
 
     /**
      * Loads a new sentence detector using the model specified by the model
@@ -55,7 +60,6 @@ public class SentenceDetector extends SentenceDetectorME {
      */
     public SentenceDetector(final Properties properties) throws IOException {
         this(properties.getProperty("sentDetectionModel"));
-        //		System.out.println("Sentence detection model = " + properties.getProperty("sentDetectionModel"));
     }
 
     /**
@@ -112,7 +116,7 @@ public class SentenceDetector extends SentenceDetectorME {
             }
             UTF8FileUtility.closeWriter();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

@@ -164,9 +164,9 @@ public class Tokenizer {
             try {
                 logger.addHandler(new FileHandler("tokenizer.log"));
             } catch (final SecurityException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "Security Exception" + e.getMessage());
             } catch (final IOException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "IO Exception" + e.getMessage());
             }
             logger.setLevel(Level.FINEST);
         }
@@ -186,7 +186,6 @@ public class Tokenizer {
         final List<W> lexers = corpus.getBody().getW();
         for (final W w : lexers) {
             final LexerRule lr = new LexerRule(w.getMsd(), w.getContent());
-            //			System.out.println(w.getMsd() + ": " + w.getContent());
             ruleList.add(lr);
         }
         // convert the list of rules to an array and save it
@@ -214,12 +213,9 @@ public class Tokenizer {
             if (taggedWord == null) {
                 break;
             }
-            //			// DEBUG
-            //			System.out.println("taggedWord = " + taggedWord);
             // if this token is a phrase, we need to use a segmenter
             // object to segment it.
             if (taggedWord.isPhrase()) {
-                //				System.out.println("taggedWord phrase = " + taggedWord);
                 final String phrase = taggedWord.getText().trim();
                 if (!isSimplePhrase(phrase)) {
                     final String ruleName = taggedWord.getRule().getName();
@@ -298,7 +294,7 @@ public class Tokenizer {
         try {
             tokenize(UTF8FileUtility.reader);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "IO Exception" + e.getMessage());
         }
         UTF8FileUtility.closeReader();
     }
@@ -337,7 +333,8 @@ public class Tokenizer {
             }
             // an empty line corresponds to an empty tagged word
             if (line.trim().length() == 0) {
-                System.err.println("Create an empty line tagged word...");
+
+                logger.log(Level.WARNING, "Create an empty line tagged word...");
                 //return new TaggedWord(new LexerRule("return", "(\\^\\$)"), "\n");
                 return new TaggedWord(new LexerRule("return"), "\n");
             }
@@ -395,7 +392,6 @@ public class Tokenizer {
         // for the next match, and return the token
         column += endIndex;
         line = line.substring(endIndex).trim();
-        //		System.out.println(line);
         return token;
     }
 
@@ -408,18 +404,16 @@ public class Tokenizer {
      * @see vn.hus.nlp.tokenizer.io.IOutputFormatter
      */
     public void exportResult(final String filename, final Outputer outputer) {
-        System.out.print("Exporting result of tokenization...");
-        try {
-            final FileOutputStream fos = new FileOutputStream(filename);
-            final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-            final BufferedWriter bw = new BufferedWriter(osw);
+        logger.info("Exporting result of tokenization...");
+        try (final FileOutputStream fos = new FileOutputStream(filename);
+             final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+             final BufferedWriter bw = new BufferedWriter(osw)) {
             bw.write(outputer.output(result));
             bw.flush();
-            bw.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "IO Exception" + e.getMessage());
         }
-        System.out.println("OK.");
+        logger.info("OK.");
     }
 
     /**
@@ -428,13 +422,13 @@ public class Tokenizer {
      * @param filename
      */
     public void exportResult(final String filename) {
-        System.out.print("Exporting result of tokenization...");
+        logger.info("Exporting result of tokenization...");
         UTF8FileUtility.createWriter(filename);
         for (final TaggedWord token : result) {
             UTF8FileUtility.write(token.toString() + "\n");
         }
         UTF8FileUtility.closeWriter();
-        System.out.println("OK");
+        logger.info("OK");
     }
 
     /**
@@ -537,7 +531,7 @@ public class Tokenizer {
         public void processToken(final TaggedWord token) {
             // report some simple progress
             if (result.size() % 1000 == 0) {
-                System.out.print(".");
+                logger.info(".");
             }
         }
 

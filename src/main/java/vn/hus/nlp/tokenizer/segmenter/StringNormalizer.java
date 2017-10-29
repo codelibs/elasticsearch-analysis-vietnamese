@@ -13,6 +13,9 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -25,6 +28,8 @@ import org.apache.commons.io.IOUtils;
  * since the lexicon contains only the later form.
  */
 public final class StringNormalizer {
+
+    private static final Logger logger = LogManager.getLogger(StringNormalizer.class);
 
     private static Map<String, String> map;
 
@@ -47,13 +52,13 @@ public final class StringNormalizer {
                 if (s.length == 2) {
                     map.put(s[0], s[1]);
                 } else {
-                    System.err.println("Wrong syntax in the map file " + mapFile + " at line " + i);
+                    logger.error("Wrong syntax in the map file " + mapFile + " at line " + i);
                 }
             }
 
         } catch (final IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.warn(e);
         }
 
     }

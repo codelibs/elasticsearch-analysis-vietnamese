@@ -14,6 +14,9 @@ import vn.hus.nlp.fsm.builder.SimpleFSMBuilder;
 import vn.hus.nlp.fsm.io.FSMUnmarshaller;
 import vn.hus.nlp.fsm.util.FSMUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -23,6 +26,8 @@ import vn.hus.nlp.fsm.util.FSMUtilities;
  * <p>
  */
 public class DFAClient {
+
+    private static final Logger logger = LogManager.getLogger(DFAClient.class);
 
     /**
      * Test some operations on fsm.
@@ -35,21 +40,21 @@ public class DFAClient {
 
         // TEST TRANSITION REMOVAL
 
-        //		System.out.println("Remove transition (4,5): ");
+        //		logger.info("Remove transition (4,5): ");
         //		FSM dfa = builder.getDFA();
         //		dfa.removeTransition(dfa.getTransition(4, 5));
         //		builder.printDFA();
-        //		System.out.println("Remove transition (2,3): ");
+        //		logger.info("Remove transition (2,3): ");
         //		dfa.removeTransition(dfa.getTransition(2, 3));
         //		builder.printDFA();
 
         // TEST STATE REMOVAL
-        System.out.println("Remove state 3: ");
+        logger.info("Remove state 3: ");
         final FSM dfa = builder.getMachine();
         dfa.removeState(dfa.getState(3));
         builder.printMachine();
 
-        System.out.println("Remove state 4: ");
+        logger.info("Remove state 4: ");
         dfa.removeState(dfa.getState(4));
         builder.printMachine();
 

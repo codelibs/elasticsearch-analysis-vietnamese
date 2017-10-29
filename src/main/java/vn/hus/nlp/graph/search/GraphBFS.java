@@ -11,6 +11,9 @@ import vn.hus.nlp.graph.Edge;
 import vn.hus.nlp.graph.IGraph;
 import vn.hus.nlp.graph.util.VertexIterator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  *         <p>
@@ -20,6 +23,9 @@ import vn.hus.nlp.graph.util.VertexIterator;
  *         interface.
  */
 public class GraphBFS {
+
+    private static final Logger logger = LogManager.getLogger(GraphBFS.class);
+
     private IGraph graph;
     private int count;
     private int[] order;
@@ -129,14 +135,14 @@ public class GraphBFS {
     public void printOrder() {
         for (int u = 0; u < graph.getNumberOfVertices(); u++) {
             final int o = order[u];
-            System.out.println(u + ": " + o);
+            logger.info(u + ": " + o);
         }
     }
 
     public void printSpanningTree() {
         for (int u = 0; u < graph.getNumberOfVertices(); u++) {
             final int o = spanningTree[u];
-            System.out.println(u + ": " + o);
+            logger.info(u + ": " + o);
         }
     }
 
@@ -151,8 +157,8 @@ public class GraphBFS {
         // the path from v to u
         //
         for (int t = v; t != u; t = spanningTree(t)) {
-            System.out.print(t + "-");
+            logger.info(t + "-");
         }
-        System.out.println(u);
+        logger.info(u);
     }
 }

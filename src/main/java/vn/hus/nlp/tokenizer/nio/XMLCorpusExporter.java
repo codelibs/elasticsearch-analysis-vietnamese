@@ -19,6 +19,9 @@ import vn.hus.nlp.corpus.jaxb.S;
 import vn.hus.nlp.corpus.jaxb.W;
 import vn.hus.nlp.tokenizer.tokens.TaggedWord;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -28,6 +31,8 @@ import vn.hus.nlp.tokenizer.tokens.TaggedWord;
  *
  */
 public class XMLCorpusExporter implements IExporter {
+
+    private static final Logger logger = LogManager.getLogger(XMLCorpusExporter.class);
 
     private final CorpusMarshaller corpusMarshaller;
 
@@ -69,9 +74,9 @@ public class XMLCorpusExporter implements IExporter {
             corpusMarshaller.getMarshaller().marshal(corpus, writer);
             writer.close();
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return writer.toString();
     }

@@ -13,12 +13,17 @@ import javax.xml.bind.Unmarshaller;
 import vn.hus.nlp.corpus.jaxb.ObjectFactory;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
  * A unmarshaller of a corpus.
  */
 public class CorpusUnmarshaller {
+
+    private static final Logger logger = LogManager.getLogger(CorpusUnmarshaller.class);
 
     JAXBContext jaxbContext;
 
@@ -39,7 +44,7 @@ public class CorpusUnmarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.PACKAGE_NAME, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -53,7 +58,7 @@ public class CorpusUnmarshaller {
                 // create the unmarshaller
                 unmarshaller = jaxbContext.createUnmarshaller();
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return unmarshaller;
@@ -72,9 +77,9 @@ public class CorpusUnmarshaller {
                 return corpus;
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }

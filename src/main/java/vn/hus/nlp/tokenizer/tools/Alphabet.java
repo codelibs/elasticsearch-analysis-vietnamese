@@ -9,12 +9,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * This tool provides lists of Vietnamese lowercase and uppercase alphabet.
  *
  */
 public class Alphabet {
+
+    private static final Logger logger = LogManager.getLogger(Alphabet.class);
 
     /**
      * Default constructor
@@ -57,15 +62,17 @@ public class Alphabet {
      * @throws IOException
      */
     public void print(final List<Character> list, final String filename) throws IOException {
-        final FileOutputStream fos = new FileOutputStream(filename);
-        final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-        final BufferedWriter br = new BufferedWriter(osw);
-        final Iterator<Character> it = list.iterator();
-        while (it.hasNext()) {
-            final Character c = it.next();
-            br.write(c.toString() + "\t" + Character.getNumericValue(c.charValue()) + "\n");
+        try (final FileOutputStream fos = new FileOutputStream(filename);
+             final OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+             final BufferedWriter br = new BufferedWriter(osw)) {
+            final Iterator<Character> it = list.iterator();
+            while (it.hasNext()) {
+                final Character c = it.next();
+                br.write(c.toString() + "\t" + Character.getNumericValue(c.charValue()) + "\n");
+            }
+        } catch (IOException e) {
+            logger.warn(e);
         }
-        br.close();
     }
 
     public static void main(final String args[]) throws IOException {

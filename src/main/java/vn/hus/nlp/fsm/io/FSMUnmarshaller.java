@@ -23,6 +23,9 @@ import vn.hus.nlp.fsm.jaxb.States;
 import vn.hus.nlp.fsm.jaxb.T;
 import vn.hus.nlp.fsm.jaxb.Transitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -32,6 +35,8 @@ import vn.hus.nlp.fsm.jaxb.Transitions;
  * <p>
  */
 public class FSMUnmarshaller {
+
+    private static final Logger logger = LogManager.getLogger(FSMUnmarshaller.class);
 
     private JAXBContext jaxbContext;
 
@@ -52,7 +57,7 @@ public class FSMUnmarshaller {
             final ClassLoader cl = ObjectFactory.class.getClassLoader();
             jaxbContext = JAXBContext.newInstance(IConstants.JAXB_CONTEXT, cl);
         } catch (final JAXBException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -66,7 +71,7 @@ public class FSMUnmarshaller {
                 // create the marshaller
                 unmarshaller = jaxbContext.createUnmarshaller();
             } catch (final JAXBException e) {
-                e.printStackTrace();
+                logger.warn(e);
             }
         }
         return unmarshaller;
@@ -82,7 +87,6 @@ public class FSMUnmarshaller {
         if (machineType.equalsIgnoreCase(IConstants.FSM_DFA)) {
             fsm = new DFA();
         } else {
-            //			System.out.println("Unmarshal a FST");
             fsm = new FST();
         }
 
@@ -117,8 +121,8 @@ public class FSMUnmarshaller {
 
             }
         } catch (final JAXBException e) {
-            System.out.println("Error when unmarshalling the machine.");
-            e.printStackTrace();
+            logger.info("Error when unmarshalling the machine.");
+            logger.warn(e);
         }
         return fsm;
     }

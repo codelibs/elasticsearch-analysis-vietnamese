@@ -115,7 +115,7 @@ public final class UTF8FileUtility {
             final Reader iReader = new InputStreamReader(inputStream, "UTF-8");
             reader = new BufferedReader(iReader);
         } catch (final UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -129,7 +129,7 @@ public final class UTF8FileUtility {
                 reader = null;
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -142,7 +142,7 @@ public final class UTF8FileUtility {
         try {
             createWriter(new FileOutputStream(filename));
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -158,7 +158,7 @@ public final class UTF8FileUtility {
             final Writer oWriter = new OutputStreamWriter(outputStream, "UTF-8");
             writer = new BufferedWriter(oWriter);
         } catch (final UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -174,7 +174,7 @@ public final class UTF8FileUtility {
                 writer = null;
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -224,7 +224,7 @@ public final class UTF8FileUtility {
                 notify(line, lineNumber);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         closeReader();
         return lines.toArray(new String[lines.size()]);
@@ -267,7 +267,7 @@ public final class UTF8FileUtility {
                 notify(line, lineNumber);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         closeReader();
         return lines.toArray(new String[lines.size()]);
@@ -292,7 +292,7 @@ public final class UTF8FileUtility {
         try {
             return reader.readLine().trim();
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }
@@ -306,7 +306,7 @@ public final class UTF8FileUtility {
         try {
             writer.write(line);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -319,7 +319,7 @@ public final class UTF8FileUtility {
             writer.write(line);
             writer.write("\n");
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 

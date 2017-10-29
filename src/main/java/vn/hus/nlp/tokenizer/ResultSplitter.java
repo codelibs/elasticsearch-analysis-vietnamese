@@ -76,7 +76,6 @@ public class ResultSplitter {
         if (syllables.length > 1) {
             // extract the first syllable of token
             if (isPrefix(syllables[0])) {
-                //				System.err.println("Split " + token.getText());
                 final int position = syllables[0].length() + 1;
                 // it is sure that postion > 0
                 final String suffix = token.getText().substring(position);

@@ -3,6 +3,9 @@
  */
 package vn.hus.nlp.graph.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -11,6 +14,8 @@ package vn.hus.nlp.graph.util;
  * An index exception.
  */
 public class IndexException extends Exception {
+
+    private static final Logger logger = LogManager.getLogger(IndexException.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -21,6 +26,6 @@ public class IndexException extends Exception {
     @Override
     public void printStackTrace() {
         super.printStackTrace();
-        System.err.println("The vertex index is not valid!");
+        logger.error("The vertex index is not valid!");
     }
 }

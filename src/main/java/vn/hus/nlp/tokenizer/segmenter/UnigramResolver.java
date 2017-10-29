@@ -12,6 +12,9 @@ import vn.hus.nlp.lexicon.LexiconUnmarshaller;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.W;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -23,6 +26,8 @@ import vn.hus.nlp.lexicon.jaxb.W;
  * It use a pre-built unigram model to resolve segmentations.
  */
 public class UnigramResolver extends AbstractResolver {
+
+    private static final Logger logger = LogManager.getLogger(UnigramResolver.class);
 
     /**
      * A lexicon unmarshaller to unmarshal the unigram model.
@@ -55,7 +60,7 @@ public class UnigramResolver extends AbstractResolver {
      * @param unigramFilename the unigram filename
      */
     private void loadUnigram(final String unigramFilename) {
-        System.out.print("Loading unigram model...");
+        logger.info("Loading unigram model...");
         // load unigram model
         final Corpus unigramCorpus = unmarshaller.unmarshal(unigramFilename);
         final List<W> ws = unigramCorpus.getBody().getW();
@@ -64,7 +69,7 @@ public class UnigramResolver extends AbstractResolver {
             final String word = w.getContent();
             unigram.put(word, Integer.parseInt(freq));
         }
-        System.out.println("OK");
+        logger.info("OK");
     }
 
     /**

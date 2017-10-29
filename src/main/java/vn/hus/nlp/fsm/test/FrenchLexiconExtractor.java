@@ -8,6 +8,9 @@ import java.util.TreeSet;
 
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -15,6 +18,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * <p>
  */
 public class FrenchLexiconExtractor {
+
+    private static final Logger logger = LogManager.getLogger(FrenchLexiconExtractor.class);
 
     static String INPUT_FILE = "samples/dicts/fr/morph.txt";
 
@@ -35,7 +40,7 @@ public class FrenchLexiconExtractor {
 
         }
         UTF8FileUtility.closeWriter();
-        System.out.println("Done");
+        logger.info("Done");
     }
 
 }

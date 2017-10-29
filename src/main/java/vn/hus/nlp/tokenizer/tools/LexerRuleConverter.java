@@ -14,6 +14,9 @@ import java.util.regex.Pattern;
 
 import vn.hus.nlp.lexicon.LexiconMarshaller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -24,6 +27,9 @@ import vn.hus.nlp.lexicon.LexiconMarshaller;
  *         contains a rule.
  */
 public class LexerRuleConverter {
+
+    private static final Logger logger = LogManager.getLogger(LexerRuleConverter.class);
+
     /**
      * Regex for parsing the specification file
      */
@@ -40,12 +46,9 @@ public class LexerRuleConverter {
      * @return a map
      */
     private Map<String, String> load(final String lexersText) {
-        try {
-            // Read the specification text file line by line
-            final FileInputStream fis = new FileInputStream(lexersText);
-            final InputStreamReader isr = new InputStreamReader(fis);
-            final LineNumberReader lnr = new LineNumberReader(isr);
-
+        try (final FileInputStream fis = new FileInputStream(lexersText);
+             final InputStreamReader isr = new InputStreamReader(fis);
+             final LineNumberReader lnr = new LineNumberReader(isr)) {
             // Pattern for parsing each line of specification file
             final Pattern lxRule = Pattern.compile(lxRuleString);
             while (true) {
@@ -61,14 +64,12 @@ public class LexerRuleConverter {
                     final String regex = matcher.group(2);
                     lexerMap.put(regex, name);
                 } else {
-                    System.err.println("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
+                    logger.error("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
                     System.exit(1);
                 }
             }
-            // close the file
-            fis.close();
         } catch (final IOException ioe) {
-            System.err.println("IOException!");
+            logger.error("IOException!");
         }
         return lexerMap;
     }
@@ -86,6 +87,6 @@ public class LexerRuleConverter {
         final LexerRuleConverter lexerRuleConverter = new LexerRuleConverter();
         lexerRuleConverter.load("resources/lexers/lexers.txt");
         lexerRuleConverter.convert("resources/lexers/lexers.xml");
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 }

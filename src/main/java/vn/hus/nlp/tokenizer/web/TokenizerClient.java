@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -15,6 +18,9 @@ import java.net.Socket;
  * <p>
  */
 public class TokenizerClient {
+
+    private static final Logger logger = LogManager.getLogger(TokenizerClient.class);
+
     String host;
     int port;
 
@@ -42,7 +48,7 @@ public class TokenizerClient {
             out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
             return true;
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             return false;
         }
     }
@@ -69,7 +75,7 @@ public class TokenizerClient {
             }
             return result;
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             return "";
         }
 
@@ -82,25 +88,19 @@ public class TokenizerClient {
         try {
             this.sock.close();
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
     public static void main(final String[] args) {
         if (args.length != 2) {
-            System.out.println("TokenizerClient [inputfile] [outputfile]");
+            logger.info("TokenizerClient [inputfile] [outputfile]");
             return;
         }
 
-        try {
-            // Create a tagging client, open connection
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
+             final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8"))) {
             final TokenizerClient client = new TokenizerClient("localhost", 2929);
-
-            // read data from file
-            // process data, save into another file
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8"));
-
             client.connect();
             String line;
             String input = "";
@@ -110,14 +110,10 @@ public class TokenizerClient {
 
             final String result = client.process(input);
             writer.write(result + "\n");
-
             client.close();
-            reader.close();
-            writer.close();
-
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            logger.info(e.getMessage());
+            logger.warn(e);
         }
     }
 

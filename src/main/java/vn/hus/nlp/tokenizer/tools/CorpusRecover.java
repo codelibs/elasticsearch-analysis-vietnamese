@@ -7,6 +7,9 @@ package vn.hus.nlp.tokenizer.tools;
 
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -16,6 +19,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *
  */
 public final class CorpusRecover {
+
+    private static final Logger logger = LogManager.getLogger(CorpusRecover.class);
 
     /**
      * Recover a corpus
@@ -47,7 +52,7 @@ public final class CorpusRecover {
     }
 
     private static void usage() {
-        System.out.println("\nUsage: CorpusRecover  <inputFile>  <outputFile>\n");
+        logger.info("\nUsage: CorpusRecover  <inputFile>  <outputFile>\n");
     }
 
     /**
@@ -59,7 +64,7 @@ public final class CorpusRecover {
             System.exit(1);
         }
         new CorpusRecover().recover(args[0], args[1]);
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 
 }

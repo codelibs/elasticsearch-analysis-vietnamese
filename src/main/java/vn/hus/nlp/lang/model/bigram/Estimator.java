@@ -25,6 +25,9 @@ import vn.hus.nlp.lexicon.LexiconUnmarshaller;
 import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.W;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -40,6 +43,8 @@ import vn.hus.nlp.lexicon.jaxb.W;
  *
  */
 public class Estimator {
+
+    private static final Logger logger = LogManager.getLogger(Estimator.class);
 
     /**
      * Epsilon value
@@ -124,7 +129,7 @@ public class Estimator {
      *
      */
     private void estimateConditionalProb() {
-        System.out.println("Estimating conditional probabilities...");
+        logger.info("Estimating conditional probabilities...");
         final Iterator<String> firstIt = unigram.keySet().iterator();
         while (firstIt.hasNext()) {
             final String first = firstIt.next();
@@ -143,7 +148,7 @@ public class Estimator {
                 }
             }
         }
-        System.out.println("Sorting the probability list...");
+        logger.info("Sorting the probability list...");
         // sort the list of conditional probs
         // using the couple comparator
         Collections.sort(probabilities, new CoupleComparator());
@@ -156,7 +161,7 @@ public class Estimator {
     private void estimate() {
         // calculate conditional probabilities
         estimateConditionalProb();
-        System.out.println("Estimating lambda values...");
+        logger.info("Estimating lambda values...");
 
         final long beginTime = System.currentTimeMillis();
 
@@ -185,15 +190,15 @@ public class Estimator {
                 final String second = couple.getSecond(); // w_i
                 // calculate the denominator
                 final double denominator = (lambda1 * getConditionalProbability(second, first) + lambda2 * getUnigramProbability(second));
-                //				System.out.println("denominator = " + denominator);
-                //				System.out.println("getConditionalProbability(second, first) = " + getConditionalProbability(second, first));
-                //				System.out.println("getUnigramProbability(second) = " + getUnigramProbability(second));
+                //				logger.info("denominator = " + denominator);
+                //				logger.info("getConditionalProbability(second, first) = " + getConditionalProbability(second, first));
+                //				logger.info("getUnigramProbability(second) = " + getUnigramProbability(second));
                 if (denominator > 0) {
                     // calculate c1
                     c1 += (couple.getFreq() * lambda1 * getConditionalProbability(second, first)) / denominator;
                     // calculate c2
                     c2 += (couple.getFreq() * lambda2 * getUnigramProbability(second)) / denominator;
-                    //					System.out.println("c1 = " + c1 + " c2 = " + c2);
+                    //					logger.info("c1 = " + c1 + " c2 = " + c2);
                 }
             }
             // re-estimate lamda1 and lambda2
@@ -201,10 +206,10 @@ public class Estimator {
             validateProbabilityValue(lambda1);
             lambda2 = 1 - lambda1;
             hatEpsilon = Math.sqrt((lambda1 - hatLambda1) * (lambda1 - hatLambda1) + (lambda2 - hatLambda2) * (lambda2 - hatLambda2));
-            System.out.println("m = " + m);
-            System.out.println("lambda1 = " + lambda1);
-            System.out.println("lambda2 = " + lambda2);
-            System.out.println("hatEpsilon = " + hatEpsilon);
+            logger.info("m = " + m);
+            logger.info("lambda1 = " + lambda1);
+            logger.info("lambda2 = " + lambda2);
+            logger.info("hatEpsilon = " + hatEpsilon);
             // inc number of loops
             m++;
             if (m > 10) {
@@ -212,12 +217,12 @@ public class Estimator {
             }
         } while (hatEpsilon > EPSILON);
         final long endTime = System.currentTimeMillis();
-        System.out.println("Executed time (ms) = " + (endTime - beginTime));
-        System.out.println("Loop terminated!");
-        System.out.println("m = " + m);
-        System.out.println("lambda1 = " + lambda1);
-        System.out.println("lambda2 = " + lambda2);
-        System.out.println("hatEpsilon = " + hatEpsilon);
+        logger.info("Executed time (ms) = " + (endTime - beginTime));
+        logger.info("Loop terminated!");
+        logger.info("m = " + m);
+        logger.info("lambda1 = " + lambda1);
+        logger.info("lambda2 = " + lambda2);
+        logger.info("hatEpsilon = " + hatEpsilon);
 
     }
 
@@ -227,7 +232,7 @@ public class Estimator {
      */
     private void validateProbabilityValue(final double prob) {
         if ((prob < 0) || (prob > 1)) {
-            System.err.println("Error! Invalid probability!");
+            logger.error("Error! Invalid probability!");
         }
     }
 
@@ -283,7 +288,7 @@ public class Estimator {
      * @param bigramDataFile
      */
     private void loadModels(final String unigramDataFile, final String bigramDataFile) {
-        System.out.println("Loading models...");
+        logger.info("Loading models...");
         // load unigram model
         final Corpus unigramCorpus = unmarshaller.unmarshal(unigramDataFile);
         List<W> ws = unigramCorpus.getBody().getW();
@@ -324,7 +329,7 @@ public class Estimator {
                 }
             }
         }
-        System.out.println("tokenMap's size = " + tokenMap.size());
+        logger.info("tokenMap's size = " + tokenMap.size());
     }
 
     /**
@@ -352,10 +357,10 @@ public class Estimator {
      *            a file
      */
     private void marshalConditionalProbabilities(final String filename) {
-        System.out.println("Marshalling conditional probabilities...");
+        logger.info("Marshalling conditional probabilities...");
         // prepare a map for marshalling
         final Map<String, String> map = new HashMap<>();
-        System.out.println("probabilities's size = " + probabilities.size());
+        logger.info("probabilities's size = " + probabilities.size());
         String key;
         String value;
         final DecimalFormat decimalFormat = new DecimalFormat("#.000");
@@ -379,10 +384,9 @@ public class Estimator {
      */
     @Deprecated
     void outputConditionalProbabilities(final String filename) {
-        try {
-            final FileOutputStream outputStream = new FileOutputStream(filename);
-            final Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-            final BufferedWriter bufWriter = new BufferedWriter(writer);
+        try (final FileOutputStream outputStream = new FileOutputStream(filename);
+             final Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+             final BufferedWriter bufWriter = new BufferedWriter(writer)) {
 
             // write the result
             final Iterator<Couple> couples = probabilities.iterator();
@@ -391,13 +395,12 @@ public class Estimator {
                 bufWriter.write("(" + c.getFirst() + "|" + c.getSecond() + ")" + "\t" + c.getProb());
                 bufWriter.write("\n");
             }
-            // flush and close the writer
+            // flush the writer
             bufWriter.flush();
-            bufWriter.close();
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -418,7 +421,7 @@ public class Estimator {
         final Estimator estimator = new Estimator(IConstants.UNIGRAM_MODEL, IConstants.BIGRAM_MODEL);
         //		estimator.buildConditionalProbabilities();
         estimator.estimate();
-        System.out.println("Done");
+        logger.info("Done");
     }
 
 }

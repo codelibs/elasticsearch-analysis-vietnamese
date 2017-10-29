@@ -10,6 +10,9 @@ import java.util.List;
 
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE Hong Phuong
  *         <p>
@@ -22,6 +25,9 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  *         (using or not using an ambiguity resolver).
  */
 public final class UTF8FileComparator {
+
+    private static final Logger logger = LogManager.getLogger(UTF8FileComparator.class);
+
     /**
      * First file which contains not-resolved ambiguous segmentations.
      */
@@ -82,6 +88,6 @@ public final class UTF8FileComparator {
                 "corpus/test/corpus0_tok_resolved.txt", "corpus/test/corpus0_tok_differences.txt");
         comparator.compare();
         comparator.exportResult();
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 }

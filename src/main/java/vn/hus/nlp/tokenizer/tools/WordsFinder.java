@@ -9,6 +9,9 @@ import java.util.TreeSet;
 import vn.hus.nlp.utils.CaseConverter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Le Hong Phuong, phuonglh@gmail.com
  * <p>
@@ -18,6 +21,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * Build a lexicon for word automaton.
  */
 public final class WordsFinder {
+
+    private static final Logger logger = LogManager.getLogger(WordsFinder.class);
 
     SortedSet<String> wordsSet;
 
@@ -62,11 +67,11 @@ public final class WordsFinder {
      */
     public static void main(final String[] args) {
         if (args.length < 2) {
-            System.out.println("Please give two arguments: <inputFile> <outputFile>");
+            logger.info("Please give two arguments: <inputFile> <outputFile>");
             return;
         }
         new WordsFinder().find(args[0], args[1]);
-        System.out.println("Done!");
+        logger.info("Done!");
     }
 
 }

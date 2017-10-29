@@ -7,6 +7,9 @@ import java.util.Vector;
 
 import vn.hus.nlp.tokenizer.VietTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -14,6 +17,8 @@ import vn.hus.nlp.tokenizer.VietTokenizer;
  * <p>
  */
 public class TokenizerService extends Thread {
+
+    private static final Logger logger = LogManager.getLogger(TokenizerService.class);
 
     private int port = 2929;
     private ServerSocket socket;
@@ -43,8 +48,8 @@ public class TokenizerService extends Thread {
                 pool.add(w);
             }
         } catch (final Exception e) {
-            System.out.println("Error while initializing service:" + e.getMessage());
-            e.printStackTrace();
+            logger.info("Error while initializing service:" + e.getMessage());
+            logger.warn(e);
         }
     }
 
@@ -53,16 +58,16 @@ public class TokenizerService extends Thread {
      */
     @Override
     public void run() {
-        System.out.println("Starting tokenizer service!");
+        logger.info("Starting tokenizer service!");
         try {
             this.socket = new ServerSocket(this.port);
         } catch (final IOException ioe) {
-            System.out.println(ioe);
+            logger.info(ioe);
             System.exit(1);
         }
 
         init();
-        System.out.println("Tokenizer service started successfully");
+        logger.info("Tokenizer service started successfully");
         while (true) {
             Socket incoming = null;
             try {
@@ -80,8 +85,8 @@ public class TokenizerService extends Thread {
                     }
                 }
             } catch (final IOException e) {
-                System.out.println(e);
-                e.printStackTrace();
+                logger.info(e);
+                logger.warn(e);
             }
         }
     }

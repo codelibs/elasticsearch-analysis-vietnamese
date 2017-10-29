@@ -13,6 +13,9 @@ import vn.hus.nlp.utils.FileIterator;
 import vn.hus.nlp.utils.TextFileFilter;
 import vn.hus.nlp.utils.UTF8FileUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <br>
@@ -22,6 +25,8 @@ import vn.hus.nlp.utils.UTF8FileUtility;
  * the dictionary of the tokenizer.
  */
 public class WordExtractor {
+
+    private static final Logger logger = LogManager.getLogger(WordExtractor.class);
 
     /**
      * The extension of tagged data file of the VTB treebank.
@@ -110,7 +115,7 @@ public class WordExtractor {
         final File directory = new File(directoryName);
 
         final File[] files = FileIterator.listFiles(directory, filter);
-        System.err.println("# of files = " + files.length);
+        logger.error("# of files = " + files.length);
 
         for (final File file : files) {
             // get sentences
@@ -132,6 +137,6 @@ public class WordExtractor {
         UTF8FileUtility.createWriter(fileOut);
         UTF8FileUtility.write(words.toArray(new String[words.size()]));
         UTF8FileUtility.closeWriter();
-        System.out.println("Done.");
+        logger.info("Done.");
     }
 }

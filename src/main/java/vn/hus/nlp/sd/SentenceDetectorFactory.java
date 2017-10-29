@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <br>
@@ -16,6 +19,8 @@ import java.util.Properties;
  * for a particular language, for example for French or for Vietnamese.
  */
 public class SentenceDetectorFactory {
+
+    private static final Logger logger = LogManager.getLogger(SentenceDetectorFactory.class);
 
     /**
      * Creates a sentence detector given a language.
@@ -36,8 +41,8 @@ public class SentenceDetectorFactory {
 
             return new SentenceDetector(stream);
         } catch (final IOException e) {
-            System.err.println("Error when constructing the sentence detector.");
-            e.printStackTrace();
+            logger.error("Error when constructing the sentence detector.");
+            logger.warn(e);
         }
         // return null in case of error
         return null;
@@ -51,7 +56,7 @@ public class SentenceDetectorFactory {
         try {
             return new SentenceDetector(properties);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }
@@ -66,7 +71,7 @@ public class SentenceDetectorFactory {
             properties.load(propertiesInputStream);
             return new SentenceDetector(properties);
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
         return null;
     }

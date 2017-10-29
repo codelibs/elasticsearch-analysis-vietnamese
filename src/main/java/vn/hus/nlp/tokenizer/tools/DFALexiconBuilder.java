@@ -14,6 +14,9 @@ import vn.hus.nlp.lexicon.jaxb.Corpus;
 import vn.hus.nlp.lexicon.jaxb.W;
 import vn.hus.nlp.tokenizer.IConstants;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -28,6 +31,8 @@ import vn.hus.nlp.tokenizer.IConstants;
  *         user made a remarkable changes to the Vietnamese lexicon.
  */
 public class DFALexiconBuilder {
+
+    private static final Logger logger = LogManager.getLogger(DFALexiconBuilder.class);
 
     /**
      * @param args
@@ -44,18 +49,18 @@ public class DFALexiconBuilder {
         // create an FSM builder of type DFA.
         //
         final FSMBuilder builder = new MinimalFSMBuilder(vn.hus.nlp.fsm.IConstants.FSM_DFA);
-        System.out.println("Updating the lexicon automaton...");
+        logger.info("Updating the lexicon automaton...");
         final long startTime = System.currentTimeMillis();
         builder.create(words);
         final long endTime = System.currentTimeMillis();
-        System.err.println("Duration = " + (endTime - startTime) + " (ms)");
+        logger.error("Duration = " + (endTime - startTime) + " (ms)");
         // encode the result
         builder.encode(IConstants.LEXICON_DFA);
         // print some statistic of the DFA:
         FSMUtilities.statistic(builder.getMachine());
         // dispose the builder to save memory
         builder.dispose();
-        System.out.println("Lexicon automaton updated.");
+        logger.info("Lexicon automaton updated.");
     }
 
 }

@@ -8,6 +8,9 @@ import java.io.IOException;
 import vn.hus.nlp.lang.model.unigram.Unigram;
 import vn.hus.nlp.lang.model.unigram.VocabularyBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  * <p>
@@ -16,6 +19,7 @@ import vn.hus.nlp.lang.model.unigram.VocabularyBuilder;
  * Test the vocabulary builder.
  */
 public final class VocabularyBuilderTest {
+	private static final Logger logger = LogManager.getLogger(VocabularyBuilderTest.class);
 
 	/**
 	 * @param args
@@ -27,7 +31,7 @@ public final class VocabularyBuilderTest {
 		try {
 			Unigram.loadCorpus(TestConstants.CORPUS_NAME);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			logger.warn(e);
 		}
 		// create the vocabulary of the model with the default cuttoff (1)
 		VocabularyBuilder vocabularyBuilder = new VocabularyBuilder(unigram);

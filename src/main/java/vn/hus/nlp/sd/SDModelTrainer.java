@@ -22,6 +22,9 @@ import opennlp.tools.util.ObjectStream;
 import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author LE HONG Phuong, phuonglh@gmail.com
  *         <p>
@@ -34,6 +37,8 @@ import opennlp.tools.util.TrainingParameters;
  *         sentence is surrounded by a couple of tags <s> and </s>.
  */
 public class SDModelTrainer {
+
+    private static final Logger logger = LogManager.getLogger(SDModelTrainer.class);
 
     // public static SentenceModel train(EventStream es, int iterations, int
     // cut)
@@ -92,7 +97,7 @@ public class SDModelTrainer {
             modelFilename = IConstants.MODEL_NAME_VIETNAMESE;
         }
         try {
-            System.err.println("Training the model on corpus: " + trainingCorpus);
+            logger.error("Training the model on corpus: " + trainingCorpus);
 
             final ClassLoader cl = ClassLoader.getSystemClassLoader();
             final InputStream stream = cl.getResourceAsStream(trainingCorpus);
@@ -102,7 +107,7 @@ public class SDModelTrainer {
 
             // persist the model
             final File modelFile = new File(outputDirectory, modelFilename);
-            System.err.println("Saving the model as: " + modelFile);
+            logger.error("Saving the model as: " + modelFile);
 
             OutputStream modelOut = null;
             try {
@@ -115,7 +120,7 @@ public class SDModelTrainer {
             }
 
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -128,7 +133,7 @@ public class SDModelTrainer {
                 try {
                     FileUtils.forceMkdir(output);
                 } catch (final IOException e) {
-                    System.err.println("Failed to create output directory.");
+                    logger.error("Failed to create output directory.");
                     System.exit(1);
                 }
             }
@@ -136,9 +141,9 @@ public class SDModelTrainer {
             // create Vietnamese SD model
             SDModelTrainer.createModel(IConstants.LANG_VIETNAMESE, output);
 
-            System.out.println("Done.");
+            logger.info("Done.");
         } else {
-            System.err.println("Must specify output directory.");
+            logger.error("Must specify output directory.");
         }
 
     }

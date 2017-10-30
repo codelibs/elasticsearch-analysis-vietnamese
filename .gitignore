@@ -37,3 +37,6 @@ data
 *.log
 
 target/
+.settings/
+.classpath
+.project

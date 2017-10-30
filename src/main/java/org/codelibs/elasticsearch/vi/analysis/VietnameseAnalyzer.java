@@ -70,6 +70,7 @@ public class VietnameseAnalyzer extends StopwordAnalyzerBase {
 
     /**
      * Builds an analyzer with the default stop words
+     * @param stopWords
      */
     public VietnameseAnalyzer(final CharArraySet stopWords) {
         super(stopWords);

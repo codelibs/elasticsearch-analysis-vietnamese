@@ -26,7 +26,7 @@ import opennlp.maxent.DataStream;
  *         Jan 14, 2008, 10:15:18 PM
  *         <p>
  *         A data stream that reads data from an XML file in which Vietnamese
- *         sentences are surrounded by <s> tags. This stream uses a SAX parser
+ *         sentences are surrounded by &lt;s&gt; tags. This stream uses a SAX parser
  *         to parse sentences.
  */
 public class XMLDataStream implements DataStream {

@@ -17,7 +17,6 @@ import org.codelibs.elasticsearch.vi.nlp.tokenizer.tokens.TaggedWord;
  *         a formatter. If a formatter is not provided, the default plain formatter
  *         is used.
  *         </p>
- *         @see {@link IOutputFormatter}
  */
 public class Outputer {
     /**

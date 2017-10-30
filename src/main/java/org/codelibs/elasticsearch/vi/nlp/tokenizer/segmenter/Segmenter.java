@@ -30,13 +30,13 @@ import org.codelibs.elasticsearch.vi.nlp.utils.CaseConverter;
  *         Segmenter of Vietnamese. It splits a chain of Vietnamese syllables
  *         (so called a phrase) into words. Before performing the segmentation,
  *         it does some necessary preprocessing:
- *         <ul>
- *         <li>If the first character of the phrase is an uppercase, it is
- *         changed to lower case.</li>
- *         <li>Normalize the phrase so that the accents of syllables are in
+ *
+ *         <p>If the first character of the phrase is an uppercase, it is
+ *         changed to lower case.</p>
+ *         <p>Normalize the phrase so that the accents of syllables are in
  *         their right places, for example, the syllable <tt>hòa</tt> is
- *         converted to <tt>hoà</tt> </li>.
- *         </ul>
+ *         converted to <tt>hoà</tt> </p>.
+ *
  */
 public class Segmenter {
 

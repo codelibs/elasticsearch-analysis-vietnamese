@@ -143,7 +143,6 @@ public class Unigram {
      * Output the unigram to a plain text file in the form of two columns.
      *
      * @param filename a flat text filename
-     * @see {@link #marshal(String)}
      */
     public static void print(final String filename) {
         // create a file writer

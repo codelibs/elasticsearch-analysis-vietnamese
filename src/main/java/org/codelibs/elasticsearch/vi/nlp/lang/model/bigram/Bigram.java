@@ -116,7 +116,6 @@ public class Bigram {
     /**
      * Output bigram to a text file.
      * @param filename
-     * @see {@link #marshalResults(String)}.
      */
     public void print(final String filename) {
         try (final Writer writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");

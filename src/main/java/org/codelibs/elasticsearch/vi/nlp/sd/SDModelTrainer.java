@@ -33,7 +33,7 @@ import opennlp.tools.util.TrainingParameters;
  *         sentences using a training corpus. The result of the training is a
  *         (binary and compressed) file which contains the trained model. The
  *         training corpus is a XML file with a simple schema in which each
- *         sentence is surrounded by a couple of tags <s> and </s>.
+ *         sentence is surrounded by a couple of tags &lt;s&gt; and &lt;/s&gt;.
  */
 public class SDModelTrainer {
 

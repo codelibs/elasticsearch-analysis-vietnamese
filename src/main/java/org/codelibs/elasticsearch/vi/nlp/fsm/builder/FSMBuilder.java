@@ -30,7 +30,6 @@ public abstract class FSMBuilder {
     /**
      * Build a machine depends on its type (FSA or FST)
      * @param machineType the type of the machine.
-     * @see {@link IConstants#FSM_DFA} and {@link IConstants#FSM_FST}
      */
     public FSMBuilder(final String machineType) {
         // create machine basing on its type
@@ -57,7 +56,7 @@ public abstract class FSMBuilder {
      * Create a machine from an array of input strings and their corresponding
      * outputs.
      *
-     * @param items
+     * @param inputs
      *            an array of input strings.
      * @param outputs
      *            output strings
@@ -74,7 +73,7 @@ public abstract class FSMBuilder {
      * Create a machine from an array of input strings. There is no outputs.
      * This method is used in the case of a DFA.
      *
-     * @param items
+     * @param inputs
      *            an array of input strings.
      */
     public void create(final String[] inputs) {

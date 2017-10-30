@@ -17,7 +17,6 @@ import org.codelibs.elasticsearch.vi.nlp.fsm.fst.FSTConfiguration;
  * Created: Jan 29, 2008, 1:50:33 PM
  * <p>
  * Builder of a simple machine. To build a minimal machine, use {@link MinimalFSMBuilder}.
- * @see {@link MinimalFSMBuilder}
  */
 public class SimpleFSMBuilder extends FSMBuilder {
 

@@ -70,7 +70,7 @@ public class Bigram {
                 }
             }
         }
-        logger.info("Total " + corpora.length + " files loaded.");
+        logger.info("Total {} files loaded.", corpora.length);
     }
 
     private boolean isDirectory(final String filename) {

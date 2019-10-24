@@ -65,8 +65,8 @@ public final class FSMUtilities {
         logger.info("\tNumber of states: " + fsm.getStates().size());
         logger.info("\tNumber of final states: " + nFinalStates);
         logger.info("\tNumber of transitions: " + fsm.getNTransitions());
-        logger.info("\tMaximum number of outtransitions = " + maxOutTransitions);
-        //		logger.info("\tMaximum number of intransitions = " + maxInTransitions);
+        logger.info("\tMaximum number of outtransitions = {}", maxOutTransitions);
+        //		logger.info("\tMaximum number of intransitions = {}", maxInTransitions);
     }
 
 }

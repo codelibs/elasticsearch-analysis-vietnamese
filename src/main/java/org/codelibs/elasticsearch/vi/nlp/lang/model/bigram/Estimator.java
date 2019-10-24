@@ -189,7 +189,7 @@ public class Estimator {
                 final String second = couple.getSecond(); // w_i
                 // calculate the denominator
                 final double denominator = (lambda1 * getConditionalProbability(second, first) + lambda2 * getUnigramProbability(second));
-                //				logger.info("denominator = " + denominator);
+                //				logger.info("denominator = {}", denominator);
                 //				logger.info("getConditionalProbability(second, first) = " + getConditionalProbability(second, first));
                 //				logger.info("getUnigramProbability(second) = " + getUnigramProbability(second));
                 if (denominator > 0) {
@@ -197,7 +197,7 @@ public class Estimator {
                     c1 += (couple.getFreq() * lambda1 * getConditionalProbability(second, first)) / denominator;
                     // calculate c2
                     c2 += (couple.getFreq() * lambda2 * getUnigramProbability(second)) / denominator;
-                    //					logger.info("c1 = " + c1 + " c2 = " + c2);
+                    //					logger.info("c1 = {} c2 = {}", c1, c2);
                 }
             }
             // re-estimate lamda1 and lambda2
@@ -205,10 +205,10 @@ public class Estimator {
             validateProbabilityValue(lambda1);
             lambda2 = 1 - lambda1;
             hatEpsilon = Math.sqrt((lambda1 - hatLambda1) * (lambda1 - hatLambda1) + (lambda2 - hatLambda2) * (lambda2 - hatLambda2));
-            logger.info("m = " + m);
-            logger.info("lambda1 = " + lambda1);
-            logger.info("lambda2 = " + lambda2);
-            logger.info("hatEpsilon = " + hatEpsilon);
+            logger.info("m = {}", m);
+            logger.info("lambda1 = {}", lambda1);
+            logger.info("lambda2 = {}", lambda2);
+            logger.info("hatEpsilon = {}", hatEpsilon);
             // inc number of loops
             m++;
             if (m > 10) {
@@ -218,10 +218,10 @@ public class Estimator {
         final long endTime = System.currentTimeMillis();
         logger.info("Executed time (ms) = " + (endTime - beginTime));
         logger.info("Loop terminated!");
-        logger.info("m = " + m);
-        logger.info("lambda1 = " + lambda1);
-        logger.info("lambda2 = " + lambda2);
-        logger.info("hatEpsilon = " + hatEpsilon);
+        logger.info("m = {}", m);
+        logger.info("lambda1 = {}", lambda1);
+        logger.info("lambda2 = {}", lambda2);
+        logger.info("hatEpsilon = {}", hatEpsilon);
 
     }
 

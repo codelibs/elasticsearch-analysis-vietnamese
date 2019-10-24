@@ -317,7 +317,7 @@ public final class MinimalFSMBuilder extends FSMBuilder {
             for (int i = 0; i < inputs.length; i++) {
                 addItem(inputs[i], outputs[i]);
                 if (i % 1000 == 0) {
-                    logger.info(" i = " + i);
+                    logger.info(" i = {}", i);
                 }
             }
             // IMPORTANT: call the last step of the minimization process:
@@ -325,7 +325,7 @@ public final class MinimalFSMBuilder extends FSMBuilder {
             finalize();
             final long endTime = System.currentTimeMillis();
             final long time = (endTime - beginTime);
-            logger.info("Time to build the minimal machine = " + time + " (ms)");
+            logger.info("Time to build the minimal machine = {} (ms)", time);
         }
     }
 

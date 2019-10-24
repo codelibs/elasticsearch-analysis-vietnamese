@@ -193,7 +193,7 @@ public final class GraphIO {
             final double w = e.getWeight();
             logger.info(e.getU() + " - " + e.getV() + " (" + w + ")");
         }
-        // logger.info("There are " + edges.length + " edges.");
+        // logger.info("There are {} edges.", edges.length);
     }
 
     /**
@@ -215,7 +215,7 @@ public final class GraphIO {
         final int n = graph.getNumberOfVertices();
         logger.info("\t");
         for (int u = 0; u < n; u++) {
-            logger.info("\t" + u);
+            logger.info("\t{}", u);
         }
         logger.info("\n");
         logger.info("\t");
@@ -227,7 +227,7 @@ public final class GraphIO {
             logger.info(u + "\t" + "|");
             for (int v = 0; v < n; v++) {
                 final int b = (graph.edge(u, v) ? 1 : 0);
-                logger.info("\t" + b);
+                logger.info("\t{}", b);
             }
             logger.info("\n");
         }
@@ -241,7 +241,7 @@ public final class GraphIO {
     public static void print(final IGraph graph) {
         final int vC = graph.getNumberOfVertices();
         final int eC = graph.getNumberOfEdges();
-        logger.info("There are " + vC + " vertices and " + eC + " edges.\n");
+        logger.info("There are {} vertices and {} edges.\n", vC, eC);
         if (graph instanceof AdjacencyListGraph || graph instanceof AdjacencyListWeightedGraph) {
             printSparseGraph(graph);
         } else {

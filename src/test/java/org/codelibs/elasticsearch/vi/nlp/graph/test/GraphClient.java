@@ -75,9 +75,9 @@ public class GraphClient {
 		int n = graph.getNumberOfVertices();
 		n--; // the end vertex
 		if (GraphConnectivity.isConnected(graph, 0, n)) {
-			logger.info("There is a path from vertex 0 to vertex " + n + ".");
+			logger.info("There is a path from vertex 0 to vertex {}.", n);
 		} else {
-			logger.info("Vertex 0 and vertex " + n + " is not connected.");
+			logger.info("Vertex 0 and vertex {} is not connected.", n);
 		}
 	}
 	/**

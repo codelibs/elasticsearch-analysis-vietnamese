@@ -63,7 +63,7 @@ public class LexerRuleConverter {
                     final String regex = matcher.group(2);
                     lexerMap.put(regex, name);
                 } else {
-                    logger.error("Syntax error in " + lexersText + " at line " + lnr.getLineNumber());
+                    logger.error("Syntax error in {} at line {}", lexersText, lnr.getLineNumber());
                     System.exit(1);
                 }
             }

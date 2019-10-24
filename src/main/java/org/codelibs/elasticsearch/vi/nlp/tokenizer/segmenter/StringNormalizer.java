@@ -51,7 +51,7 @@ public final class StringNormalizer {
                 if (s.length == 2) {
                     map.put(s[0], s[1]);
                 } else {
-                    logger.error("Wrong syntax in the map file " + mapFile + " at line " + i);
+                    logger.error("Wrong syntax in the map file {} at line {}", mapFile, i);
                 }
             }
 

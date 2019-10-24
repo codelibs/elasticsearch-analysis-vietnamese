@@ -99,7 +99,7 @@ public class Unigram {
                 }
             }
         }
-        logger.error("Total " + corpora.length + " files loaded.");
+        logger.error("Total {} files loaded.", corpora.length);
     }
 
     private static void processLoadedCorpus(final List<String> lines) {

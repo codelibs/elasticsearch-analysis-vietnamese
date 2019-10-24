@@ -244,9 +244,9 @@ public final class VietTokenizer {
         final String outputDirPath = currentDir + File.separator + outputDir;
 
         if (DEBUG) {
-            logger.info("currentDir = " + currentDir);
-            logger.info("inputDirPath = " + inputDirPath);
-            logger.info("outputDirPath = " + outputDirPath);
+            logger.info("currentDir = {}", currentDir);
+            logger.info("inputDirPath = {}", inputDirPath);
+            logger.info("outputDirPath = {}", outputDirPath);
         }
 
         // get all input files

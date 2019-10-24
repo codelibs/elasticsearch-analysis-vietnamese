@@ -75,7 +75,7 @@ public final class LexiconCounter {
         for (final int counter : counters) {
             m += counter;
         }
-        logger.info("Total = " + m);
+        logger.info("Total = {}", m);
     }
 
     /**

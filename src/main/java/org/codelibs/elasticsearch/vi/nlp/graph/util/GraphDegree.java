@@ -60,7 +60,7 @@ public final class GraphDegree {
         for (int u = 0; u < n; u++) {
             final int d = degree(u);
             // for testing only:
-            logger.info("deg(" + u + ") = " + d);
+            logger.info("deg({}) = {}", u, d);
         }
 
     }

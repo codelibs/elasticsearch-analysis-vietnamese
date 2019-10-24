@@ -75,7 +75,7 @@ public class TaggedToTokenizedConverter {
                     : filename + TOKENIZED_FILE_EXTENSION;
             convertFile(file.getAbsolutePath(), fileOut);
         }
-        logger.info("Converted " + taggedFiles.length + " files.");
+        logger.info("Converted {} files.", taggedFiles.length);
     }
 
     public static void main(final String[] args) {

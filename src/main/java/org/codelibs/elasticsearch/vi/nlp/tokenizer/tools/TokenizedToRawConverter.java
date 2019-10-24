@@ -92,7 +92,7 @@ public class TokenizedToRawConverter {
         for (final File file : taggedFiles) {
             convertFile(file.getAbsolutePath(), dirOut + File.separator + file.getName());
         }
-        logger.info("Converted " + taggedFiles.length + " files.");
+        logger.info("Converted {} files.", taggedFiles.length);
     }
 
     public static void main(final String[] args) {
